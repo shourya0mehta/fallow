@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Fallow",
+  "version": "0.2.0",
+  "description": "A field book for the thinking you hand to AI. Files every chat ask by cognitive domain and pushes back before you delegate what keeps you sharp; pauses you on the sites you list.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["http://localhost:3000/*", "http://127.0.0.1:3000/*"],
+  "background": { "service_worker": "background.js" },
+  "options_ui": { "page": "options.html", "open_in_tab": false },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*",
+        "http://localhost:3000/demo/chat*",
+        "http://127.0.0.1:3000/demo/chat*"
+      ],
+      "js": ["chat.js"],
+      "css": ["fallow.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["pause.js"],
+      "css": ["fallow.css"],
+      "run_at": "document_start"
+    }
+  ]
+}

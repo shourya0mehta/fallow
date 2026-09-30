@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { assess } from "@/core/assess";
+import { json, preflight } from "@/core/http";
 import { loadLedger } from "@/core/store";
 
 export const dynamic = "force-dynamic";
@@ -15,11 +15,15 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Body must be JSON with a text field." }, { status: 400 });
+    return json(req, { error: "Body must be JSON with a text field." }, { status: 400 });
   }
   const text = typeof body.text === "string" ? body.text.trim() : "";
-  if (!text) return NextResponse.json({ error: "text is required" }, { status: 400 });
+  if (!text) return json(req, { error: "text is required" }, { status: 400 });
   const ledger = await loadLedger();
   const result = assess(text, ledger, { deadline: body.deadline === true });
-  return NextResponse.json(result);
+  return json(req, result);
+}
+
+export function OPTIONS(req: Request) {
+  return preflight(req);
 }

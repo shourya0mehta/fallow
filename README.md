@@ -20,9 +20,9 @@ npm run seed      # 90 days of a student developer's asks, for a first look
 npm run dev       # http://localhost:3000
 ```
 
-Then either import your own history (Import page: drop the `conversations.json` from a ChatGPT or Claude data export; parsing happens in the browser) or wire the Claude Code hook below so every prompt is filed as you work.
+Then either import your own history (Import page: drop the `conversations.json` from a ChatGPT or Claude data export; parsing happens in the browser), load the browser extension so ChatGPT, Claude and Gemini asks are filed as you type them, or wire the Claude Code hook so every prompt in the terminal is filed too.
 
-Everything lives in one file, `data/fallow.json`. No accounts, no cloud.
+Everything lives in one file, `data/fallow.json`. No accounts, no cloud. `npm run demo` runs a read-only demo ledger (`FALLOW_DEMO=1`) that can be deployed anywhere Next.js runs.
 
 ## The pages
 
@@ -30,10 +30,11 @@ Everything lives in one file, `data/fallow.json`. No accounts, no cloud.
 | --- | --- |
 | Field | Eleven cognitive domains as plots: status, retrievability, days since you last did the work yourself, 30-day self vs delegated counts, a twelve-week sparkline. Three nudges: what is worth doing yourself this week. Today's budget curve. |
 | Gate | Paste what you were about to ask. Get the domain, the ask type, the engagement level you requested, and a verdict: do it yourself, scaffold, co-pilot, or delegate, with reasons and the exact scaffold a model should follow. Then log what actually happened. |
+| Practice | Pick a fallow domain and a length, work a real task without the model, log it. One session roughly doubles a stale domain's stability. |
 | Ledger | Every ask, filed, filterable by domain, deletable row by row. |
-| Day | The three-process alertness curve for today from your sleep times and chronotype, with capacity, KSS, and the model's components. |
+| Day | The three-process alertness curve for today from your sleep times and chronotype, with capacity, KSS, and the model's components. Plus today's attention numbers: switches per hour, longest unbroken block, minutes on listed sites against your budget, and how the pauses went. |
 | Import | ChatGPT and Claude exports, classified locally, deduplicated on re-import. |
-| Settings | The keep list, push-back intensity, chronotype, usual sleep, and the erase button. |
+| Settings | The keep list, push-back intensity, chronotype, usual sleep, the entertainment site list with its daily budget and pause length, and the erase button. |
 
 ## The models
 
@@ -73,6 +74,24 @@ plus a fatigue term F, a leaky integrator over minutes of demanding work (satura
 
 Intensity (gentle, standard, firm) sets the thresholds, because the forcing functions that work best are the ones people rate lowest. `src/core/policy.ts`.
 
+## Browser extension
+
+`integrations/browser-extension` is a Manifest V3 extension (Chrome, Edge, Brave, Arc). Load it unpacked from `chrome://extensions` with Developer mode on. It does two things.
+
+**Chat intercept.** On chatgpt.com, claude.ai and gemini.google.com it catches the send action, asks the local app for a verdict, and shows a card before the prompt leaves: do it yourself, scaffold or co-pilot, with the reasons and the scaffold. Three buttons: *I'll try first* (cancels the send and starts a 15-minute timer badge; when it ends you log "did it" or ask for a hint), *Send with scaffold* (appends the scaffold instruction to your prompt so the model follows it, logged as shared work), *Send anyway* (logged as delegated). Delegate verdicts show a two-second toast and pass straight through. A "quiet on this site for an hour" link exists because the forcing functions that work are the ones people like least. If the app is not running, everything passes through untouched.
+
+![The verdict card](docs/extension-card.png)
+
+**The pause.** On the sites you list in Settings, a full-page breath before the page loads: a countdown you set (10 seconds by default), how many times you have opened one of these today, and your minutes against your own budget when ActivityWatch is syncing. *Not now* closes the tab, *Continue* unlocks after the countdown and snoozes that site for 30 minutes. Each pause is logged, so the board shows your close rate. This is the one screen-time intervention with clean field evidence ([Grüning et al. 2023, PNAS](https://doi.org/10.1073/pnas.2213114120): about a third of attempts abandoned, openings down 57% after six weeks). The budget is a number you see, never a lock; locks work for a few weeks and then get removed.
+
+Try both without an account at `/demo/chat` and `/demo/feed` (add `localhost` to your site list for the feed). `npm run test:extension` drives the whole thing in headless Chromium against the running app: the card, the three buttons, the short-prompt passthrough, the pause, and the snooze.
+
+## Attention layer (ActivityWatch)
+
+[ActivityWatch](https://activitywatch.net) is an open-source (MPL-2.0) local time tracker with a REST API. With it running, `npm run attention` pulls today's window, AFK and browser-tab events, and posts one attention-day signal (switches per active hour, longest unbroken block, minutes on listed sites, where the day went) plus one sustained-attention practice event per focus block of 25 minutes or more. `npm run attention -- --watch` repeats every five minutes. Browser time is split by tab domain when the ActivityWatch browser extension is installed, otherwise by window title. Brief interruptions of a minute or less that return to the same activity do not break a block. `src/core/attention.ts`, with fixture tests.
+
+Switching rate is reported as behavior, not damage: the media-multitasking literature is small and contested, and the one clean field result is that people resume an interrupted task about 25 minutes later (Mark et al. 2005).
+
 ## Claude Code hook
 
 Every prompt you type in Claude Code can be assessed and filed. Add to `~/.claude/settings.json` (see `integrations/claude-code/settings.example.json`):
@@ -96,7 +115,7 @@ Why: Composition has lain fallow 23 days (retrievability 0.62). Composition is o
 How to respond: Give hints, questions and structure. Withhold the finished answer. ...
 ```
 
-It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALLOW_BLOCK_SELF=1` turns a "do it yourself" verdict into a blocked prompt (exit 2) instead of advice. The same `/api/assess` endpoint works for Cursor's `beforeSubmitPrompt` hook or anything else that can run a command.
+It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALLOW_BLOCK_SELF=1` turns a "do it yourself" verdict into a blocked prompt (exit 2) instead of advice. `integrations/cursor` has the same thing for Cursor's `beforeSubmitPrompt` hook, written against the docs and not yet run in a real Cursor session.
 
 ## API
 
@@ -106,34 +125,42 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 | `POST /api/events` `{ text, actor?, icap?, minutes?, demanding?, source? }` or `{ events: [...] }` | Log one prompt, or add pre-classified events (deduplicated by id) |
 | `GET /api/events`, `DELETE /api/events/:id` | Read or remove entries |
 | `GET /api/snapshot` | Everything the field board shows, as JSON |
-| `GET/POST /api/settings` | Keep list, intensity, chronotype, sleep, per-day sleep log |
+| `GET/POST /api/signals` | Pause outcomes and attention-day summaries |
+| `GET/POST /api/settings` | Keep list, intensity, chronotype, sleep, per-day sleep log, entertainment sites, budget, pause length |
 | `POST /api/clear` `{ confirm: "erase" }` | Wipe the ledger |
 
 ## Tests
 
 ```bash
-npm test        # vitest: classifier, scheduler, alertness model, policy, importers, snapshot
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary (65 tests)
 npm run typecheck
+npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
 ```
+
+## Publishing
+
+`scripts/publish.sh` creates the public GitHub repo and pushes (needs `gh auth login` once). For a live demo, deploy with `FALLOW_DEMO=1`: the app serves `data/demo.json` read-only, in-memory writes only, resets on restart.
 
 ## What is built
 
 - The eleven-domain taxonomy with evidence annotations and per-domain practice suggestions.
 - The lexicon classifier with ask type and ICAP level, and the actor rule that decides what counts as delegation.
-- The FSRS-style scheduler over domains, replayed from the ledger.
+- The FSRS-style scheduler over domains, replayed from the ledger, with drift detection on the delegated share over four trailing weeks.
 - The three-process alertness model with chronotype, plus the labelled fatigue hypothesis.
 - The four-mode policy with user-set intensity.
 - ChatGPT and Claude export importers, run in the browser, deduplicated.
-- The Claude Code hook and the assess API it uses.
-- Field, Gate, Ledger, Day, Import and Settings pages, local JSON persistence, 50 unit tests.
+- The browser extension: chat intercept with the verdict card on ChatGPT, Claude and Gemini, and the pause on listed sites, with an end-to-end test.
+- The attention layer from ActivityWatch: switches per hour, longest block, listed-site minutes, focus blocks logged as practice.
+- The Claude Code hook, a Cursor hook, and the assess API they use.
+- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 65 unit tests.
 
 ## What is not built
 
 - Any measurement of the person. Fallow measures asks, not ability. Whether a "stale" domain predicts a drop on an unassisted task is the first study to run, and nobody has run it.
-- Fitted parameters. Stability priors, the fatigue penalty, and the policy thresholds are borrowed or guessed and are documented as such.
+- Fitted parameters. Stability priors, the fatigue penalty, the pause length and the policy thresholds are borrowed or guessed and are documented as such.
 - An LLM classifier. The interface is there; the lexicon will mislabel prompts, so hand-label a couple of hundred of your own before trusting a profile.
-- Screen-time capture. ActivityWatch has an open REST API and is the obvious source; the sustained-attention domain is a placeholder until then.
-- A browser extension for web chats, a Cursor hook file, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence, multi-user anything.
+- Site selectors that survive redesigns. The extension's composer and send-button selectors for ChatGPT, Claude and Gemini are current as of writing and will need a bump when those apps change their DOM; the demo page always works.
+- Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence, multi-user anything. The Cursor hook has not been run in a real Cursor session.
 
 ## What it does not claim
 

@@ -34,6 +34,10 @@ export type Source =
   | "import-chatgpt"
   | "import-claude"
   | "hook-claude-code"
+  | "hook-cursor"
+  | "extension-chat"
+  | "activitywatch"
+  | "practice"
   | "gate"
   | "manual"
   | "seed";
@@ -112,7 +116,43 @@ export interface Settings {
   sleep: SleepWindow;
   /** Per-day sleep overrides, keyed by YYYY-MM-DD. */
   sleepLog: Record<string, SleepWindow>;
+  /** Hostnames the browser extension pauses on (one sec style). */
+  entertainmentSites: string[];
+  /** Self-set daily budget for those sites, in minutes. A soft limit, never a lock. */
+  entertainmentBudgetMin: number;
+  /** Length of the pause before "continue" unlocks, in seconds. */
+  pauseSeconds: number;
 }
+
+/**
+ * Signals are things that happened around the ledger but are not asks:
+ * a pause shown on an entertainment site, or a day's attention summary
+ * from ActivityWatch.
+ */
+export interface PauseSignal {
+  id: string;
+  ts: string;
+  kind: "pause";
+  site: string;
+  outcome: "continued" | "closed";
+  waitedSeconds: number;
+}
+
+export interface AttentionDaySignal {
+  id: string;
+  ts: string;
+  kind: "attention-day";
+  /** Local YYYY-MM-DD. */
+  day: string;
+  activeMin: number;
+  switchesPerHour: number;
+  longestBlockMin: number;
+  entertainmentMin: number;
+  /** Top apps or domains by minutes, for the day view. */
+  top: Array<{ name: string; minutes: number }>;
+}
+
+export type Signal = PauseSignal | AttentionDaySignal;
 
 export interface Recommendation {
   mode: Mode;

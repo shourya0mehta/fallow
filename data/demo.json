@@ -1,0 +1,5568 @@
+{
+  "version": 1,
+  "events": [
+    {
+      "id": "c5620fcd",
+      "ts": "2026-07-01T16:35:20.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f71ec155",
+      "ts": "2026-07-01T18:12:18.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "8361e5a3",
+      "ts": "2026-07-01T21:13:37.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "0297ed81",
+      "ts": "2026-07-02T13:12:52.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Come up with angles for a pitch about club recruitment deadlines",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "2eb249c2",
+      "ts": "2026-07-02T17:18:31.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "aaadb004",
+      "ts": "2026-07-02T18:54:15.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "78e14350",
+      "ts": "2026-07-02T19:12:24.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3dbfad24",
+      "ts": "2026-07-02T22:39:10.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "558bd0bb",
+      "ts": "2026-07-02T22:52:21.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "46a46d29",
+      "ts": "2026-07-02T23:39:10.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Which command shows disk usage per folder on mac?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "72f673ba",
+      "ts": "2026-07-03T15:05:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4a6925bb",
+      "ts": "2026-07-03T15:46:49.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b4d7ff25",
+      "ts": "2026-07-03T17:19:19.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "004c32ed",
+      "ts": "2026-07-03T19:04:45.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What is the capital of Burkina Faso?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "1e4fff62",
+      "ts": "2026-07-03T19:38:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7ba7eb85",
+      "ts": "2026-07-04T01:09:35.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Brainstorm ten names for an acoustic biodiversity monitoring app",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f0bd7eb9",
+      "ts": "2026-07-05T22:31:42.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "59c437fb",
+      "ts": "2026-07-06T13:48:39.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d45cf5d0",
+      "ts": "2026-07-06T14:47:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "a7d763ff",
+      "ts": "2026-07-06T21:04:49.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f32c52e6",
+      "ts": "2026-07-06T23:25:53.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f01b3142",
+      "ts": "2026-07-07T13:49:30.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "59643b7c",
+      "ts": "2026-07-07T18:42:16.000Z",
+      "source": "import-claude",
+      "excerpt": "Here's my draft of the email to my advisor, can you check my tone?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "b51372e1",
+      "ts": "2026-07-08T00:39:23.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "1d52ec31",
+      "ts": "2026-07-08T01:38:41.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5d14c4fe",
+      "ts": "2026-07-08T01:59:27.000Z",
+      "source": "import-claude",
+      "excerpt": "Explain why the LSTM overfits after epoch 10",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "ef9b95ae",
+      "ts": "2026-07-08T17:05:39.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b21676ab",
+      "ts": "2026-07-08T19:35:06.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "c06d232e",
+      "ts": "2026-07-09T13:46:38.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Brainstorm ten names for an acoustic biodiversity monitoring app",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "4ba62861",
+      "ts": "2026-07-09T19:32:19.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "15c794ef",
+      "ts": "2026-07-09T21:23:10.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "26e29c16",
+      "ts": "2026-07-09T22:00:49.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "50887d05",
+      "ts": "2026-07-10T01:04:01.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me ideas for a blog post about phantom green growth",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 0.5
+        },
+        {
+          "id": "ideation",
+          "weight": 0.5
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4ab96799",
+      "ts": "2026-07-10T13:44:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "4b0e328e",
+      "ts": "2026-07-10T18:06:20.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b5747bd3",
+      "ts": "2026-07-10T19:23:01.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "03cb3298",
+      "ts": "2026-07-10T22:21:02.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d70281fd",
+      "ts": "2026-07-11T14:54:02.000Z",
+      "source": "import-claude",
+      "excerpt": "How do I tell my teammate the PR needs to be split up?",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "4ef28875",
+      "ts": "2026-07-13T14:02:07.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "7df7f4e5",
+      "ts": "2026-07-13T17:37:32.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "518ee225",
+      "ts": "2026-07-13T20:43:53.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me ideas for a blog post about phantom green growth",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 0.5
+        },
+        {
+          "id": "ideation",
+          "weight": 0.5
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "28bfbbc1",
+      "ts": "2026-07-13T23:04:02.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "51c7ccda",
+      "ts": "2026-07-14T01:08:38.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "14e95b8f",
+      "ts": "2026-07-14T15:13:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Plan an itinerary for a weekend in Chicago near the campus",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "900d2902",
+      "ts": "2026-07-14T17:29:21.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "1b3c0d3d",
+      "ts": "2026-07-14T19:46:10.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "daf7a916",
+      "ts": "2026-07-14T23:05:18.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f1def677",
+      "ts": "2026-07-15T00:04:27.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "47c8d526",
+      "ts": "2026-07-15T13:41:42.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a2a8d89c",
+      "ts": "2026-07-15T13:54:23.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "c8d88c90",
+      "ts": "2026-07-15T14:24:29.000Z",
+      "source": "import-claude",
+      "excerpt": "Reply to this message from the club president politely declining",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "d3f42160",
+      "ts": "2026-07-15T15:20:24.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "f98e9187",
+      "ts": "2026-07-15T15:57:51.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ebd20697",
+      "ts": "2026-07-15T18:21:45.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "a5718ace",
+      "ts": "2026-07-15T19:22:05.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "cd04cb0a",
+      "ts": "2026-07-16T16:46:17.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Plan an itinerary for a weekend in Chicago near the campus",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "e831a48d",
+      "ts": "2026-07-16T21:11:40.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "bbd7e453",
+      "ts": "2026-07-16T21:53:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Calculate the sample size I need for 80% power with an effect size of 0.3",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5b2d5853",
+      "ts": "2026-07-16T23:27:37.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4e64689e",
+      "ts": "2026-07-17T14:34:54.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7f4aca17",
+      "ts": "2026-07-17T14:46:51.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "6c3593ca",
+      "ts": "2026-07-17T16:36:25.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "93c0e54a",
+      "ts": "2026-07-17T20:53:48.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Draft a LinkedIn post about presenting at AGU",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "c91d55e0",
+      "ts": "2026-07-17T21:31:33.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "95ffbf18",
+      "ts": "2026-07-17T21:37:08.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "bc4f0200",
+      "ts": "2026-07-18T16:44:35.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why does the particle filter collapse to one particle after a few steps?",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "b03bc9a2",
+      "ts": "2026-07-19T00:57:19.000Z",
+      "source": "import-claude",
+      "excerpt": "Reply to this message from the club president politely declining",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "35be4aba",
+      "ts": "2026-07-20T00:08:19.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the name of the effect where saving a file frees up memory?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "c74eb60a",
+      "ts": "2026-07-20T14:07:46.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ee2d8f04",
+      "ts": "2026-07-20T16:39:00.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e1171321",
+      "ts": "2026-07-20T20:09:44.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "c6055060",
+      "ts": "2026-07-20T23:22:30.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a534b46b",
+      "ts": "2026-07-20T23:24:48.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "0670711b",
+      "ts": "2026-07-20T23:50:59.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "d51aad9a",
+      "ts": "2026-07-21T01:26:00.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "e8e7a7ba",
+      "ts": "2026-07-21T16:12:31.000Z",
+      "source": "import-claude",
+      "excerpt": "What should I say to my landlord about the broken heater without sounding rude?",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 0.67
+        },
+        {
+          "id": "analysis",
+          "weight": 0.33
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "189ec7a8",
+      "ts": "2026-07-21T16:32:21.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Break down the acoustic monitoring pilot into a two-month roadmap",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "a1a4489b",
+      "ts": "2026-07-21T18:16:33.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Draft a LinkedIn post about presenting at AGU",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9760ff27",
+      "ts": "2026-07-21T19:13:53.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3e0d4708",
+      "ts": "2026-07-21T20:25:19.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me a hint on this integral, don't give me the answer: integral of x e^x dx",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "hint",
+      "actor": "shared"
+    },
+    {
+      "id": "5b675859",
+      "ts": "2026-07-21T22:24:10.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b9b3a6fa",
+      "ts": "2026-07-22T01:03:50.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "603f2940",
+      "ts": "2026-07-22T17:27:11.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0e8a14df",
+      "ts": "2026-07-23T00:49:42.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Brainstorm ten names for an acoustic biodiversity monitoring app",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "72ea4fbe",
+      "ts": "2026-07-23T20:58:11.000Z",
+      "source": "import-claude",
+      "excerpt": "What should I say to my landlord about the broken heater without sounding rude?",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 0.67
+        },
+        {
+          "id": "analysis",
+          "weight": 0.33
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "118a674c",
+      "ts": "2026-07-24T00:37:06.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3a956dbd",
+      "ts": "2026-07-24T15:42:06.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "c3e76c2e",
+      "ts": "2026-07-24T15:50:02.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "fbba67be",
+      "ts": "2026-07-24T19:01:21.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "b5f8e3b8",
+      "ts": "2026-07-25T14:30:46.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "11db7269",
+      "ts": "2026-07-27T18:42:13.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write me an email to my professor asking for a two week extension on the GIS project",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "855a8ede",
+      "ts": "2026-07-27T21:44:27.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Which command shows disk usage per folder on mac?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "285e1be1",
+      "ts": "2026-07-27T23:02:18.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why does the particle filter collapse to one particle after a few steps?",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "067889f7",
+      "ts": "2026-07-28T14:46:58.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "4b19140e",
+      "ts": "2026-07-28T15:48:47.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "fffd091d",
+      "ts": "2026-07-28T16:54:12.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "cd2d123e",
+      "ts": "2026-07-28T17:26:36.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "23fb6bfb",
+      "ts": "2026-07-28T22:31:25.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "af580148",
+      "ts": "2026-07-29T01:46:32.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d8e12572",
+      "ts": "2026-07-29T13:11:59.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "d4877739",
+      "ts": "2026-07-29T17:46:57.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4550eeb2",
+      "ts": "2026-07-29T17:58:34.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "e9858c92",
+      "ts": "2026-07-29T23:13:14.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e55ba2e5",
+      "ts": "2026-07-30T00:34:05.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Calculate the sample size I need for 80% power with an effect size of 0.3",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4e33a5e5",
+      "ts": "2026-07-30T01:57:56.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "87255697",
+      "ts": "2026-07-30T14:02:22.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7b17d1c3",
+      "ts": "2026-07-30T21:14:55.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "9490edd9",
+      "ts": "2026-07-30T22:00:36.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "464f0651",
+      "ts": "2026-07-30T22:18:22.000Z",
+      "source": "import-claude",
+      "excerpt": "Explain why the LSTM overfits after epoch 10",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "96d2b58e",
+      "ts": "2026-07-31T00:31:58.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "92331202",
+      "ts": "2026-07-31T19:20:29.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "afa45a95",
+      "ts": "2026-08-01T01:45:27.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "563fba4c",
+      "ts": "2026-08-01T13:15:35.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Don't solve it, just point me in the right direction for this recurrence relation",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "hint",
+      "actor": "shared"
+    },
+    {
+      "id": "3f51ae93",
+      "ts": "2026-08-01T16:23:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "56c181f0",
+      "ts": "2026-08-02T20:49:38.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "39f420e4",
+      "ts": "2026-08-03T14:30:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "84c6c111",
+      "ts": "2026-08-03T16:45:16.000Z",
+      "source": "import-claude",
+      "excerpt": "How do I tell my teammate the PR needs to be split up?",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "11955dca",
+      "ts": "2026-08-03T19:08:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Draft a LinkedIn post about presenting at AGU",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5b620cc4",
+      "ts": "2026-08-03T20:01:31.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d3bd56f4",
+      "ts": "2026-08-03T23:53:08.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "6197b96b",
+      "ts": "2026-08-04T13:03:51.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me ideas for a blog post about phantom green growth",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 0.5
+        },
+        {
+          "id": "ideation",
+          "weight": 0.5
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3b874b95",
+      "ts": "2026-08-04T13:14:27.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "8abefb0b",
+      "ts": "2026-08-04T15:43:10.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Solve for x: 3x^2 - 5x + 1 = 0",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9be79e2a",
+      "ts": "2026-08-04T19:34:16.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "5aa859fb",
+      "ts": "2026-08-04T22:46:15.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0728b1c4",
+      "ts": "2026-08-05T01:28:44.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f60d1175",
+      "ts": "2026-08-05T13:07:29.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "75088a50",
+      "ts": "2026-08-05T13:59:48.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ba1016b8",
+      "ts": "2026-08-05T15:52:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Solve for x: 3x^2 - 5x + 1 = 0",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "cead96a5",
+      "ts": "2026-08-05T18:07:49.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "98a945f1",
+      "ts": "2026-08-05T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Wrote the first version of the fragmentation methods section",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 35,
+      "demanding": false
+    },
+    {
+      "id": "0f39dbac",
+      "ts": "2026-08-05T20:51:32.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3d294955",
+      "ts": "2026-08-06T13:38:20.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why does the particle filter collapse to one particle after a few steps?",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "0aa1de05",
+      "ts": "2026-08-06T14:12:39.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0a597f89",
+      "ts": "2026-08-06T18:16:46.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a7401888",
+      "ts": "2026-08-06T22:31:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "660a5c5e",
+      "ts": "2026-08-06T23:03:29.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What is the capital of Burkina Faso?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "73cf41fa",
+      "ts": "2026-08-07T15:21:28.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d07a5ae7",
+      "ts": "2026-08-07T17:50:05.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the syntax for a Python list comprehension with a condition?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 0.74
+        },
+        {
+          "id": "implementation",
+          "weight": 0.26
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9ac5733a",
+      "ts": "2026-08-07T20:08:23.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "4288c29c",
+      "ts": "2026-08-07T23:25:43.000Z",
+      "source": "import-claude",
+      "excerpt": "How do I tell my teammate the PR needs to be split up?",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "3e93f3f1",
+      "ts": "2026-08-07T23:36:57.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "99b48b54",
+      "ts": "2026-08-08T01:16:17.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "d79e16fc",
+      "ts": "2026-08-10T14:31:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Break down the acoustic monitoring pilot into a two-month roadmap",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "50b6da85",
+      "ts": "2026-08-10T22:55:16.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "9631689b",
+      "ts": "2026-08-11T01:05:34.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the standard deviation of these numbers: 12, 15, 9, 22, 18",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 0.59
+        },
+        {
+          "id": "recall",
+          "weight": 0.41
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "d2d93a2d",
+      "ts": "2026-08-11T15:17:33.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "43b9997e",
+      "ts": "2026-08-11T16:29:17.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5f1e66ec",
+      "ts": "2026-08-11T18:31:48.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "b9b9c11f",
+      "ts": "2026-08-12T15:10:22.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "61456c34",
+      "ts": "2026-08-12T15:36:22.000Z",
+      "source": "import-claude",
+      "excerpt": "Explain why the LSTM overfits after epoch 10",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "ac719f0d",
+      "ts": "2026-08-12T17:17:40.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "887af02d",
+      "ts": "2026-08-13T01:23:51.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "dba0743a",
+      "ts": "2026-08-13T15:24:32.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Which command shows disk usage per folder on mac?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "deeabacf",
+      "ts": "2026-08-13T17:28:47.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Brainstorm ten names for an acoustic biodiversity monitoring app",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "5c4d61c5",
+      "ts": "2026-08-13T17:58:09.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "d4bf0939",
+      "ts": "2026-08-14T00:54:27.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Draft a LinkedIn post about presenting at AGU",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3d2cee36",
+      "ts": "2026-08-14T01:28:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "8741d4aa",
+      "ts": "2026-08-14T14:38:27.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the syntax for a Python list comprehension with a condition?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 0.74
+        },
+        {
+          "id": "implementation",
+          "weight": 0.26
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "50aa47b9",
+      "ts": "2026-08-14T21:04:46.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "72638d71",
+      "ts": "2026-08-14T22:33:34.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "c649fb48",
+      "ts": "2026-08-16T01:47:02.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "002bbe33",
+      "ts": "2026-08-16T14:53:05.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "990ff772",
+      "ts": "2026-08-17T00:39:45.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f775e212",
+      "ts": "2026-08-17T15:43:59.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0e74f8ea",
+      "ts": "2026-08-17T19:52:12.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7bd4f6cf",
+      "ts": "2026-08-18T01:50:51.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ecc5f5dc",
+      "ts": "2026-08-18T14:54:00.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "c671fb80",
+      "ts": "2026-08-18T17:32:13.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9a6e7e72",
+      "ts": "2026-08-18T17:40:33.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me a hint on this integral, don't give me the answer: integral of x e^x dx",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "hint",
+      "actor": "shared"
+    },
+    {
+      "id": "f395f655",
+      "ts": "2026-08-18T19:03:16.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f115b5cb",
+      "ts": "2026-08-18T19:41:48.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "83ab5977",
+      "ts": "2026-08-18T20:17:30.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why does the particle filter collapse to one particle after a few steps?",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "1e7e1dbf",
+      "ts": "2026-08-19T01:13:13.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "0b4f12a8",
+      "ts": "2026-08-19T13:54:46.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e52f2281",
+      "ts": "2026-08-19T15:23:11.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "6de2cd67",
+      "ts": "2026-08-19T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Debugged the onset detector by bisecting the pipeline",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 50,
+      "demanding": true
+    },
+    {
+      "id": "17aa43f2",
+      "ts": "2026-08-19T20:22:44.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "1277db6c",
+      "ts": "2026-08-19T20:59:30.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "de5d8abc",
+      "ts": "2026-08-19T22:20:06.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "51d2e98d",
+      "ts": "2026-08-20T00:21:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "7b27d460",
+      "ts": "2026-08-20T13:06:06.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "baa9bb38",
+      "ts": "2026-08-20T15:07:33.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "6b8928e7",
+      "ts": "2026-08-20T18:11:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "1625ce89",
+      "ts": "2026-08-20T21:47:47.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "782abe2e",
+      "ts": "2026-08-21T01:51:49.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b19c02e6",
+      "ts": "2026-08-21T14:57:25.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "071ddcf8",
+      "ts": "2026-08-21T15:25:49.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "61dc28c9",
+      "ts": "2026-08-21T19:17:14.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9e2b7d05",
+      "ts": "2026-08-21T21:39:45.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "307e6a8c",
+      "ts": "2026-08-22T00:34:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "2592f9e7",
+      "ts": "2026-08-23T01:59:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "d5745d0e",
+      "ts": "2026-08-24T14:12:00.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "9d10c3d3",
+      "ts": "2026-08-24T17:38:04.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b08bf52b",
+      "ts": "2026-08-24T21:56:15.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "6ba87a78",
+      "ts": "2026-08-24T21:57:18.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "c60fadc2",
+      "ts": "2026-08-24T22:43:10.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "cb7c73d7",
+      "ts": "2026-08-25T01:28:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ec0a0fcb",
+      "ts": "2026-08-25T16:26:21.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "deebc212",
+      "ts": "2026-08-25T20:37:18.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7a6eac15",
+      "ts": "2026-08-25T21:33:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a8787fa7",
+      "ts": "2026-08-26T00:06:50.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b393a95d",
+      "ts": "2026-08-26T14:18:14.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "14d96bc7",
+      "ts": "2026-08-26T19:31:33.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "2bf9e615",
+      "ts": "2026-08-26T21:30:54.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "01bb6873",
+      "ts": "2026-08-27T13:57:20.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e2e4699a",
+      "ts": "2026-08-27T14:02:01.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why does the particle filter collapse to one particle after a few steps?",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "96ed5b09",
+      "ts": "2026-08-27T19:11:27.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Come up with angles for a pitch about club recruitment deadlines",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "afbad51b",
+      "ts": "2026-08-27T20:19:57.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.58
+        },
+        {
+          "id": "analysis",
+          "weight": 0.42
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "d7ad1f7b",
+      "ts": "2026-08-27T23:58:03.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "ddb6014f",
+      "ts": "2026-08-28T14:17:48.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "cfc20bd3",
+      "ts": "2026-08-28T17:08:07.000Z",
+      "source": "import-claude",
+      "excerpt": "Which way is the lake from the engineering quad?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "a3c279d8",
+      "ts": "2026-08-28T22:22:12.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "432797a7",
+      "ts": "2026-08-29T21:06:03.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e81afcbf",
+      "ts": "2026-08-30T00:42:21.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "602e8e2f",
+      "ts": "2026-08-30T15:27:58.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "92a51bef",
+      "ts": "2026-08-30T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Drafted the club recruitment email myself",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 25,
+      "demanding": false
+    },
+    {
+      "id": "92a36e63",
+      "ts": "2026-08-31T01:01:05.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a3c64bf0",
+      "ts": "2026-08-31T20:37:44.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e6ff9b35",
+      "ts": "2026-08-31T21:28:42.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Calculate the sample size I need for 80% power with an effect size of 0.3",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "65ea6ce7",
+      "ts": "2026-08-31T22:29:00.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a05a30c8",
+      "ts": "2026-09-01T01:32:21.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5ddcd8c2",
+      "ts": "2026-09-01T18:19:02.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "120149af",
+      "ts": "2026-09-01T19:15:23.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "9eb3f516",
+      "ts": "2026-09-02T13:18:08.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "9da56aa2",
+      "ts": "2026-09-02T20:03:22.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "24f0f1d3",
+      "ts": "2026-09-02T20:17:10.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "585fd979",
+      "ts": "2026-09-03T16:11:41.000Z",
+      "source": "import-claude",
+      "excerpt": "I wrote this function, is the recursion base case right?",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "shared"
+    },
+    {
+      "id": "fbec6033",
+      "ts": "2026-09-03T20:23:43.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "266c9cfd",
+      "ts": "2026-09-03T21:29:14.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What is the capital of Burkina Faso?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "94536622",
+      "ts": "2026-09-04T00:58:20.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "133ab483",
+      "ts": "2026-09-04T01:36:30.000Z",
+      "source": "import-claude",
+      "excerpt": "I wrote this function, is the recursion base case right?",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "shared"
+    },
+    {
+      "id": "134313a3",
+      "ts": "2026-09-04T15:42:13.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Add a unit test for the LCS diff on empty inputs",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "39f581c0",
+      "ts": "2026-09-04T16:19:46.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a3bd9309",
+      "ts": "2026-09-04T17:13:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5fcf7f17",
+      "ts": "2026-09-04T20:26:44.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "cd96f69f",
+      "ts": "2026-09-04T22:11:35.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Calculate the sample size I need for 80% power with an effect size of 0.3",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "181f27b7",
+      "ts": "2026-09-04T22:46:43.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "966a9acc",
+      "ts": "2026-09-05T14:15:25.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "2b95add0",
+      "ts": "2026-09-06T00:32:50.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the React component for the deadline card with a countdown",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.73
+        },
+        {
+          "id": "planning",
+          "weight": 0.27
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "fe5104b0",
+      "ts": "2026-09-07T16:17:38.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ed016a6d",
+      "ts": "2026-09-07T22:56:09.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "37f3304a",
+      "ts": "2026-09-07T23:14:08.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "3f81cdcc",
+      "ts": "2026-09-08T00:11:47.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's 18% of 2,340 and then convert that to per-month?",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a33faa2c",
+      "ts": "2026-09-08T00:30:58.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write the abstract for our urbanization and green fragmentation paper",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "1f143554",
+      "ts": "2026-09-08T15:12:08.000Z",
+      "source": "import-claude",
+      "excerpt": "Reply to this message from the club president politely declining",
+      "domains": [
+        {
+          "id": "verbal",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f30ae11c",
+      "ts": "2026-09-08T16:34:24.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "305dbf4c",
+      "ts": "2026-09-08T19:36:26.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the syntax for a Python list comprehension with a condition?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 0.74
+        },
+        {
+          "id": "implementation",
+          "weight": 0.26
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4fccf100",
+      "ts": "2026-09-08T20:50:08.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "0594567b",
+      "ts": "2026-09-08T21:55:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "06180e8e",
+      "ts": "2026-09-08T23:55:03.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the standard deviation of these numbers: 12, 15, 9, 22, 18",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 0.59
+        },
+        {
+          "id": "recall",
+          "weight": 0.41
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "08aa87ed",
+      "ts": "2026-09-09T13:29:32.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "226975b8",
+      "ts": "2026-09-09T16:55:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Plan an itinerary for a weekend in Chicago near the campus",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "875be7cb",
+      "ts": "2026-09-09T20:40:00.000Z",
+      "source": "import-claude",
+      "excerpt": "Let's argue this out. Push back on my claim that the fragmentation index is biased by patch size.",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "interactive",
+      "askType": "other",
+      "actor": "shared"
+    },
+    {
+      "id": "3e351e13",
+      "ts": "2026-09-10T16:03:23.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "724d1afe",
+      "ts": "2026-09-10T16:50:39.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "cbdaa3f1",
+      "ts": "2026-09-11T13:26:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Which command shows disk usage per folder on mac?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "6370a42d",
+      "ts": "2026-09-11T15:18:14.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "76f81611",
+      "ts": "2026-09-11T22:48:14.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f886a4a0",
+      "ts": "2026-09-11T23:26:44.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "aa2b31e8",
+      "ts": "2026-09-12T17:43:31.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the name of the effect where saving a file frees up memory?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "94599b80",
+      "ts": "2026-09-12T22:14:38.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a09d88b6",
+      "ts": "2026-09-13T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Worked through the particle filter update step on paper",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 60,
+      "demanding": true
+    },
+    {
+      "id": "a287b83c",
+      "ts": "2026-09-13T22:13:11.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "6f816465",
+      "ts": "2026-09-14T15:09:33.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "8d0270f1",
+      "ts": "2026-09-14T19:24:16.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "89420b0f",
+      "ts": "2026-09-14T23:18:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4ba5b806",
+      "ts": "2026-09-15T23:54:51.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "56f49e97",
+      "ts": "2026-09-16T01:11:09.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e491a457",
+      "ts": "2026-09-16T22:01:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "What's the standard deviation of these numbers: 12, 15, 9, 22, 18",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 0.59
+        },
+        {
+          "id": "recall",
+          "weight": 0.41
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f2c3a0ec",
+      "ts": "2026-09-16T23:56:24.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "2fc22d6c",
+      "ts": "2026-09-17T21:09:08.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0d9472c4",
+      "ts": "2026-09-17T21:23:58.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write the SQL to get weekly active users by cohort",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "104d9206",
+      "ts": "2026-09-17T22:44:47.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e9792cd2",
+      "ts": "2026-09-18T00:49:56.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "10b3a16c",
+      "ts": "2026-09-18T17:14:00.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Write a cover letter for a data science internship at a climate startup",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "379dded1",
+      "ts": "2026-09-18T17:42:34.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me ideas for a blog post about phantom green growth",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 0.5
+        },
+        {
+          "id": "ideation",
+          "weight": 0.5
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "f42de39a",
+      "ts": "2026-09-18T18:17:20.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Debug: the iCal feed validates locally but Google Calendar refuses it",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "39fb2ce4",
+      "ts": "2026-09-19T01:45:43.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "36fcbbbd",
+      "ts": "2026-09-19T13:56:31.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "59ad5577",
+      "ts": "2026-09-19T17:04:23.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Remind me, what does the -p flag do in mkdir?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "8ffd8d46",
+      "ts": "2026-09-20T13:44:04.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5faf38d5",
+      "ts": "2026-09-20T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Wrote the AGU poster abstract by hand, then asked for a critique",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 40,
+      "demanding": true
+    },
+    {
+      "id": "74c95726",
+      "ts": "2026-09-21T01:54:50.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "a777cc26",
+      "ts": "2026-09-21T13:27:22.000Z",
+      "source": "import-claude",
+      "excerpt": "Here's my draft of the email to my advisor, can you check my tone?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "c41da2b7",
+      "ts": "2026-09-21T18:17:37.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "3062ab9c",
+      "ts": "2026-09-21T21:05:24.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Root cause this flaky test, it passes alone and fails in the suite",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "2cc85430",
+      "ts": "2026-09-21T21:37:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Make me a study plan for the next three weeks before the exam with milestones",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "03950729",
+      "ts": "2026-09-21T23:28:58.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5a27bf22",
+      "ts": "2026-09-22T16:28:41.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "0888438a",
+      "ts": "2026-09-22T16:47:50.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Suggest titles for my AGU poster on SWE and teleconnections",
+      "domains": [
+        {
+          "id": "ideation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "31d68ff5",
+      "ts": "2026-09-22T20:44:25.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "75d0928b",
+      "ts": "2026-09-23T14:55:35.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "7d63f912",
+      "ts": "2026-09-23T15:57:42.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "66008992",
+      "ts": "2026-09-23T16:11:41.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "7be0c017",
+      "ts": "2026-09-23T18:34:59.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map') ```js const rows = data.items.map(r => r.id) ```",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.81
+        },
+        {
+          "id": "implementation",
+          "weight": 0.19
+        }
+      ],
+      "icap": "active",
+      "askType": "explain",
+      "actor": "shared"
+    },
+    {
+      "id": "aa5757be",
+      "ts": "2026-09-23T19:55:25.000Z",
+      "source": "import-claude",
+      "excerpt": "I wrote this function, is the recursion base case right?",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "shared"
+    },
+    {
+      "id": "ff2eff02",
+      "ts": "2026-09-23T20:33:57.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a bash script to batch convert the flac files to 16kHz mono wav",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 0.76
+        },
+        {
+          "id": "quantitative",
+          "weight": 0.24
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "cde1a0ce",
+      "ts": "2026-09-24T18:39:44.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "4a33b7b8",
+      "ts": "2026-09-24T19:23:12.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Prioritize these five tasks for this week and give me a schedule",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "e345374e",
+      "ts": "2026-09-24T20:21:20.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "ffe608dd",
+      "ts": "2026-09-24T22:03:15.000Z",
+      "source": "import-claude",
+      "excerpt": "How do I get to the airport from campus without the highway?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "652e5667",
+      "ts": "2026-09-25T01:26:11.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "3eff7dce",
+      "ts": "2026-09-25T15:55:15.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f62cc0ba",
+      "ts": "2026-09-25T16:04:04.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Implement the Drizzle schema for playlists with a content-addressed object table",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "fb142399",
+      "ts": "2026-09-25T17:01:14.000Z",
+      "source": "import-claude",
+      "excerpt": "Review my argument in this essay intro, is it clear?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "399e6cb0",
+      "ts": "2026-09-25T22:15:54.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Refactor this into a provider-agnostic adapter interface ```ts export class SpotifyRemote {} ```",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "f9302820",
+      "ts": "2026-09-25T23:14:09.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "465001aa",
+      "ts": "2026-09-26T00:11:43.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Break down the acoustic monitoring pilot into a two-month roadmap",
+      "domains": [
+        {
+          "id": "planning",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "ac37b324",
+      "ts": "2026-09-26T13:41:45.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Generate the boilerplate for a Next.js API route that validates the body",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "420a0d0f",
+      "ts": "2026-09-26T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Ninety-minute focus block on the thesis draft, notifications off",
+      "domains": [
+        {
+          "id": "attention",
+          "weight": 0.5
+        },
+        {
+          "id": "composition",
+          "weight": 0.5
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 90,
+      "demanding": true
+    },
+    {
+      "id": "ec908afb",
+      "ts": "2026-09-27T18:10:00.000Z",
+      "source": "seed",
+      "excerpt": "Debugged the flaky iCal test myself, two hypotheses, found the timezone bug",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "other",
+      "actor": "self",
+      "minutes": 45,
+      "demanding": true
+    },
+    {
+      "id": "76f44758",
+      "ts": "2026-09-28T16:07:19.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "TL;DR this thread about the Pinterest API deprecation",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.22
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "70d8921f",
+      "ts": "2026-09-28T16:22:12.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Give me the main takeaways from this article on cognitive reserve",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "69558cc6",
+      "ts": "2026-09-28T18:03:43.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Compose a short bio for the hackathon team page",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "0112b609",
+      "ts": "2026-09-28T19:45:30.000Z",
+      "source": "import-claude",
+      "excerpt": "Here's my draft of the email to my advisor, can you check my tone?",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "constructive",
+      "askType": "review",
+      "actor": "shared"
+    },
+    {
+      "id": "25c1be3c",
+      "ts": "2026-09-28T20:35:01.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Which command shows disk usage per folder on mac?",
+      "domains": [
+        {
+          "id": "recall",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    },
+    {
+      "id": "76bff921",
+      "ts": "2026-09-28T23:22:24.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize this lecture transcript into study notes",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "b42f8c86",
+      "ts": "2026-09-29T16:50:49.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Rewrite this paragraph so it sounds less stiff",
+      "domains": [
+        {
+          "id": "composition",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "46546184",
+      "ts": "2026-09-29T17:13:50.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Calculate the sample size I need for 80% power with an effect size of 0.3",
+      "domains": [
+        {
+          "id": "quantitative",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "66b87658",
+      "ts": "2026-09-29T17:41:17.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Write a regex that matches ISO dates but not times",
+      "domains": [
+        {
+          "id": "implementation",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "233f39c3",
+      "ts": "2026-09-29T20:09:59.000Z",
+      "source": "hook-claude-code",
+      "excerpt": "Fix this stack trace, the migration fails on the second run",
+      "domains": [
+        {
+          "id": "analysis",
+          "weight": 0.78
+        },
+        {
+          "id": "implementation",
+          "weight": 0.23
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "df918b79",
+      "ts": "2026-09-29T22:04:54.000Z",
+      "source": "import-chatgpt",
+      "excerpt": "Summarize the key points of this paper on snow water equivalent and climate indices",
+      "domains": [
+        {
+          "id": "synthesis",
+          "weight": 1
+        }
+      ],
+      "icap": "passive",
+      "askType": "answer",
+      "actor": "ai"
+    },
+    {
+      "id": "5e71df80",
+      "ts": "2026-09-29T23:58:31.000Z",
+      "source": "import-claude",
+      "excerpt": "How do I get to the airport from campus without the highway?",
+      "domains": [
+        {
+          "id": "navigation",
+          "weight": 1
+        }
+      ],
+      "icap": "active",
+      "askType": "other",
+      "actor": "ai"
+    }
+  ],
+  "signals": [
+    {
+      "id": "attention|2026-09-23",
+      "ts": "2026-09-23T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-23",
+      "activeMin": 476,
+      "switchesPerHour": 17,
+      "longestBlockMin": 74,
+      "entertainmentMin": 34,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 195
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 56
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 24
+        },
+        {
+          "name": "Slack",
+          "minutes": 24
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-23T18:46:00.000Z|youtube.com",
+      "ts": "2026-09-23T18:46:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-24T01:25:00.000Z|reddit.com",
+      "ts": "2026-09-24T01:25:00.000Z",
+      "kind": "pause",
+      "site": "reddit.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-24T01:33:00.000Z|reddit.com",
+      "ts": "2026-09-24T01:33:00.000Z",
+      "kind": "pause",
+      "site": "reddit.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "attention|2026-09-24",
+      "ts": "2026-09-24T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-24",
+      "activeMin": 429,
+      "switchesPerHour": 16.7,
+      "longestBlockMin": 71,
+      "entertainmentMin": 80,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 145
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 51
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 70
+        },
+        {
+          "name": "Slack",
+          "minutes": 46
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-24T16:08:00.000Z|youtube.com",
+      "ts": "2026-09-24T16:08:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-24T19:21:00.000Z|youtube.com",
+      "ts": "2026-09-24T19:21:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "closed",
+      "waitedSeconds": 9
+    },
+    {
+      "id": "pause|2026-09-24T21:13:00.000Z|youtube.com",
+      "ts": "2026-09-24T21:13:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "closed",
+      "waitedSeconds": 7
+    },
+    {
+      "id": "attention|2026-09-25",
+      "ts": "2026-09-25T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-25",
+      "activeMin": 456,
+      "switchesPerHour": 16.3,
+      "longestBlockMin": 23,
+      "entertainmentMin": 76,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 167
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 71
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 66
+        },
+        {
+          "name": "Slack",
+          "minutes": 40
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-25T18:46:00.000Z|youtube.com",
+      "ts": "2026-09-25T18:46:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-26T00:23:00.000Z|youtube.com",
+      "ts": "2026-09-26T00:23:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "attention|2026-09-26",
+      "ts": "2026-09-26T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-26",
+      "activeMin": 449,
+      "switchesPerHour": 14.8,
+      "longestBlockMin": 51,
+      "entertainmentMin": 77,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 125
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 45
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 67
+        },
+        {
+          "name": "Slack",
+          "minutes": 23
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-26T16:39:00.000Z|youtube.com",
+      "ts": "2026-09-26T16:39:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-26T19:21:00.000Z|youtube.com",
+      "ts": "2026-09-26T19:21:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-26T22:36:00.000Z|youtube.com",
+      "ts": "2026-09-26T22:36:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-26T22:37:00.000Z|reddit.com",
+      "ts": "2026-09-26T22:37:00.000Z",
+      "kind": "pause",
+      "site": "reddit.com",
+      "outcome": "closed",
+      "waitedSeconds": 4
+    },
+    {
+      "id": "attention|2026-09-27",
+      "ts": "2026-09-27T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-27",
+      "activeMin": 494,
+      "switchesPerHour": 19,
+      "longestBlockMin": 27,
+      "entertainmentMin": 76,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 198
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 61
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 66
+        },
+        {
+          "name": "Slack",
+          "minutes": 21
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-27T19:19:00.000Z|reddit.com",
+      "ts": "2026-09-27T19:19:00.000Z",
+      "kind": "pause",
+      "site": "reddit.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-27T21:25:00.000Z|instagram.com",
+      "ts": "2026-09-27T21:25:00.000Z",
+      "kind": "pause",
+      "site": "instagram.com",
+      "outcome": "closed",
+      "waitedSeconds": 9
+    },
+    {
+      "id": "pause|2026-09-27T23:52:00.000Z|instagram.com",
+      "ts": "2026-09-27T23:52:00.000Z",
+      "kind": "pause",
+      "site": "instagram.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "attention|2026-09-28",
+      "ts": "2026-09-28T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-28",
+      "activeMin": 319,
+      "switchesPerHour": 14.9,
+      "longestBlockMin": 42,
+      "entertainmentMin": 71,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 153
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 52
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 61
+        },
+        {
+          "name": "Slack",
+          "minutes": 40
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-28T17:52:00.000Z|instagram.com",
+      "ts": "2026-09-28T17:52:00.000Z",
+      "kind": "pause",
+      "site": "instagram.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-28T19:38:00.000Z|youtube.com",
+      "ts": "2026-09-28T19:38:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-29T00:38:00.000Z|instagram.com",
+      "ts": "2026-09-29T00:38:00.000Z",
+      "kind": "pause",
+      "site": "instagram.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "attention|2026-09-29",
+      "ts": "2026-09-29T04:00:00.000Z",
+      "kind": "attention-day",
+      "day": "2026-09-29",
+      "activeMin": 413,
+      "switchesPerHour": 7.4,
+      "longestBlockMin": 23,
+      "entertainmentMin": 33,
+      "top": [
+        {
+          "name": "Code",
+          "minutes": 151
+        },
+        {
+          "name": "Google Chrome: docs.google.com",
+          "minutes": 80
+        },
+        {
+          "name": "Google Chrome: youtube.com",
+          "minutes": 23
+        },
+        {
+          "name": "Slack",
+          "minutes": 28
+        },
+        {
+          "name": "Google Chrome: reddit.com",
+          "minutes": 10
+        }
+      ]
+    },
+    {
+      "id": "pause|2026-09-29T16:16:00.000Z|instagram.com",
+      "ts": "2026-09-29T16:16:00.000Z",
+      "kind": "pause",
+      "site": "instagram.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    },
+    {
+      "id": "pause|2026-09-29T20:48:00.000Z|youtube.com",
+      "ts": "2026-09-29T20:48:00.000Z",
+      "kind": "pause",
+      "site": "youtube.com",
+      "outcome": "continued",
+      "waitedSeconds": 10
+    }
+  ],
+  "settings": {
+    "keepList": [
+      "composition",
+      "analysis",
+      "quantitative"
+    ],
+    "intensity": "standard",
+    "chronotype": "intermediate",
+    "sleep": {
+      "bed": "23:30",
+      "wake": "07:30"
+    },
+    "sleepLog": {},
+    "entertainmentSites": [
+      "youtube.com",
+      "tiktok.com",
+      "instagram.com",
+      "x.com",
+      "twitter.com",
+      "reddit.com",
+      "facebook.com",
+      "netflix.com",
+      "twitch.tv"
+    ],
+    "entertainmentBudgetMin": 60,
+    "pauseSeconds": 10
+  }
+}

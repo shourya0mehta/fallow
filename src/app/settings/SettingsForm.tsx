@@ -12,6 +12,9 @@ export function SettingsForm({ initial, eventCount }: { initial: Settings; event
   const [chronotype, setChronotype] = useState<Chronotype>(initial.chronotype);
   const [bed, setBed] = useState(initial.sleep.bed);
   const [wake, setWake] = useState(initial.sleep.wake);
+  const [sites, setSites] = useState(initial.entertainmentSites.join("\n"));
+  const [budget, setBudget] = useState(String(initial.entertainmentBudgetMin));
+  const [pauseSeconds, setPauseSeconds] = useState(String(initial.pauseSeconds));
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [confirm, setConfirm] = useState("");
@@ -25,7 +28,15 @@ export function SettingsForm({ initial, eventCount }: { initial: Settings; event
     await fetch("/api/settings", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ keepList: keep, intensity, chronotype, sleep: { bed, wake } }),
+      body: JSON.stringify({
+        keepList: keep,
+        intensity,
+        chronotype,
+        sleep: { bed, wake },
+        entertainmentSites: sites.split(/\n+/).map((s) => s.trim()).filter(Boolean),
+        entertainmentBudgetMin: Number(budget) || 0,
+        pauseSeconds: Number(pauseSeconds) || 0,
+      }),
     });
     setBusy(false);
     setMsg("Saved.");
@@ -79,6 +90,25 @@ export function SettingsForm({ initial, eventCount }: { initial: Settings; event
         <span className="small">wake</span>
         <input type="time" value={wake} onChange={(e) => setWake(e.target.value)} />
       </div>
+
+      <section className="section">
+        <p className="section-label">Screens · the browser extension reads these</p>
+        <label className="field-label" htmlFor="sites">
+          Entertainment sites, one per line
+        </label>
+        <textarea id="sites" value={sites} onChange={(e) => setSites(e.target.value)} style={{ minHeight: 120, fontFamily: "var(--mono)", fontSize: 14 }} />
+        <div className="row">
+          <label className="check">
+            <span className="small">daily budget, minutes</span>
+            <input type="text" inputMode="numeric" value={budget} onChange={(e) => setBudget(e.target.value.replace(/\D/g, ""))} style={{ width: 90 }} />
+          </label>
+          <label className="check">
+            <span className="small">pause length, seconds</span>
+            <input type="text" inputMode="numeric" value={pauseSeconds} onChange={(e) => setPauseSeconds(e.target.value.replace(/\D/g, ""))} style={{ width: 90 }} />
+          </label>
+        </div>
+        <p className="small">A pause before the site opens, with a self-set budget shown on it. In the one field study of this design, people closed the app about a third of the time and opened it 57% less after six weeks. A budget is a number you see, never a lock.</p>
+      </section>
 
       <div className="row">
         <button onClick={save} disabled={busy}>

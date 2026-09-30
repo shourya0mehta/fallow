@@ -12,7 +12,11 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "seed": "tsx scripts/seed.ts",
-    "reset": "tsx scripts/reset.ts"
+    "reset": "tsx scripts/reset.ts",
+    "attention": "tsx scripts/attention-sync.ts",
+    "seed:demo": "tsx scripts/seed.ts --demo --force",
+    "demo": "FALLOW_DEMO=1 next dev",
+    "test:extension": "node integrations/browser-extension/test/run.mjs"
   },
   "dependencies": {
     "next": "15.5.26",
@@ -23,6 +27,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "playwright-core": "^1.63.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vitest": "^3.0.0"

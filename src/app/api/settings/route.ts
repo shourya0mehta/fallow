@@ -1,14 +1,18 @@
-import { NextResponse } from "next/server";
 import { parseClock } from "@/core/alertness";
+import { json, preflight } from "@/core/http";
 import { loadLedger, updateSettings } from "@/core/store";
 import { DOMAIN_IDS } from "@/core/taxonomy";
 import type { Chronotype, DomainId, Intensity, Settings, SleepWindow } from "@/core/types";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: Request) {
   const ledger = await loadLedger();
-  return NextResponse.json(ledger.settings);
+  return json(req, ledger.settings);
+}
+
+export function OPTIONS(req: Request) {
+  return preflight(req);
 }
 
 export async function POST(req: Request) {
@@ -16,7 +20,7 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Body must be JSON." }, { status: 400 });
+    return json(req, { error: "Body must be JSON." }, { status: 400 });
   }
   const patch: Partial<Settings> = {};
   if (Array.isArray(body.keepList)) patch.keepList = body.keepList.filter((d): d is DomainId => (DOMAIN_IDS as string[]).includes(d as string));
@@ -27,8 +31,16 @@ export async function POST(req: Request) {
     const current = await loadLedger();
     patch.sleepLog = { ...current.settings.sleepLog, [body.sleepDate]: body.sleepForDate };
   }
+  if (Array.isArray(body.entertainmentSites)) {
+    patch.entertainmentSites = body.entertainmentSites
+      .filter((h): h is string => typeof h === "string")
+      .map((h) => h.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/.*$/, ""))
+      .filter((h) => /^[a-z0-9.-]+$/.test(h));
+  }
+  if (typeof body.entertainmentBudgetMin === "number" && body.entertainmentBudgetMin >= 0) patch.entertainmentBudgetMin = Math.round(body.entertainmentBudgetMin);
+  if (typeof body.pauseSeconds === "number" && body.pauseSeconds >= 0 && body.pauseSeconds <= 120) patch.pauseSeconds = Math.round(body.pauseSeconds);
   const settings = await updateSettings(patch);
-  return NextResponse.json(settings);
+  return json(req, settings);
 }
 
 function validSleep(s: SleepWindow): boolean {

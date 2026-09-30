@@ -4,11 +4,13 @@
  *
  *   npm run seed          # writes data/fallow.json (refuses if it already has entries)
  *   npm run seed -- --force
+ *   npm run seed:demo     # writes data/demo.json, the read-only ledger behind FALLOW_DEMO=1
  */
 import { promises as fs } from "node:fs";
 import { eventFromPrompt } from "../src/core/events";
-import { dataPath, emptyLedger, loadLedger, saveLedger } from "../src/core/store";
-import type { LedgerEvent } from "../src/core/types";
+import { dataPath, demoPath, emptyLedger, loadLedger, saveLedger } from "../src/core/store";
+import { localDateKey } from "../src/core/time";
+import type { LedgerEvent, Signal } from "../src/core/types";
 
 function rng(seed: number) {
   let s = seed >>> 0;
@@ -148,6 +150,8 @@ const POOLS: Array<{ weight: number; source: LedgerEvent["source"]; prompts: str
 
 async function main() {
   const force = process.argv.includes("--force");
+  const demo = process.argv.includes("--demo");
+  if (demo) process.env.FALLOW_DATA = demoPath();
   const existing = await loadLedger();
   if (existing.events.length > 0 && !force) {
     console.error(`Refusing to overwrite ${existing.events.length} entries in ${dataPath()}. Use --force.`);
@@ -206,8 +210,42 @@ async function main() {
     events.push(e);
   }
 
+  // Signals: a week of attention summaries and a few pauses, so the screens strip is not empty.
+  const signals: Signal[] = [];
+  for (let day = 6; day >= 0; day--) {
+    const d = new Date(now.getTime() - day * 86_400_000);
+    const key = localDateKey(d);
+    const ent = Math.round(25 + rand() * 60);
+    signals.push({
+      id: `attention|${key}`,
+      ts: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0).toISOString(),
+      kind: "attention-day",
+      day: key,
+      activeMin: Math.round(300 + rand() * 200),
+      switchesPerHour: Math.round((6 + rand() * 14) * 10) / 10,
+      longestBlockMin: Math.round(20 + rand() * 60),
+      entertainmentMin: ent,
+      top: [
+        { name: "Code", minutes: Math.round(120 + rand() * 90) },
+        { name: "Google Chrome: docs.google.com", minutes: Math.round(40 + rand() * 40) },
+        { name: "Google Chrome: youtube.com", minutes: ent - 10 },
+        { name: "Slack", minutes: Math.round(20 + rand() * 30) },
+        { name: "Google Chrome: reddit.com", minutes: 10 },
+      ],
+    });
+    const opens = 1 + Math.floor(rand() * 4);
+    for (let i = 0; i < opens; i++) {
+      const t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12 + Math.floor(rand() * 10), Math.floor(rand() * 60), 0);
+      if (t > now) continue;
+      const closed = rand() < 0.36;
+      const site = rand() < 0.6 ? "youtube.com" : rand() < 0.5 ? "reddit.com" : "instagram.com";
+      signals.push({ id: `pause|${t.toISOString()}|${site}`, ts: t.toISOString(), kind: "pause", site, outcome: closed ? "closed" : "continued", waitedSeconds: closed ? 4 + Math.floor(rand() * 6) : 10 });
+    }
+  }
+
   const ledger = emptyLedger();
   ledger.events = events.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  ledger.signals = signals.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
   ledger.settings.keepList = ["composition", "analysis", "quantitative"];
   await saveLedger(ledger);
   const stat = await fs.stat(dataPath());

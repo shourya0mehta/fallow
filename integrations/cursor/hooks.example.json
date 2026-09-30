@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      { "command": "node /ABSOLUTE/PATH/TO/fallow/integrations/cursor/fallow-cursor-hook.mjs", "timeout": 10 }
+    ]
+  }
+}

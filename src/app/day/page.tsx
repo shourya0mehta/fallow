@@ -1,3 +1,4 @@
+import { AttentionStrip } from "@/components/AttentionStrip";
 import { DayCurve } from "@/components/DayCurve";
 import { longDate } from "@/components/format";
 import { alertnessAt, kssLabel } from "@/core/alertness";
@@ -11,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function DayPage() {
   const now = new Date();
   const ledger = await loadLedger();
-  const snap = buildSnapshot(ledger.events, ledger.settings, now);
+  const snap = buildSnapshot(ledger.events, ledger.settings, now, ledger.signals);
   const sleep = todaySleep(ledger.settings, now);
   const nowHour = now.getHours() + now.getMinutes() / 60;
   const point = alertnessAt(nowHour, sleep, ledger.settings.chronotype);
@@ -54,6 +55,11 @@ export default async function DayPage() {
           <div className="small">from demanding minutes</div>
         </div>
       </div>
+
+      <section className="section">
+        <p className="section-label">Attention and screens · today</p>
+        <AttentionStrip attention={snap.attention} pause={snap.pause} showTop />
+      </section>
 
       <section className="section two-col">
         <div>

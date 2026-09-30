@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AttentionStrip } from "@/components/AttentionStrip";
 import { DayCurve } from "@/components/DayCurve";
 import { FieldPlot } from "@/components/FieldPlot";
 import { longDate, pct } from "@/components/format";
@@ -13,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function FieldPage() {
   const now = new Date();
   const ledger = await loadLedger();
-  const snap = buildSnapshot(ledger.events, ledger.settings, now);
+  const snap = buildSnapshot(ledger.events, ledger.settings, now, ledger.signals);
   const keep = new Set(ledger.settings.keepList);
   const empty = ledger.events.length === 0;
   const nowHour = now.getHours() + now.getMinutes() / 60;
@@ -79,13 +80,18 @@ export default async function FieldPage() {
         <p className="section-label">The field · eleven domains, twelve weeks each</p>
         <div className="field">
           {snap.states.map((s) => (
-            <FieldPlot key={s.id} state={s} weekly={snap.weekly[s.id]} keep={keep.has(s.id)} now={now} />
+            <FieldPlot key={s.id} state={s} weekly={snap.weekly[s.id]} keep={keep.has(s.id)} now={now} drift={snap.drift[s.id]} attention={s.id === "attention" ? snap.attention.today : undefined} />
           ))}
         </div>
         <p className="small" style={{ marginTop: 16 }}>
           Retrievability follows the FSRS power law over a stability that grows only when you do the work yourself. Statuses: fresh at 0.85 and above, fading to 0.70, stale to 0.55, fallow below or never practiced.
           Sparklines: self-done above the line in green, delegated below in rust. The brain line under each plot is group-average fMRI engagement, and engagement is not training: reverse inference from region to process is weak.
         </p>
+      </section>
+
+      <section className="section">
+        <p className="section-label">Attention and screens · today</p>
+        <AttentionStrip attention={snap.attention} pause={snap.pause} />
       </section>
 
       <section className="section">

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { json, preflight } from "@/core/http";
 import { clearLedger } from "@/core/store";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,11 @@ export async function POST(req: Request) {
   } catch {
     /* fall through */
   }
-  if (body.confirm !== "erase") return NextResponse.json({ error: 'Send { "confirm": "erase" }.' }, { status: 400 });
+  if (body.confirm !== "erase") return json(req, { error: 'Send { "confirm": "erase" }.' }, { status: 400 });
   await clearLedger();
-  return NextResponse.json({ ok: true });
+  return json(req, { ok: true });
+}
+
+export function OPTIONS(req: Request) {
+  return preflight(req);
 }
