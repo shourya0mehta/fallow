@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node /ABSOLUTE/PATH/TO/fallow/integrations/claude-code/fallow-hook.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
