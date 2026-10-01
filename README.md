@@ -1,12 +1,12 @@
 # Fallow
 
-A field book for the thinking you hand to AI.
+A garden for the thinking you hand to AI.
 
-Fallow keeps a ledger of what you ask AI models to do, files each ask under a cognitive domain, models how each domain decays when you stop doing it yourself, and pushes back at the moment you are about to delegate something that keeps you sharp. It also draws what you have to spend today from a validated alertness model, not from a dopamine myth.
+Every skill is a plant: writing is lavender, memory is forget-me-nots, ideas are a dandelion. Doing the work yourself waters a plant; handing it to an AI doesn't, and left alone it wilts on the same curve memory follows. A brain pet lives in the garden and reads your numbers: it thrives, holds steady, fades or goes fallow with them. Before you send an ask, the pet says whether this one is worth trying yourself.
 
-![The field board](docs/field.png)
+![The garden in motion](docs/garden.gif)
 
-Fields left unworked go fallow. So do skills. The brain on the board is a reading of the ledger: it thrives, holds steady, fades or goes fallow with your own numbers.
+Fields left unworked go fallow. So do skills.
 
 ## Why
 
@@ -16,7 +16,7 @@ The evidence behind the design, in one paragraph. Handing an AI the answer hurts
 
 **https://fallow-omega.vercel.app** (mirror: https://shourya0mehta.github.io/fallow/)
 
-The hosted version is the whole app with no server. The ledger lives in the visitor's own browser (IndexedDB), a demo ledger loads on the first visit, the Gate and Practice run the core in the page, and importing your own ChatGPT or Claude export never uploads anything. The demo chat page shows the extension's verdict card without the extension installed.
+The hosted version is the whole app with no server. The ledger lives in the visitor's own browser (IndexedDB), a demo garden loads on the first visit, the ask bar and practice sessions run the core in the page, and importing your own ChatGPT or Claude export never uploads anything. The demo chat page shows the extension's verdict card without the extension installed.
 
 Build it with `npm run build:static` (static files in `out/`). Both hosts rebuild on every push to `main`:
 
@@ -33,21 +33,20 @@ npm run seed      # 90 days of a student developer's asks, for a first look
 npm run dev       # http://localhost:3000
 ```
 
-Then either import your own history (Import page: drop the `conversations.json` from a ChatGPT or Claude data export; parsing happens in the browser), load the browser extension so ChatGPT, Claude and Gemini asks are filed as you type them, or wire the Claude Code hook so every prompt in the terminal is filed too.
+Then either import your own history (Journal: drop the `conversations.json` from a ChatGPT or Claude data export; parsing happens in the browser), load the browser extension so ChatGPT, Claude and Gemini asks are filed as you type them, or wire the Claude Code hook so every prompt in the terminal is filed too.
 
 Everything lives in one file, `data/fallow.json`. No accounts, no cloud. `npm run demo` runs a read-only demo ledger (`FALLOW_DEMO=1`) that can be deployed anywhere Next.js runs.
 
-## The pages
+## The four places
 
-| Page | What it shows |
+| Place | What it does |
 | --- | --- |
-| Field | Eleven cognitive domains as plots: status, retrievability, days since you last did the work yourself, 30-day self vs delegated counts, a twelve-week sparkline. Three nudges: what is worth doing yourself this week. Today's budget curve. |
-| Gate | Paste what you were about to ask. Get the domain, the ask type, the engagement level you requested, and a verdict: do it yourself, scaffold, co-pilot, or delegate, with reasons and the exact scaffold a model should follow. Then log what actually happened. |
-| Practice | Pick a fallow domain and a length, work a real task without the model, log it. One session roughly doubles a stale domain's stability. |
-| Ledger | Every ask, filed, filterable by domain, deletable row by row. |
-| Day | The three-process alertness curve for today from your sleep times and chronotype, with capacity, KSS, and the model's components. Plus today's attention numbers: switches per hour, longest unbroken block, minutes on listed sites against your budget, and how the pauses went. |
-| Import | ChatGPT and Claude exports, classified locally, deduplicated on re-import. |
-| Settings | The keep list, push-back intensity, chronotype, usual sleep, the entertainment site list with its daily budget and pause length, and the erase button. |
+| Garden | The whole daily loop on one screen. Eleven plants, one per skill, sway when fresh, wilt and drop leaves when fading, stand dry when stale, and leave cracked soil when fallow. Click a plant for its card: freshness, last time you did it yourself, twelve weeks of you vs AI, and a "water it" session. The pet hops, spins, gets petted, gets dizzy, sleeps through your sleep window and follows your cursor. Under it, the ask bar: paste what you were about to ask an AI and the pet answers in its speech bubble (do it yourself, scaffold, co-pilot or delegate). Below: Today (energy, own work, screens, focus) and Quests (the thirstiest plants, each a button that starts a session). |
+| Journal | Every ask, filed under its plant, filterable by plant and by who did it. Import a ChatGPT or Claude export here (drag and drop; parsed in the browser). |
+| Settings | The keep list as plant tiles, push-back intensity, sleep and chronotype, the sites the extension pauses you on, export and erase. Saves as you go. |
+| How it works | The loop in four pictures, the pet's formula, where the data comes from, what Fallow does not claim, and the research behind each mechanism. |
+
+Old links (`/gate`, `/practice`, `/ledger`, `/import`, `/day`, `/about`, `/evidence`) redirect to their new homes.
 
 ## The models
 
@@ -89,15 +88,17 @@ Intensity (gentle, standard, firm) sets the thresholds, because the forcing func
 
 ## The look
 
-Parchment on a wooden table: hard pixel borders, a pixel display face ([Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans), OFL, bundled) for headings, labels and numbers, a serif for anything you read at length. A lamp-lit night variant exists as CSS tokens (`[data-theme="night"]`) and is not switched on yet.
+"Meadow day": white cards with chunky ink outlines on a sky-to-meadow background that follows the real time of day (dawn, day, dusk, night). [Jersey 10](https://fonts.google.com/specimen/Jersey+10) for display and numbers, [Nunito](https://fonts.google.com/specimen/Nunito) for reading, both OFL and bundled. Live data gets a pulsing dot. Buttons press down. Reduced-motion settings are respected everywhere.
 
-![The creature in its four stages](docs/brain-stages.gif)
+![The pet in its four stages](docs/pet-stages.png)
 
-**The creature.** Four stages (thriving, steady, fading, fallow), four drawings each, all code: `scripts/pixel/brain.py` writes the 32x32 grids to `src/pixel/brain.ts`, and `src/components/Pixel.tsx` draws them on a canvas at an integer scale. The eyes carry the expression; there is no mouth and there are no feet. Its stage comes from `src/core/creature.ts`: 70% the mean retrievability of the keep list, 20% the share of the last thirty days' asks you did or shared, 10% today's capacity; thriving from 0.80, steady from 0.60, fading from 0.40; a rising delegated share on a keep-list domain drops it one stage for the week. The garden-plot tiles on each domain card come from `scripts/pixel/tiles.py` the same way. `npm run pixel` regenerates both (needs Python 3 and Pillow for the PNG previews).
+**Pixel art as code.** Nothing in the garden is an image file. `src/pixel/` draws everything into small grids at runtime: `plants.ts` (eleven species, each in four conditions), `creature.ts` (the pet as a rig that squashes, stretches, blinks, looks around and changes mood), `scene.ts` (sky by time of day, hills, fence, beds, a layout that splits into two beds on phones), `sprites.ts` (sun, moon, clouds, hearts, sparkles, water drops, the watering can, quest markers). `src/components/garden/engine.ts` runs it at 30 fps on one canvas: swaying, particles, fireflies at dusk, the pet's state machine and pointer gestures (`gestures.ts`: tap, double click, hold, rub, rapid clicks). `npm run pixel` writes PNG previews; `node scripts/pixel/record.mjs` records the GIF above from the running site.
+
+**The pet's stage** comes from `src/core/creature.ts`: 70% the mean freshness of the keep list, 20% the share of the last thirty days' asks you did or shared, 10% energy now. Thriving from 0.80, steady from 0.60, fading from 0.40; a rising delegated share on a keep-list skill drops it one stage for the week. The heart chip on the garden opens that breakdown.
 
 ## Browser extension
 
-`integrations/browser-extension` is a Manifest V3 extension (Chrome, Edge, Brave, Arc). Load it unpacked from `chrome://extensions` with Developer mode on. It ships the same parchment look and the pixel face (`fallow-font.css`, served from the extension itself), so the card and the pause match the site on every host page. It does two things.
+`integrations/browser-extension` is a Manifest V3 extension (Chrome, Edge, Brave, Arc). Load it unpacked from `chrome://extensions` with Developer mode on. It ships the same meadow look and both typefaces (`fallow-font.css`, served from the extension itself), so the card and the pause match the site on every host page. It does two things.
 
 **Chat intercept.** On chatgpt.com, claude.ai and gemini.google.com it catches the send action, asks the local app for a verdict, and shows a card before the prompt leaves: do it yourself, scaffold or co-pilot, with the reasons and the scaffold. Three buttons: *I'll try first* (cancels the send and starts a 15-minute timer badge; when it ends you log "did it" or ask for a hint), *Send with scaffold* (appends the scaffold instruction to your prompt so the model follows it, logged as shared work), *Send anyway* (logged as delegated). Delegate verdicts show a two-second toast and pass straight through. A "quiet on this site for an hour" link exists because the forcing functions that work are the ones people like least. If the app is not running, everything passes through untouched.
 
@@ -105,7 +106,7 @@ Parchment on a wooden table: hard pixel borders, a pixel display face ([Pixelify
 
 **The pause.** On the sites you list in Settings, a full-page breath before the page loads: a countdown you set (10 seconds by default), how many times you have opened one of these today, and your minutes against your own budget when ActivityWatch is syncing. *Not now* closes the tab, *Continue* unlocks after the countdown and snoozes that site for 30 minutes. Each pause is logged, so the board shows your close rate. This is the one screen-time intervention with clean field evidence ([Grüning et al. 2023, PNAS](https://doi.org/10.1073/pnas.2213114120): about a third of attempts abandoned, openings down 57% after six weeks). The budget is a number you see, never a lock; locks work for a few weeks and then get removed.
 
-**Standalone.** The extension does not need the app. When nothing answers at the app's address (or when "Standalone" is ticked in its options), the bundled core (`core.js`, built from `src/core` by `npm run build:extension`) classifies and decides inside the extension and keeps the ledger in `chrome.storage`. The options page shows which mode it is in, exports that ledger as JSON, and the hosted site's Import page reads that file, so a person can install the extension alone and still see their field.
+**Standalone.** The extension does not need the app. When nothing answers at the app's address (or when "Standalone" is ticked in its options), the bundled core (`core.js`, built from `src/core` by `npm run build:extension`) classifies and decides inside the extension and keeps the ledger in `chrome.storage`. The options page shows which mode it is in, exports that ledger as JSON, and the hosted site's Journal imports that file, so a person can install the extension alone and still see their garden.
 
 Try both without an account at `/demo/chat` and `/demo/feed` (add `localhost` to your site list for the feed). `npm run test:extension` drives the whole thing in headless Chromium against the running app: the card, the three buttons, the short-prompt passthrough, the pause, the snooze, and standalone mode.
 
@@ -147,7 +148,7 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 | `POST /api/assess` `{ text, deadline? }` | Classification, recommendation, and a plain-text context block |
 | `POST /api/events` `{ text, actor?, icap?, minutes?, demanding?, source? }` or `{ events: [...] }` | Log one prompt, or add pre-classified events (deduplicated by id) |
 | `GET /api/events`, `DELETE /api/events/:id` | Read or remove entries |
-| `GET /api/snapshot` | Everything the field board shows, as JSON |
+| `GET /api/snapshot` | Everything the garden shows, as JSON |
 | `GET/POST /api/signals` | Pause outcomes and attention-day summaries |
 | `GET/POST /api/settings` | Keep list, intensity, chronotype, sleep, per-day sleep log, entertainment sites, budget, pause length |
 | `POST /api/clear` `{ confirm: "erase" }` | Wipe the ledger |
@@ -155,12 +156,12 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 ## Tests
 
 ```bash
-npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature (71 tests)
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature, garden (84 tests)
 npm run typecheck
 npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
 npm run build:static    # the hosted site, into out/
 npm run build:extension # rebuild core.js inside the extension after changing src/core
-npm run pixel           # redraw the creature and the plot tiles from scripts/pixel (Python 3 + Pillow)
+npm run pixel           # PNG previews of the plants, scenes and pet from src/pixel
 ```
 
 ## Publishing
@@ -176,11 +177,11 @@ npm run pixel           # redraw the creature and the plot tiles from scripts/pi
 - The four-mode policy with user-set intensity.
 - ChatGPT and Claude export importers, run in the browser, deduplicated.
 - The browser extension: chat intercept with the verdict card on ChatGPT, Claude and Gemini, the pause on listed sites, a standalone mode with the core bundled in, and an end-to-end test.
-- The hosted build: one codebase, a client-side ledger in IndexedDB, demo preload, a demo chat that shows the card without the extension, public About and Evidence pages, and a GitHub Pages workflow.
+- The hosted build: one codebase, a client-side ledger in IndexedDB, demo preload, a demo chat that shows the card without the extension, a How it works page with the research, and a GitHub Pages workflow.
 - The attention layer from ActivityWatch: switches per hour, longest block, listed-site minutes, focus blocks logged as practice.
 - The Claude Code hook, a Cursor hook, and the assess API they use.
-- The look: parchment on wood, pixel borders and type, the brain creature whose stage is computed from the ledger, garden-plot tiles per domain, the extension card and pause restyled to match, app and extension icons drawn from the creature.
-- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 71 unit tests.
+- The garden: eleven plant species in four conditions, a brain pet with a mood rig and gestures, a sky that follows the time of day, quests that point at plants, practice sessions that water them, the ask bar that answers in the pet's speech bubble, and one Today panel for energy, own work, screens and focus. All drawn as code.
+- Four places (Garden, Journal, Settings, How it works) with redirects from the old pages, demo pages for the extension, local JSON persistence, demo mode, 84 unit tests.
 
 ## What is not built
 
@@ -190,8 +191,7 @@ npm run pixel           # redraw the creature and the plot tiles from scripts/pi
 - Site selectors that survive redesigns. The extension's composer and send-button selectors for ChatGPT, Claude and Gemini are current as of writing and will need a bump when those apps change their DOM; the demo page always works.
 - Accounts or sync. The hosted site and the extension each keep their own ledger; moving one into the other is an export and an import, not a live link. A hosted backend with sign-in is the third tier, if the standalone version earns it.
 - A Chrome Web Store listing. The extension loads unpacked today.
-- The night variant. The lamp-lit tokens are in `globals.css`; nothing switches them on by time of day yet.
-- Points, a room, decorations. The creature reads the ledger; it does not yet earn anything from it. That layer only makes sense once the stage itself feels right.
+- Points, a room, decorations. The pet reads the ledger; it does not yet earn anything from it. That layer only makes sense once the stages feel right with real data.
 - Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence. The Cursor hook has not been run in a real Cursor session.
 
 ## What it does not claim
