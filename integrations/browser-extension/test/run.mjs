@@ -47,13 +47,21 @@ async function main() {
 
     console.log("chat intercept");
     const page = await context.newPage();
+    if (process.env.FALLOW_SHOTS) {
+      // screenshots for the docs: daytime sky, card fully settled
+      await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+      await page.evaluate(() => localStorage.setItem("fallow.sky", "day"));
+    }
     await page.goto(`${BASE}/demo/chat`, { waitUntil: "networkidle" });
     const ask = "Write me a cover letter for a data science internship at a climate startup";
     await page.fill("textarea[data-fallow-composer]", ask);
     await page.keyboard.press("Enter");
     const card = page.locator(".fallow-card");
     await card.waitFor({ timeout: 8000 });
-    if (process.env.FALLOW_SHOTS) await page.screenshot({ path: path.join(process.env.FALLOW_SHOTS, "extension-card.png") });
+    if (process.env.FALLOW_SHOTS) {
+      await page.waitForTimeout(450);
+      await page.screenshot({ path: path.join(process.env.FALLOW_SHOTS, "extension-card.png") });
+    }
     const mode = await card.locator(".fallow-mode").textContent();
     assert(["Do it yourself", "Scaffold", "Co-pilot"].includes(mode.trim()), `verdict card shown with mode "${mode.trim()}"`);
     const before = (await api("GET", "/api/events")).events.length;
