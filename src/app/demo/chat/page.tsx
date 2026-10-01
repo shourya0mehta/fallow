@@ -92,20 +92,17 @@ export default function DemoChatPage() {
   }
 
   return (
-    <main>
-      <p className="dateline">Demo · a chat window the extension can see</p>
-      <h1>Try the intercept here.</h1>
-      <p className="lede">
-        Type an ask and press Enter. The verdict card appears before the message leaves, exactly as the extension draws it on ChatGPT, Claude and Gemini. With the extension installed this page defers to it;
-        without it, the page runs the same logic from the ledger in your browser.
-      </p>
-      <div style={{ border: "1px solid var(--rule-2)", background: "var(--paper-2)", padding: 16, minHeight: 200, marginBottom: 12 }} aria-live="polite" data-fallow-demo-log>
-        {messages.length === 0 && <p className="small">No messages yet.</p>}
+    <div className="page">
+      <div className="page-head">
+        <h1>Demo chat</h1>
+        <p>Type an ask and press Enter. The pet&apos;s card appears before the message leaves, the same way the browser extension shows it on ChatGPT, Claude and Gemini.</p>
+      </div>
+      <section className="card demo-chat">
+      <div className="demo-log" aria-live="polite" data-fallow-demo-log>
+        {messages.length === 0 && <p className="fine">No messages yet.</p>}
         {messages.map((m, i) => (
-          <p key={i} style={{ margin: "0 0 10px" }}>
-            <span className="small" style={{ textTransform: "uppercase", letterSpacing: "0.08em", marginRight: 8 }}>
-              {m.role}
-            </span>
+          <p key={i} className={`bubble-line ${m.role}`}>
+            <span className="who">{m.role}</span>
             {m.text}
           </p>
         ))}
@@ -124,11 +121,12 @@ export default function DemoChatPage() {
         style={{ minHeight: 90 }}
       />
       <div className="row">
-        <button data-fallow-send onClick={submit}>
+        <button className="btn" data-fallow-send onClick={submit}>
           Send
         </button>
-        <span className="small">Enter sends, Shift+Enter for a new line. Try: &ldquo;Write me an email to my advisor asking for an extension&rdquo;.</span>
+        <span className="small">Enter sends. Try: &ldquo;Write me an email to my advisor asking for an extension&rdquo;.</span>
       </div>
+      </section>
 
       {card && (
         <VerdictCard
@@ -161,6 +159,6 @@ export default function DemoChatPage() {
         </div>
       )}
       {toast && <div className="fallow-toast fallow-show">{toast}</div>}
-    </main>
+    </div>
   );
 }
