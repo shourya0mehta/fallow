@@ -1,4 +1,4 @@
-import type { Stage } from "@/pixel/brain";
+import type { Stage } from "@/pixel/creature";
 import type { Drift } from "./summary";
 import type { DomainId, DomainState } from "./types";
 
