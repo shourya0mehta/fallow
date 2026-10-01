@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useFallow } from "@/client/FallowProvider";
 import { importChatGpt, type ImportResult } from "@/core/importers/chatgpt";
-import { detectExport, importClaude } from "@/core/importers/claude";
+import { detectExport, importClaude, importFallow } from "@/core/importers/claude";
 import { DOMAIN_BY_ID } from "@/core/taxonomy";
-import type { DomainId } from "@/core/types";
+import type { DomainId, Signal } from "@/core/types";
 
 /**
  * The export is parsed and classified in the browser. Only the resulting
@@ -12,8 +13,9 @@ import type { DomainId } from "@/core/types";
  * are posted to the local server.
  */
 export default function ImportPage() {
+  const { client, demo, mode, refresh } = useFallow();
   const [keepExcerpt, setKeepExcerpt] = useState(true);
-  const [preview, setPreview] = useState<(ImportResult & { kind: string }) | null>(null);
+  const [preview, setPreview] = useState<(ImportResult & { kind: string; signals?: Signal[] }) | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -26,10 +28,10 @@ export default function ImportPage() {
       const json = JSON.parse(text);
       const kind = detectExport(json);
       if (kind === "unknown") {
-        setStatus("This does not look like a ChatGPT or Claude conversations.json export.");
+        setStatus("This does not look like a ChatGPT or Claude conversations.json export, or a Fallow ledger.");
         return;
       }
-      const result = kind === "chatgpt" ? importChatGpt(json, { keepExcerpt }) : importClaude(json, { keepExcerpt });
+      const result = kind === "chatgpt" ? importChatGpt(json, { keepExcerpt }) : kind === "claude" ? importClaude(json, { keepExcerpt }) : importFallow(json);
       setPreview({ ...result, kind });
     } catch (e) {
       setStatus(`Could not read the file: ${(e as Error).message}`);
@@ -39,12 +41,18 @@ export default function ImportPage() {
   }
 
   async function commit() {
-    if (!preview) return;
+    if (!preview || !client) return;
     setBusy(true);
     try {
-      const res = await fetch("/api/events", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ events: preview.events }) });
-      const body = await res.json();
-      setStatus(`Added ${body.added} new entries (${preview.events.length - body.added} were already in the ledger). Ledger now holds ${body.total}.`);
+      let note = "";
+      if (demo) {
+        await client.clear();
+        note = " The demo ledger was replaced.";
+      }
+      const body = await client.addEvents(preview.events);
+      if (preview.signals?.length) await client.addSignals(preview.signals);
+      await refresh();
+      setStatus(`Added ${body.added} new entries (${preview.events.length - body.added} were already in the ledger). Ledger now holds ${body.total}.${note}`);
     } catch (e) {
       setStatus(`Import failed: ${(e as Error).message}`);
     } finally {
@@ -59,9 +67,11 @@ export default function ImportPage() {
       <p className="dateline">Import</p>
       <h1>Months of history, filed in a minute.</h1>
       <p className="lede">
-        Export your data from ChatGPT (Settings, Data controls, Export) or Claude (Settings, Privacy, Export data), unzip it, and drop <code>conversations.json</code> here. Parsing happens in your browser. Only domain tags,
-        timestamps and short excerpts reach the local ledger.
+        Export your data from ChatGPT (Settings, Data controls, Export) or Claude (Settings, Privacy, Export data), unzip it, and drop <code>conversations.json</code> here. A ledger exported from the browser
+        extension works too. Parsing happens in your browser.{" "}
+        {mode === "browser" ? "Nothing is uploaded anywhere; the ledger lives in this browser's storage." : "Only domain tags, timestamps and short excerpts reach the local ledger."}
       </p>
+      {demo && <p className="notice">The current ledger is the bundled demo. Importing replaces it with your own history.</p>}
 
       <label className="check">
         <input type="checkbox" checked={keepExcerpt} onChange={(e) => setKeepExcerpt(e.target.checked)} /> keep 140-character excerpts (turn off to store tags only)
@@ -82,7 +92,7 @@ export default function ImportPage() {
 
       {preview && (
         <section className="section">
-          <p className="section-label">Preview · {preview.kind === "chatgpt" ? "ChatGPT" : "Claude"} export</p>
+          <p className="section-label">Preview · {preview.kind === "chatgpt" ? "ChatGPT" : preview.kind === "claude" ? "Claude" : "Fallow ledger"} {preview.kind === "fallow" ? "" : "export"}</p>
           <div className="strip">
             <div>
               <div className="label">Conversations</div>
@@ -128,8 +138,8 @@ export default function ImportPage() {
             </tbody>
           </table>
           <div className="row">
-            <button onClick={commit} disabled={busy || preview.events.length === 0}>
-              Add {preview.events.length.toLocaleString()} entries to the ledger
+            <button onClick={commit} disabled={busy || !client || preview.events.length === 0}>
+              {demo ? `Replace the demo with ${preview.events.length.toLocaleString()} entries` : `Add ${preview.events.length.toLocaleString()} entries to the ledger`}
             </button>
             <span className="small">Re-importing the same file adds nothing twice.</span>
           </div>

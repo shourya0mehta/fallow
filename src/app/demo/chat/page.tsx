@@ -1,19 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useFallow } from "@/client/FallowProvider";
+import { VerdictCard } from "@/components/VerdictCard";
+import type { Assessment } from "@/core/assess";
+import { MODE_LABEL } from "@/core/policy";
+import { DOMAIN_BY_ID } from "@/core/taxonomy";
 
 /**
- * A stand-in chat window for trying the browser extension without an account.
- * The extension's content script matches this page. Nothing here calls a model:
- * the "assistant" just acknowledges what it received.
+ * A stand-in chat window. With the extension installed, the extension's own
+ * content script intercepts the send. Without it, this page simulates the same
+ * card using the ledger in the browser, so the hosted demo shows the whole loop.
  */
 export default function DemoChatPage() {
+  const { client, ready, refresh } = useFallow();
   const [messages, setMessages] = useState<Array<{ role: "you" | "assistant"; text: string }>>([]);
   const [draft, setDraft] = useState("");
+  const [card, setCard] = useState<{ text: string; result: Assessment } | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const [timer, setTimer] = useState<{ text: string; started: number } | null>(null);
+  const [left, setLeft] = useState("15:00");
+  const hasExtension = useRef(false);
 
-  function submit() {
-    const text = draft.trim();
-    if (!text) return;
+  useEffect(() => {
+    const check = () => {
+      hasExtension.current = document.documentElement.dataset.fallowExtension === "1";
+    };
+    check();
+    const id = setInterval(check, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (!timer) return;
+    const tick = () => {
+      const ms = Math.max(0, 15 * 60_000 - (Date.now() - timer.started));
+      setLeft(`${Math.floor(ms / 60_000)}:${String(Math.floor((ms % 60_000) / 1000)).padStart(2, "0")}`);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [timer]);
+
+  function showToast(t: string) {
+    setToast(t);
+    setTimeout(() => setToast(null), 2600);
+  }
+
+  function deliver(text: string) {
     const scaffolded = /\[Fallow, [a-z -]+ mode\]/i.test(text);
     const tried = /\[Fallow\] I tried this first/i.test(text);
     const reply = tried
@@ -25,12 +59,45 @@ export default function DemoChatPage() {
     setDraft("");
   }
 
+  async function submit() {
+    const text = draft.trim();
+    if (!text) return;
+    // The real extension handles the intercept when present, or when the ledger is not ready yet.
+    if (hasExtension.current || !client || !ready || text.length < 12) {
+      deliver(text);
+      return;
+    }
+    const result = await client.assess(text);
+    if (result.recommendation.mode === "delegate") {
+      await client.logPrompt({ text, source: "extension-chat", actor: "ai", icap: "passive" });
+      await refresh();
+      showToast(`Fallow: filed under ${DOMAIN_BY_ID[result.classification.domains[0].id].label}, delegated.`);
+      deliver(text);
+      return;
+    }
+    setCard({ text, result });
+  }
+
+  async function finishTimer(actor: "self" | "shared") {
+    if (!timer || !client) return;
+    const minutes = Math.max(1, Math.round((Date.now() - timer.started) / 60_000));
+    await client.logPrompt({ text: timer.text, source: "extension-chat", actor, icap: "constructive", minutes, demanding: minutes >= 10 });
+    await refresh();
+    setTimer(null);
+    if (actor === "self") showToast(`Logged: did it yourself, ${minutes} min.`);
+    else {
+      showToast("Logged as an attempt. Ask for a hint, not the answer.");
+      setDraft(`${timer.text}\n\n[Fallow] I tried this first. Give me a hint, not the answer.`);
+    }
+  }
+
   return (
     <main>
       <p className="dateline">Demo · a chat window the extension can see</p>
-      <h1>Try the extension here.</h1>
+      <h1>Try the intercept here.</h1>
       <p className="lede">
-        Load the extension from <code>integrations/browser-extension</code> (chrome://extensions, Developer mode, Load unpacked), then type an ask below and press Enter. The verdict card appears before the message leaves.
+        Type an ask and press Enter. The verdict card appears before the message leaves, exactly as the extension draws it on ChatGPT, Claude and Gemini. With the extension installed this page defers to it;
+        without it, the page runs the same logic from the ledger in your browser.
       </p>
       <div style={{ border: "1px solid var(--rule-2)", background: "var(--paper-2)", padding: 16, minHeight: 200, marginBottom: 12 }} aria-live="polite" data-fallow-demo-log>
         {messages.length === 0 && <p className="small">No messages yet.</p>}
@@ -60,8 +127,40 @@ export default function DemoChatPage() {
         <button data-fallow-send onClick={submit}>
           Send
         </button>
-        <span className="small">Enter sends, Shift+Enter for a new line.</span>
+        <span className="small">Enter sends, Shift+Enter for a new line. Try: &ldquo;Write me an email to my advisor asking for an extension&rdquo;.</span>
       </div>
+
+      {card && (
+        <VerdictCard
+          result={card.result}
+          onTryFirst={() => {
+            setCard(null);
+            setTimer({ text: card.text, started: Date.now() });
+          }}
+          onScaffold={async () => {
+            setCard(null);
+            await client?.logPrompt({ text: card.text, source: "extension-chat", actor: "shared", icap: "active" });
+            await refresh();
+            deliver(`${card.text}\n\n[Fallow, ${MODE_LABEL[card.result.recommendation.mode].toLowerCase()} mode] ${card.result.recommendation.scaffold}`);
+          }}
+          onAnyway={async () => {
+            setCard(null);
+            await client?.logPrompt({ text: card.text, source: "extension-chat", actor: "ai", icap: "passive" });
+            await refresh();
+            deliver(card.text);
+          }}
+          onClose={() => setCard(null)}
+        />
+      )}
+      {timer && (
+        <div className="fallow-badge">
+          <span>Trying it first</span>
+          <span className="fallow-time">{left}</span>
+          <button onClick={() => finishTimer("self")}>Did it</button>
+          <button onClick={() => finishTimer("shared")}>Need a hint</button>
+        </div>
+      )}
+      {toast && <div className="fallow-toast fallow-show">{toast}</div>}
     </main>
   );
 }

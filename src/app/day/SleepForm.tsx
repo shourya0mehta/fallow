@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useFallow } from "@/client/FallowProvider";
 import type { Chronotype, SleepWindow } from "@/core/types";
 
 export function SleepForm({ date, sleep, chronotype }: { date: string; sleep: SleepWindow; chronotype: Chronotype }) {
-  const router = useRouter();
+  const { client, refresh } = useFallow();
   const [bed, setBed] = useState(sleep.bed);
   const [wake, setWake] = useState(sleep.wake);
   const [type, setType] = useState<Chronotype>(chronotype);
@@ -13,15 +13,12 @@ export function SleepForm({ date, sleep, chronotype }: { date: string; sleep: Sl
   const [saved, setSaved] = useState(false);
 
   async function save() {
+    if (!client) return;
     setBusy(true);
-    await fetch("/api/settings", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ sleepDate: date, sleepForDate: { bed, wake }, chronotype: type }),
-    });
+    await client.updateSettings({ sleepDate: date, sleepForDate: { bed, wake }, chronotype: type });
+    await refresh();
     setBusy(false);
     setSaved(true);
-    router.refresh();
   }
 
   return (

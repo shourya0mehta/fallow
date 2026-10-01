@@ -1,18 +1,28 @@
+"use client";
+
+import { Loading, useFallow } from "@/client/FallowProvider";
 import { AttentionStrip } from "@/components/AttentionStrip";
 import { DayCurve } from "@/components/DayCurve";
 import { longDate } from "@/components/format";
 import { alertnessAt, kssLabel } from "@/core/alertness";
-import { loadLedger } from "@/core/store";
-import { buildSnapshot, todaySleep } from "@/core/summary";
+import { todaySleep } from "@/core/summary";
 import { isSameLocalDay, localDateKey } from "@/core/time";
 import { SleepForm } from "./SleepForm";
 
-export const dynamic = "force-dynamic";
-
-export default async function DayPage() {
+export default function DayPage() {
+  const { ready, snapshot: snap, ledger } = useFallow();
   const now = new Date();
-  const ledger = await loadLedger();
-  const snap = buildSnapshot(ledger.events, ledger.settings, now, ledger.signals);
+
+  if (!ready || !snap || !ledger) {
+    return (
+      <main>
+        <p className="dateline">The day · {longDate(now)}</p>
+        <h1>What you have to spend today.</h1>
+        <Loading what="the day" />
+      </main>
+    );
+  }
+
   const sleep = todaySleep(ledger.settings, now);
   const nowHour = now.getHours() + now.getMinutes() / 60;
   const point = alertnessAt(nowHour, sleep, ledger.settings.chronotype);
@@ -46,7 +56,10 @@ export default async function DayPage() {
         </div>
         <div>
           <div className="label">Circadian C</div>
-          <div className="big num">{point.C >= 0 ? "+" : ""}{point.C.toFixed(1)}</div>
+          <div className="big num">
+            {point.C >= 0 ? "+" : ""}
+            {point.C.toFixed(1)}
+          </div>
           <div className="small">peaks near 16:48</div>
         </div>
         <div>
@@ -69,12 +82,12 @@ export default async function DayPage() {
         <div>
           <p className="section-label">How to read it</p>
           <p>
-            The first hour after waking is the lowest point of the day because of sleep inertia (W). The peak comes in the early afternoon, when circadian drive catches up with falling sleep pressure. By bedtime the curve
-            has lost about a third of its height.
+            The first hour after waking is the lowest point of the day because of sleep inertia (W). The peak comes in the early afternoon, when circadian drive catches up with falling sleep pressure. By bedtime the
+            curve has lost about a third of its height.
           </p>
           <p className="small">
-            Capacity = (alertness − 1) / 15 × (1 − 0.35 × F). The 0.35 is a guess. Wiehler et al. 2022 found about six hours of demanding work shifted choices toward low effort; nobody has fitted a penalty for it. Log demanding
-            work from the gate with minutes, and the rust ticks appear on the baseline.
+            Capacity = (alertness − 1) / 15 × (1 − 0.35 × F). The 0.35 is a guess. Wiehler et al. 2022 found about six hours of demanding work shifted choices toward low effort; nobody has fitted a penalty for it. Log
+            demanding work from the gate with minutes, and the rust ticks appear on the baseline.
           </p>
         </div>
       </section>

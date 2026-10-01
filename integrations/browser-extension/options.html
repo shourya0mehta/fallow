@@ -62,8 +62,13 @@
     <p>The extension talks to the Fallow app running on your machine. Sites, pause length and the daily budget are set in the app's Settings page.</p>
     <label for="base">App address</label>
     <input id="base" type="url" placeholder="http://localhost:3000" />
+    <label><input id="standalone" type="checkbox" style="width: auto; margin-right: 6px" />Standalone: never look for the app, keep the ledger in the extension</label>
     <button id="save">Save</button><span class="status" id="status"></span>
-    <button id="clear" style="background: transparent; color: #221f1b; margin-left: 8px">Clear snoozes and mutes</button>
+    <p id="mode" style="margin-top: 14px"></p>
+    <button id="export" style="background: transparent; color: #221f1b">Export the extension's ledger (JSON)</button>
+    <p>Drop that file on the Import page of the Fallow site to see your field. Nothing is uploaded; the site keeps it in your browser.</p>
+    <button id="clear" style="background: transparent; color: #221f1b">Clear snoozes and mutes</button>
+    <button id="erase" style="background: transparent; color: #a3462a; border-color: #a3462a; margin-left: 8px">Erase the extension's ledger</button>
     <script src="options.js"></script>
   </body>
 </html>

@@ -1,43 +1,19 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { addEventsTo, addSignalsTo, applySettingsPatch, deleteEventFrom, emptyLedger, normalizeLedger, type Ledger } from "./ledger";
 import type { LedgerEvent, Settings, Signal } from "./types";
+
+export { DEFAULT_SETTINGS, emptyLedger, type Ledger } from "./ledger";
 
 /**
  * Local-first JSON store. One file, one person, no cloud.
  *
  * Server-only: imports node:fs. The path can be overridden with FALLOW_DATA.
- * Swapping in SQLite later means implementing these five functions.
+ * The mutations themselves live in ./ledger so the browser store shares them.
  */
-
-export interface Ledger {
-  version: 1;
-  events: LedgerEvent[];
-  signals: Signal[];
-  settings: Settings;
-}
-
-export const DEFAULT_SETTINGS: Settings = {
-  keepList: ["composition", "analysis", "quantitative"],
-  intensity: "standard",
-  chronotype: "intermediate",
-  sleep: { bed: "23:30", wake: "07:30" },
-  sleepLog: {},
-  entertainmentSites: ["youtube.com", "tiktok.com", "instagram.com", "x.com", "twitter.com", "reddit.com", "facebook.com", "netflix.com", "twitch.tv"],
-  entertainmentBudgetMin: 60,
-  pauseSeconds: 10,
-};
 
 export function dataPath(): string {
   return process.env.FALLOW_DATA ?? path.join(process.cwd(), "data", "fallow.json");
-}
-
-export function emptyLedger(): Ledger {
-  return {
-    version: 1,
-    events: [],
-    signals: [],
-    settings: { ...DEFAULT_SETTINGS, keepList: [...DEFAULT_SETTINGS.keepList], entertainmentSites: [...DEFAULT_SETTINGS.entertainmentSites], sleepLog: {} },
-  };
 }
 
 /**
@@ -48,24 +24,15 @@ export function emptyLedger(): Ledger {
 const DEMO = process.env.FALLOW_DEMO === "1";
 let demoLedger: Ledger | null = null;
 
-function normalize(parsed: Partial<Ledger>): Ledger {
-  return {
-    version: 1,
-    events: Array.isArray(parsed.events) ? parsed.events : [],
-    signals: Array.isArray(parsed.signals) ? parsed.signals : [],
-    settings: { ...DEFAULT_SETTINGS, ...(parsed.settings ?? {}), sleepLog: parsed.settings?.sleepLog ?? {} },
-  };
-}
-
 export function demoPath(): string {
-  return process.env.FALLOW_DEMO_DATA ?? path.join(process.cwd(), "data", "demo.json");
+  return process.env.FALLOW_DEMO_DATA ?? path.join(process.cwd(), "src", "data", "demo.json");
 }
 
 export async function loadLedger(): Promise<Ledger> {
   if (DEMO) {
     if (!demoLedger) {
       try {
-        demoLedger = normalize(JSON.parse(await fs.readFile(demoPath(), "utf8")));
+        demoLedger = normalizeLedger(JSON.parse(await fs.readFile(demoPath(), "utf8")));
       } catch {
         demoLedger = emptyLedger();
       }
@@ -74,7 +41,7 @@ export async function loadLedger(): Promise<Ledger> {
   }
   try {
     const raw = await fs.readFile(dataPath(), "utf8");
-    return normalize(JSON.parse(raw) as Partial<Ledger>);
+    return normalizeLedger(JSON.parse(raw) as Partial<Ledger>);
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") return emptyLedger();
     throw err;
@@ -100,55 +67,29 @@ export async function saveLedger(ledger: Ledger): Promise<void> {
 /** Add events, skipping ids already present. Returns how many were new. */
 export async function addEvents(events: LedgerEvent[]): Promise<{ added: number; total: number }> {
   const ledger = await loadLedger();
-  const seen = new Set(ledger.events.map((e) => e.id));
-  let added = 0;
-  for (const e of events) {
-    if (seen.has(e.id)) continue;
-    seen.add(e.id);
-    ledger.events.push(e);
-    added += 1;
-  }
-  ledger.events.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  const res = addEventsTo(ledger, events);
   await saveLedger(ledger);
-  return { added, total: ledger.events.length };
+  return res;
 }
 
-export async function updateSettings(patch: Partial<Settings>): Promise<Settings> {
+export async function updateSettings(patch: Record<string, unknown>): Promise<Settings> {
   const ledger = await loadLedger();
-  ledger.settings = { ...ledger.settings, ...patch };
+  const settings = applySettingsPatch(ledger, patch);
   await saveLedger(ledger);
-  return ledger.settings;
+  return settings;
 }
 
 /** Add signals, skipping ids already present; an attention-day signal replaces the one for the same day. */
 export async function addSignals(signals: Signal[]): Promise<{ added: number; total: number }> {
   const ledger = await loadLedger();
-  const seen = new Set(ledger.signals.map((s) => s.id));
-  let added = 0;
-  for (const s of signals) {
-    if (s.kind === "attention-day") {
-      const idx = ledger.signals.findIndex((x) => x.kind === "attention-day" && x.day === s.day);
-      if (idx >= 0) {
-        ledger.signals[idx] = s;
-        added += 1;
-        continue;
-      }
-    }
-    if (seen.has(s.id)) continue;
-    seen.add(s.id);
-    ledger.signals.push(s);
-    added += 1;
-  }
-  ledger.signals.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  const res = addSignalsTo(ledger, signals);
   await saveLedger(ledger);
-  return { added, total: ledger.signals.length };
+  return res;
 }
 
 export async function deleteEvent(id: string): Promise<boolean> {
   const ledger = await loadLedger();
-  const before = ledger.events.length;
-  ledger.events = ledger.events.filter((e) => e.id !== id);
-  if (ledger.events.length === before) return false;
+  if (!deleteEventFrom(ledger, id)) return false;
   await saveLedger(ledger);
   return true;
 }

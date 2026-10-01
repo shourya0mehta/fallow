@@ -11,6 +11,8 @@ const LINKS: Array<[string, string]> = [
   ["/day", "Day"],
   ["/import", "Import"],
   ["/settings", "Settings"],
+  ["/about", "About"],
+  ["/evidence", "Evidence"],
 ];
 
 export function Nav() {

@@ -39,6 +39,8 @@
 
   const state = { bypass: false, muteUntil: 0, busy: false };
   const host = location.hostname.replace(/^www\./, "");
+  // Tell the demo page the real extension is here, so it does not simulate the card itself.
+  document.documentElement.dataset.fallowExtension = "1";
 
   const send = (msg) =>
     new Promise((resolve) => {

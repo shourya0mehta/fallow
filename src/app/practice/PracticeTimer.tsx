@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useFallow } from "@/client/FallowProvider";
 import type { DomainId } from "@/core/types";
 
 type DomainOption = { id: DomainId; label: string; practice: string };
@@ -9,6 +10,7 @@ type StateMap = Record<string, { retrievability: number; status: string; daysFal
 const LENGTHS = [15, 25, 45];
 
 export function PracticeTimer({ domains, suggested, states, capacity }: { domains: DomainOption[]; suggested: DomainId; states: StateMap; capacity: number }) {
+  const { client, refresh } = useFallow();
   const [domain, setDomain] = useState<DomainId>(suggested);
   const [minutes, setMinutes] = useState(25);
   const [note, setNote] = useState("");
@@ -40,10 +42,10 @@ export function PracticeTimer({ domains, suggested, states, capacity }: { domain
   async function finish() {
     const elapsedMin = Math.max(1, Math.round((Date.now() - (startedAt.current ?? Date.now())) / 60_000));
     setRunning(false);
-    const res = await fetch("/api/events", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
+    if (!client) return;
+    const before = state.retrievability;
+    try {
+      await client.logPrompt({
         text: `Practice: ${spec.label}${note ? `, ${note}` : ""}`,
         source: "practice",
         actor: "self",
@@ -51,15 +53,15 @@ export function PracticeTimer({ domains, suggested, states, capacity }: { domain
         minutes: elapsedMin,
         demanding: elapsedMin >= 25,
         domains: [{ id: domain, weight: 1 }],
-      }),
-    });
-    if (!res.ok) {
+      });
+    } catch {
       setResult("Could not log the session.");
       return;
     }
-    const snap = await fetch("/api/snapshot").then((r) => r.json());
-    const after = snap.states.find((s: { id: string }) => s.id === domain);
-    setResult(`Logged ${elapsedMin} minutes of ${spec.label.toLowerCase()}. Retrievability ${state.retrievability.toFixed(2)} to ${after.retrievability.toFixed(2)}, stability now ${after.stability} days.`);
+    const snap = await client.snapshot(new Date());
+    await refresh();
+    const after = snap.states.find((s) => s.id === domain)!;
+    setResult(`Logged ${elapsedMin} minutes of ${spec.label.toLowerCase()}. Retrievability ${before.toFixed(2)} to ${after.retrievability.toFixed(2)}, stability now ${after.stability} days.`);
   }
 
   const mm = Math.floor(left / 60_000);

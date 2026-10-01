@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { Loading, useFallow } from "@/client/FallowProvider";
+import type { Assessment } from "@/core/assess";
 import { MODE_LABEL } from "@/core/policy";
 import { DOMAIN_BY_ID } from "@/core/taxonomy";
-import type { Classification, Recommendation } from "@/core/types";
-
-type Assessment = { classification: Classification; recommendation: Recommendation; context: string };
 
 const EXAMPLES = [
   "Write me an email to my advisor asking for a two-week extension on the SNOTEL analysis",
@@ -16,6 +15,7 @@ const EXAMPLES = [
 ];
 
 export default function GatePage() {
+  const { client, ready, refresh } = useFallow();
   const [text, setText] = useState("");
   const [deadline, setDeadline] = useState(false);
   const [result, setResult] = useState<Assessment | null>(null);
@@ -26,13 +26,12 @@ export default function GatePage() {
   const [error, setError] = useState<string | null>(null);
 
   async function run() {
+    if (!client) return;
     setBusy(true);
     setError(null);
     setLogged(null);
     try {
-      const res = await fetch("/api/assess", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, deadline }) });
-      if (!res.ok) throw new Error((await res.json()).error ?? res.statusText);
-      setResult(await res.json());
+      setResult(await client.assess(text, deadline));
     } catch (e) {
       setError(String((e as Error).message));
     } finally {
@@ -41,16 +40,13 @@ export default function GatePage() {
   }
 
   async function log(actor: "self" | "shared" | "ai") {
+    if (!client) return;
     setBusy(true);
     setError(null);
     try {
       const icap = actor === "self" ? "constructive" : actor === "shared" ? "active" : "passive";
-      const res = await fetch("/api/events", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text, source: "gate", actor, icap, minutes: minutes ? Number(minutes) : undefined, demanding }),
-      });
-      if (!res.ok) throw new Error((await res.json()).error ?? res.statusText);
+      await client.logPrompt({ text, source: "gate", actor, icap, minutes: minutes ? Number(minutes) : undefined, demanding });
+      await refresh();
       setLogged(actor === "self" ? "Logged as done yourself. Stability grows." : actor === "shared" ? "Logged as shared work." : "Logged as delegated.");
     } catch (e) {
       setError(String((e as Error).message));
@@ -67,6 +63,7 @@ export default function GatePage() {
       <p className="dateline">The gate</p>
       <h1>Before you hand it over.</h1>
       <p className="lede">Paste what you were about to ask an AI. Fallow files it by cognitive domain, checks how long that domain has lain fallow, and says which mode the model should work in.</p>
+      {!ready && <Loading what="the gate" />}
 
       <div className="two-col">
         <div>
@@ -78,7 +75,7 @@ export default function GatePage() {
             <input type="checkbox" checked={deadline} onChange={(e) => setDeadline(e.target.checked)} /> Real deadline on this
           </label>
           <div className="row">
-            <button onClick={run} disabled={busy || text.trim().length === 0}>
+            <button onClick={run} disabled={busy || !ready || text.trim().length === 0}>
               Assess
             </button>
             <span className="small">Nothing leaves this machine.</span>
@@ -141,7 +138,7 @@ export default function GatePage() {
 
       {result && (
         <section className="section">
-          <p className="section-label">What a host model receives (the Claude Code hook injects this)</p>
+          <p className="section-label">What a host model receives (the Claude Code hook and the extension inject this)</p>
           <pre>{result.context}</pre>
         </section>
       )}

@@ -106,6 +106,23 @@ async function main() {
     await feed.waitForTimeout(800);
     assert((await feed.locator(".fallow-overlay").count()) === 0, "snoozed for 30 minutes after continue");
 
+    console.log("standalone mode (no app reachable)");
+    for (const worker of context.serviceWorkers()) await worker.evaluate(() => chrome.storage.local.set({ baseUrl: "http://127.0.0.1:9", standalone: true, settingsCache: null, ledger: null }));
+    const solo = await context.newPage();
+    await solo.goto(`${BASE}/demo/chat`, { waitUntil: "networkidle" });
+    await solo.fill("textarea[data-fallow-composer]", "Write me a cover letter for a data science internship at a climate startup");
+    await solo.keyboard.press("Enter");
+    const soloCard = solo.locator(".fallow-card");
+    await soloCard.waitFor({ timeout: 8000 });
+    const soloMode = (await soloCard.locator(".fallow-mode").textContent()).trim();
+    assert(["Do it yourself", "Scaffold", "Co-pilot"].includes(soloMode), `standalone verdict card shown with mode "${soloMode}"`);
+    await soloCard.locator("button[data-fallow-action='anyway']").click();
+    await solo.locator("[data-fallow-demo-log] p", { hasText: "cover letter" }).waitFor({ timeout: 5000 });
+    await solo.waitForTimeout(500);
+    const stored = await context.serviceWorkers()[0].evaluate(async () => (await chrome.storage.local.get("ledger")).ledger);
+    assert(stored && Array.isArray(stored.events) && stored.events.length === 1 && stored.events[0].actor === "ai", "standalone event stored in chrome.storage");
+    for (const worker of context.serviceWorkers()) await worker.evaluate(() => chrome.storage.local.set({ baseUrl: null, standalone: false, ledger: null }));
+
     console.log("all extension checks passed");
   } finally {
     await api("POST", "/api/settings", { entertainmentSites: originalSettings.entertainmentSites, pauseSeconds: originalSettings.pauseSeconds });

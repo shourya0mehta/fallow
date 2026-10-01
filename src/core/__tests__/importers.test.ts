@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { importChatGpt } from "../importers/chatgpt";
-import { detectExport, importClaude } from "../importers/claude";
+import { detectExport, importClaude, importFallow } from "../importers/claude";
 import { buildSnapshot } from "../summary";
 import { DEFAULT_SETTINGS } from "../store";
 
@@ -62,8 +62,18 @@ describe("importers", () => {
   it("detects the export format", () => {
     expect(detectExport(chatgpt)).toBe("chatgpt");
     expect(detectExport(claude)).toBe("claude");
+    expect(detectExport({ version: 1, events: [] })).toBe("fallow");
     expect(detectExport({})).toBe("unknown");
     expect(detectExport([])).toBe("unknown");
+  });
+
+  it("imports a Fallow ledger, keeping valid events and signals only", () => {
+    const events = importChatGpt(chatgpt).events;
+    const r = importFallow({ version: 1, events: [...events, { bogus: true }], signals: [{ id: "p1", ts: "2026-09-01T10:00:00Z", kind: "pause", site: "youtube.com", outcome: "closed", waitedSeconds: 4 }, { nope: 1 }] });
+    expect(r.events).toHaveLength(2);
+    expect(r.skipped).toBe(1);
+    expect(r.signals).toHaveLength(1);
+    expect(r.from).toBe(events[0].ts);
   });
 
   it("imports only user text messages from a ChatGPT export", () => {

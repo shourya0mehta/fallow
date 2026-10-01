@@ -1,5 +1,6 @@
 import { eventFromPrompt } from "../events";
-import type { LedgerEvent } from "../types";
+import { isLedgerEvent } from "../ledger";
+import type { LedgerEvent, Signal } from "../types";
 import type { ImportOptions, ImportResult } from "./chatgpt";
 
 /**
@@ -67,7 +68,8 @@ export function importClaude(json: unknown, opts: ImportOptions = {}): ImportRes
 }
 
 /** Sniff which export a JSON payload is. */
-export function detectExport(json: unknown): "chatgpt" | "claude" | "unknown" {
+export function detectExport(json: unknown): "chatgpt" | "claude" | "fallow" | "unknown" {
+  if (json && typeof json === "object" && !Array.isArray(json) && Array.isArray((json as { events?: unknown }).events)) return "fallow";
   if (!Array.isArray(json) || json.length === 0) return "unknown";
   const first = json[0] as Record<string, unknown>;
   if (first && typeof first === "object") {
@@ -75,4 +77,24 @@ export function detectExport(json: unknown): "chatgpt" | "claude" | "unknown" {
     if ("chat_messages" in first) return "claude";
   }
   return "unknown";
+}
+
+/**
+ * Fallow's own ledger JSON, as exported by the extension's options page or
+ * copied from data/fallow.json. Events and signals come through as they are.
+ */
+export function importFallow(json: unknown): ImportResult & { signals: Signal[] } {
+  const raw = (json ?? {}) as { events?: unknown[]; signals?: unknown[] };
+  const events = (Array.isArray(raw.events) ? raw.events : []).filter(isLedgerEvent);
+  const signals = (Array.isArray(raw.signals) ? raw.signals : []).filter((s): s is Signal => !!s && typeof s === "object" && typeof (s as Signal).id === "string" && ((s as Signal).kind === "pause" || (s as Signal).kind === "attention-day"));
+  const sorted = [...events].sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  return {
+    events,
+    signals,
+    conversations: 0,
+    messages: events.length,
+    skipped: (Array.isArray(raw.events) ? raw.events.length : 0) - events.length,
+    from: sorted[0]?.ts,
+    to: sorted.at(-1)?.ts,
+  };
 }

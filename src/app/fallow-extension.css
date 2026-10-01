@@ -1,0 +1,233 @@
+/* Fallow: paper, ink, hairlines. Prefixed and high z-index so it survives any host page. */
+
+.fallow-card,
+.fallow-toast,
+.fallow-badge,
+.fallow-overlay {
+  --fpaper: #f5f0e6;
+  --fpaper2: #ede6d8;
+  --fink: #221f1b;
+  --fink2: #5f584e;
+  --fink3: #8b8377;
+  --frule: #c7bda8;
+  --fmoss: #4f6b3a;
+  --fochre: #b3801f;
+  --frust: #a3462a;
+  --faccent: #2f4a6e;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  color: var(--fink);
+  box-sizing: border-box;
+  line-height: 1.45;
+}
+
+.fallow-card *,
+.fallow-overlay * {
+  box-sizing: border-box;
+}
+
+.fallow-card {
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  background: var(--fpaper);
+  border: 1px solid var(--fink);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  padding: 16px 18px 14px;
+  z-index: 2147483646;
+  font-size: 15px;
+}
+
+.fallow-card .fallow-kicker,
+.fallow-overlay .fallow-kicker {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fink3);
+  margin: 0 0 4px;
+}
+
+.fallow-card .fallow-mode {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.fallow-mode-self {
+  color: var(--fmoss);
+}
+.fallow-mode-scaffold {
+  color: var(--faccent);
+}
+.fallow-mode-copilot {
+  color: var(--fochre);
+}
+.fallow-mode-delegate {
+  color: var(--fink2);
+}
+
+.fallow-card .fallow-domains {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--fink2);
+  margin: 0 0 8px;
+}
+
+.fallow-card .fallow-reason {
+  margin: 0 0 6px;
+  font-size: 14.5px;
+}
+
+.fallow-card .fallow-scaffold {
+  border-left: 3px solid var(--frule);
+  padding-left: 10px;
+  margin: 10px 0 12px;
+  color: var(--fink2);
+  font-size: 14px;
+}
+
+.fallow-card .fallow-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fallow-card button,
+.fallow-overlay button {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  border: 1px solid var(--fink);
+  background: var(--fink);
+  color: var(--fpaper);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.fallow-card button.fallow-secondary,
+.fallow-overlay button.fallow-secondary {
+  background: transparent;
+  color: var(--fink);
+}
+
+.fallow-card button:disabled,
+.fallow-overlay button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.fallow-card .fallow-mute {
+  display: block;
+  margin-top: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  color: var(--fink3);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.fallow-toast {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  background: var(--fpaper);
+  border: 1px solid var(--frule);
+  padding: 8px 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: var(--fink2);
+  z-index: 2147483646;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.fallow-toast.fallow-show {
+  opacity: 1;
+}
+
+.fallow-badge {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: var(--fpaper);
+  border: 1px solid var(--fink);
+  padding: 10px 14px;
+  z-index: 2147483646;
+  font-size: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.fallow-badge .fallow-time {
+  font-family: ui-monospace, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.fallow-badge button {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 9px;
+  border: 1px solid var(--fink);
+  background: transparent;
+  color: var(--fink);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.fallow-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--fpaper);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.fallow-overlay .fallow-inner {
+  max-width: 520px;
+}
+
+.fallow-overlay h1 {
+  font-family: inherit;
+  font-size: 40px;
+  font-weight: 500;
+  margin: 0 0 10px;
+  color: var(--fink);
+  letter-spacing: -0.01em;
+}
+
+.fallow-overlay .fallow-count {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 64px;
+  color: var(--fink2);
+  margin: 12px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.fallow-overlay p {
+  font-size: 17px;
+  color: var(--fink2);
+  margin: 6px 0;
+}
+
+.fallow-overlay .fallow-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 22px;
+}

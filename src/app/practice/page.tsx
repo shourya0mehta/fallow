@@ -1,17 +1,12 @@
-import { loadLedger } from "@/core/store";
-import { buildSnapshot } from "@/core/summary";
+"use client";
+
+import { Loading, useFallow } from "@/client/FallowProvider";
 import { DOMAINS } from "@/core/taxonomy";
 import { PracticeTimer } from "./PracticeTimer";
 
-export const dynamic = "force-dynamic";
-
-export default async function PracticePage() {
-  const now = new Date();
-  const ledger = await loadLedger();
-  const snap = buildSnapshot(ledger.events, ledger.settings, now, ledger.signals);
-  const suggested = snap.nudges[0]?.domain ?? "composition";
+export default function PracticePage() {
+  const { ready, snapshot: snap } = useFallow();
   const domains = DOMAINS.filter((d) => d.id !== "attention").map((d) => ({ id: d.id, label: d.label, practice: d.practice }));
-  const states = Object.fromEntries(snap.states.map((s) => [s.id, { retrievability: s.retrievability, status: s.status, daysFallow: s.daysFallow }]));
 
   return (
     <main>
@@ -20,7 +15,16 @@ export default async function PracticePage() {
       <p className="lede">
         Pick a domain, pick a length, do a real task from your own list without the model, and log it. One session roughly doubles a stale domain's stability, so the nudges for it thin out.
       </p>
-      <PracticeTimer domains={domains} suggested={suggested} states={states} capacity={snap.capacity.value} />
+      {!ready || !snap ? (
+        <Loading what="practice" />
+      ) : (
+        <PracticeTimer
+          domains={domains}
+          suggested={snap.nudges[0]?.domain ?? "composition"}
+          states={Object.fromEntries(snap.states.map((s) => [s.id, { retrievability: s.retrievability, status: s.status, daysFallow: s.daysFallow }]))}
+          capacity={snap.capacity.value}
+        />
+      )}
     </main>
   );
 }

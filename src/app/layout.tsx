@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./fallow-extension.css";
+import { FallowProvider } from "@/client/FallowProvider";
 import { Nav } from "@/components/Nav";
 
 export const metadata: Metadata = {
@@ -18,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             <Nav />
           </header>
-          {children}
+          <FallowProvider>{children}</FallowProvider>
           <footer className="footer">
             Fallow tracks behavior: what you asked an AI to do, and what you did yourself. It does not measure your brain,
             diagnose anything, or predict disease. Retrievability and capacity are model outputs with borrowed parameters.

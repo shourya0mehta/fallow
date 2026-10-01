@@ -1,31 +1,61 @@
-import { shortDate } from "@/components/format";
-import { loadLedger } from "@/core/store";
-import { DOMAIN_BY_ID } from "@/core/taxonomy";
-import { DeleteButton } from "./DeleteButton";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useState } from "react";
+import { Loading, useFallow } from "@/client/FallowProvider";
+import { shortDate } from "@/components/format";
+import { DOMAIN_BY_ID } from "@/core/taxonomy";
+import type { DomainId } from "@/core/types";
 
 const PAGE = 200;
 
-export default async function LedgerPage({ searchParams }: { searchParams: Promise<{ domain?: string; page?: string }> }) {
-  const { domain, page } = await searchParams;
-  const ledger = await loadLedger();
-  const pageNo = Math.max(1, Number(page ?? 1) || 1);
+export default function LedgerPage() {
+  const { ready, ledger, client, refresh } = useFallow();
+  const [domain, setDomain] = useState<DomainId | null>(null);
+  const [pageNo, setPageNo] = useState(1);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  if (!ready || !ledger) {
+    return (
+      <main>
+        <p className="dateline">The ledger</p>
+        <h1>Every ask, filed.</h1>
+        <Loading what="the ledger" />
+      </main>
+    );
+  }
+
   const all = [...ledger.events].sort((a, b) => Date.parse(b.ts) - Date.parse(a.ts));
   const filtered = domain ? all.filter((e) => e.domains.some((d) => d.id === domain)) : all;
-  const rows = filtered.slice((pageNo - 1) * PAGE, pageNo * PAGE);
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE));
+  const page = Math.min(pageNo, pages);
+  const rows = filtered.slice((page - 1) * PAGE, page * PAGE);
+
+  async function remove(id: string) {
+    if (!client) return;
+    setBusyId(id);
+    await client.deleteEvent(id);
+    await refresh();
+    setBusyId(null);
+  }
 
   return (
     <main>
       <p className="dateline">The ledger</p>
       <h1>Every ask, filed.</h1>
       <p className="lede">
-        {filtered.length.toLocaleString()} entries{domain ? ` in ${DOMAIN_BY_ID[domain as keyof typeof DOMAIN_BY_ID]?.label ?? domain}` : ""}. Excerpts are the first 140 characters; delete any row you would rather not keep.
+        {filtered.length.toLocaleString()} entries{domain ? ` in ${DOMAIN_BY_ID[domain].label}` : ""}. Excerpts are the first 140 characters; delete any row you would rather not keep.
       </p>
       <p className="small">
         Filter:{" "}
-        <a href="/ledger" style={{ textDecoration: domain ? "none" : "underline" }}>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setDomain(null);
+            setPageNo(1);
+          }}
+          style={{ textDecoration: domain ? "none" : "underline" }}
+        >
           all
         </a>
         {Object.values(DOMAIN_BY_ID)
@@ -33,7 +63,15 @@ export default async function LedgerPage({ searchParams }: { searchParams: Promi
           .map((d) => (
             <span key={d.id}>
               {" · "}
-              <a href={`/ledger?domain=${d.id}`} style={{ textDecoration: domain === d.id ? "underline" : "none" }}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setDomain(d.id);
+                  setPageNo(1);
+                }}
+                style={{ textDecoration: domain === d.id ? "underline" : "none" }}
+              >
                 {d.label}
               </a>
             </span>
@@ -69,7 +107,9 @@ export default async function LedgerPage({ searchParams }: { searchParams: Promi
               </td>
               <td className="small">{e.source}</td>
               <td>
-                <DeleteButton id={e.id} />
+                <button className="secondary" style={{ padding: "4px 8px", fontSize: 11 }} disabled={busyId === e.id} onClick={() => remove(e.id)} aria-label="Delete this entry">
+                  ×
+                </button>
               </td>
             </tr>
           ))}
@@ -84,14 +124,14 @@ export default async function LedgerPage({ searchParams }: { searchParams: Promi
       </table>
       {pages > 1 && (
         <p className="small" style={{ marginTop: 14 }}>
-          Page {pageNo} of {pages}.{" "}
-          {pageNo > 1 && (
-            <a href={`/ledger?${domain ? `domain=${domain}&` : ""}page=${pageNo - 1}`} style={{ textDecoration: "underline" }}>
+          Page {page} of {pages}.{" "}
+          {page > 1 && (
+            <a href="#" onClick={(e) => { e.preventDefault(); setPageNo(page - 1); }} style={{ textDecoration: "underline" }}>
               newer
             </a>
           )}{" "}
-          {pageNo < pages && (
-            <a href={`/ledger?${domain ? `domain=${domain}&` : ""}page=${pageNo + 1}`} style={{ textDecoration: "underline" }}>
+          {page < pages && (
+            <a href="#" onClick={(e) => { e.preventDefault(); setPageNo(page + 1); }} style={{ textDecoration: "underline" }}>
               older
             </a>
           )}

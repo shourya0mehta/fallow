@@ -1,12 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useFallow } from "@/client/FallowProvider";
 import { DOMAINS } from "@/core/taxonomy";
 import type { Chronotype, DomainId, Intensity, Settings } from "@/core/types";
 
-export function SettingsForm({ initial, eventCount }: { initial: Settings; eventCount: number }) {
-  const router = useRouter();
+export function SettingsForm({ initial, eventCount, mode }: { initial: Settings; eventCount: number; mode: "server" | "browser" }) {
+  const { client, refresh } = useFallow();
   const [keep, setKeep] = useState<DomainId[]>(initial.keepList);
   const [intensity, setIntensity] = useState<Intensity>(initial.intensity);
   const [chronotype, setChronotype] = useState<Chronotype>(initial.chronotype);
@@ -24,32 +24,33 @@ export function SettingsForm({ initial, eventCount }: { initial: Settings; event
   }
 
   async function save() {
+    if (!client) return;
     setBusy(true);
-    await fetch("/api/settings", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        keepList: keep,
-        intensity,
-        chronotype,
-        sleep: { bed, wake },
-        entertainmentSites: sites.split(/\n+/).map((s) => s.trim()).filter(Boolean),
-        entertainmentBudgetMin: Number(budget) || 0,
-        pauseSeconds: Number(pauseSeconds) || 0,
-      }),
+    await client.updateSettings({
+      keepList: keep,
+      intensity,
+      chronotype,
+      sleep: { bed, wake },
+      entertainmentSites: sites.split(/\n+/).map((s) => s.trim()).filter(Boolean),
+      entertainmentBudgetMin: Number(budget) || 0,
+      pauseSeconds: Number(pauseSeconds) || 0,
     });
+    await refresh();
     setBusy(false);
     setMsg("Saved.");
-    router.refresh();
   }
 
   async function erase() {
+    if (!client || confirm !== "erase") {
+      setMsg("Type erase to confirm.");
+      return;
+    }
     setBusy(true);
-    const res = await fetch("/api/clear", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ confirm }) });
+    await client.clear();
+    await refresh();
     setBusy(false);
-    setMsg(res.ok ? "Ledger erased." : "Type erase to confirm.");
+    setMsg("Ledger erased.");
     setConfirm("");
-    router.refresh();
   }
 
   return (
@@ -120,7 +121,7 @@ export function SettingsForm({ initial, eventCount }: { initial: Settings; event
       <section className="section">
         <p className="section-label">Data</p>
         <p className="small">
-          {eventCount.toLocaleString()} entries in <code>data/fallow.json</code>. Back it up by copying the file. Erasing cannot be undone.
+          {eventCount.toLocaleString()} entries {mode === "server" ? <>in <code>data/fallow.json</code>. Back it up by copying the file.</> : "in this browser's storage. Clearing site data removes them."} Erasing cannot be undone.
         </p>
         <div className="row">
           <input type="text" placeholder="type erase" value={confirm} onChange={(e) => setConfirm(e.target.value)} style={{ width: 160 }} />

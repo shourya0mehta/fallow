@@ -12,6 +12,18 @@ Fields left unworked go fallow. So do skills.
 
 The evidence behind the design, in one paragraph. Handing an AI the answer hurts unassisted performance while scaffolded help does not ([Bastani et al. 2025, PNAS](https://doi.org/10.1073/pnas.2422633122); [Anthropic 2026](https://www.anthropic.com/research/AI-assistance-coding-skills)). Expert skill drifts within months of assistance ([Budzyń et al. 2025](https://wrap.warwick.ac.uk/id/eprint/191005)). People cannot feel it: developers who were 19% slower with AI believed they were 20% faster ([METR 2025](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/)). Skill decay is lawful and domain-specific ([Arthur et al. 1998](https://doi.org/10.1207/s15327043hup1101_3)), which is what spaced repetition already models ([FSRS](https://github.com/open-spaced-repetition/awesome-fsrs/wiki/The-Algorithm)). The one earlier offload with clean evidence of harm is GPS, and it hits the navigation system that Alzheimer's disease reaches first ([Dahmani and Bohbot 2020](https://doi.org/10.1038/s41598-020-62877-0); [Coughlan et al. 2019](https://doi.org/10.1073/pnas.1901600116)). Push-back works when it comes before the answer and scaffolds instead of recommending ([Buçinca et al. 2021](https://arxiv.org/abs/2102.09692); [Gajos and Mamykina 2022](https://arxiv.org/abs/2202.05402)). Daily capacity is sleep pressure plus circadian phase, modeled for aviation crews ([Åkerstedt and Folkard 1997](https://pubmed.ncbi.nlm.nih.gov/9095372/); [Ingre et al. 2014](https://doi.org/10.1371/journal.pone.0108679)); there is no daily willpower tank ([Vohs et al. 2021](https://doi.org/10.1177/0956797621989733)) and dopamine does not drain like a battery.
 
+## Live site
+
+The hosted version is the whole app with no server. The ledger lives in the visitor's own browser (IndexedDB), a demo ledger loads on the first visit, the Gate and Practice run the core in the page, and importing your own ChatGPT or Claude export never uploads anything. The demo chat page shows the extension's verdict card without the extension installed.
+
+Build it with `npm run build:static` (static files in `out/`), or let GitHub Pages do it on every push:
+
+1. Push the repo to GitHub (`scripts/publish.sh` creates it and pushes).
+2. In the repo on GitHub: Settings, Pages, Source: **GitHub Actions**.
+3. The workflow in `.github/workflows/pages.yml` runs the tests and the typecheck, builds the static site, and deploys it to `https://<your-user>.github.io/fallow/`. For a custom domain, set the repository variable `PAGES_BASE_PATH` to `/` and add a `CNAME` file in `public/`.
+
+Same codebase, two builds: `next build` gives the local app with its API, file-backed ledger, hooks and extension; `STATIC_EXPORT=1` gives the hosted site. The pages detect which one they are running in.
+
 ## Quick start
 
 ```bash
@@ -84,7 +96,9 @@ Intensity (gentle, standard, firm) sets the thresholds, because the forcing func
 
 **The pause.** On the sites you list in Settings, a full-page breath before the page loads: a countdown you set (10 seconds by default), how many times you have opened one of these today, and your minutes against your own budget when ActivityWatch is syncing. *Not now* closes the tab, *Continue* unlocks after the countdown and snoozes that site for 30 minutes. Each pause is logged, so the board shows your close rate. This is the one screen-time intervention with clean field evidence ([Grüning et al. 2023, PNAS](https://doi.org/10.1073/pnas.2213114120): about a third of attempts abandoned, openings down 57% after six weeks). The budget is a number you see, never a lock; locks work for a few weeks and then get removed.
 
-Try both without an account at `/demo/chat` and `/demo/feed` (add `localhost` to your site list for the feed). `npm run test:extension` drives the whole thing in headless Chromium against the running app: the card, the three buttons, the short-prompt passthrough, the pause, and the snooze.
+**Standalone.** The extension does not need the app. When nothing answers at the app's address (or when "Standalone" is ticked in its options), the bundled core (`core.js`, built from `src/core` by `npm run build:extension`) classifies and decides inside the extension and keeps the ledger in `chrome.storage`. The options page shows which mode it is in, exports that ledger as JSON, and the hosted site's Import page reads that file, so a person can install the extension alone and still see their field.
+
+Try both without an account at `/demo/chat` and `/demo/feed` (add `localhost` to your site list for the feed). `npm run test:extension` drives the whole thing in headless Chromium against the running app: the card, the three buttons, the short-prompt passthrough, the pause, the snooze, and standalone mode.
 
 ## Attention layer (ActivityWatch)
 
@@ -132,14 +146,16 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 ## Tests
 
 ```bash
-npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary (65 tests)
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary (66 tests)
 npm run typecheck
 npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
+npm run build:static    # the hosted site, into out/
+npm run build:extension # rebuild core.js inside the extension after changing src/core
 ```
 
 ## Publishing
 
-`scripts/publish.sh` creates the public GitHub repo and pushes (needs `gh auth login` once). For a live demo, deploy with `FALLOW_DEMO=1`: the app serves `data/demo.json` read-only, in-memory writes only, resets on restart.
+`scripts/publish.sh` creates the public GitHub repo and pushes (needs `gh auth login` once); the Pages workflow then publishes the live site. `FALLOW_DEMO=1 next start` is the other way to host a demo: a Node server that serves `src/data/demo.json` read-only with in-memory writes.
 
 ## What is built
 
@@ -149,10 +165,11 @@ npm run test:extension  # headless Chromium against the running app (needs Chrom
 - The three-process alertness model with chronotype, plus the labelled fatigue hypothesis.
 - The four-mode policy with user-set intensity.
 - ChatGPT and Claude export importers, run in the browser, deduplicated.
-- The browser extension: chat intercept with the verdict card on ChatGPT, Claude and Gemini, and the pause on listed sites, with an end-to-end test.
+- The browser extension: chat intercept with the verdict card on ChatGPT, Claude and Gemini, the pause on listed sites, a standalone mode with the core bundled in, and an end-to-end test.
+- The hosted build: one codebase, a client-side ledger in IndexedDB, demo preload, a demo chat that shows the card without the extension, public About and Evidence pages, and a GitHub Pages workflow.
 - The attention layer from ActivityWatch: switches per hour, longest block, listed-site minutes, focus blocks logged as practice.
 - The Claude Code hook, a Cursor hook, and the assess API they use.
-- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 65 unit tests.
+- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 66 unit tests.
 
 ## What is not built
 
@@ -160,11 +177,13 @@ npm run test:extension  # headless Chromium against the running app (needs Chrom
 - Fitted parameters. Stability priors, the fatigue penalty, the pause length and the policy thresholds are borrowed or guessed and are documented as such.
 - An LLM classifier. The interface is there; the lexicon will mislabel prompts, so hand-label a couple of hundred of your own before trusting a profile.
 - Site selectors that survive redesigns. The extension's composer and send-button selectors for ChatGPT, Claude and Gemini are current as of writing and will need a bump when those apps change their DOM; the demo page always works.
-- Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence, multi-user anything. The Cursor hook has not been run in a real Cursor session.
+- Accounts or sync. The hosted site and the extension each keep their own ledger; moving one into the other is an export and an import, not a live link. A hosted backend with sign-in is the third tier, if the standalone version earns it.
+- A Chrome Web Store listing. The extension loads unpacked today.
+- Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence. The Cursor hook has not been run in a real Cursor session.
 
 ## What it does not claim
 
-Fallow does not measure your brain, diagnose anything, predict disease, or train regions. The brain notes are group-average imaging results phrased as engagement. Words like risk, detect, screen and Alzheimer's do not appear in the product, on purpose. Prompts are sensitive data; the ledger stays on your machine, excerpts are optional, and the erase button is real.
+Fallow does not measure your brain, diagnose anything, predict disease, or train regions. The brain notes are group-average imaging results phrased as engagement. Words like risk, detect, screen and Alzheimer's do not appear in the product, on purpose. Prompts are sensitive data; the ledger stays on your machine or in your browser, excerpts are optional, and the erase button is real.
 
 ## License
 

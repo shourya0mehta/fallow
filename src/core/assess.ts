@@ -2,7 +2,7 @@ import { capacityAt } from "./alertness";
 import { classifyPrompt } from "./classify";
 import { MODE_LABEL, recommend } from "./policy";
 import { deriveDomainStates } from "./scheduler";
-import type { Ledger } from "./store";
+import type { Ledger } from "./ledger";
 import { todaySleep } from "./summary";
 import { DOMAIN_BY_ID } from "./taxonomy";
 import type { Classification, Recommendation } from "./types";
