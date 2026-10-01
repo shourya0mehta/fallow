@@ -2,6 +2,7 @@ import { DOMAIN_BY_ID } from "@/core/taxonomy";
 import type { DomainSeriesPoint, Drift } from "@/core/summary";
 import type { AttentionDaySignal, DomainState } from "@/core/types";
 import { daysAgoLabel } from "./format";
+import { PlotTile } from "./Pixel";
 import { Sparkline } from "./Sparkline";
 
 export function FieldPlot({
@@ -25,6 +26,7 @@ export function FieldPlot({
   return (
     <article className="plot" aria-label={spec.label}>
       <header>
+        <PlotTile status={state.status} />
         <h3>
           {spec.label}
           {keep && (
