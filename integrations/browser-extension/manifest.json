@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Fallow",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A field book for the thinking you hand to AI. Files every chat ask by cognitive domain and pushes back before you delegate what keeps you sharp; pauses you on the sites you list.",
   "icons": {
     "16": "icons/icon16.png",
@@ -39,6 +39,7 @@
         "chat.js"
       ],
       "css": [
+        "fallow-font.css",
         "fallow.css"
       ],
       "run_at": "document_idle"
@@ -51,9 +52,20 @@
         "pause.js"
       ],
       "css": [
+        "fallow-font.css",
         "fallow.css"
       ],
       "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "fonts/*.woff2"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

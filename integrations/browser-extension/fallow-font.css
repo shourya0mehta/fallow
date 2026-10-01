@@ -1,0 +1,15 @@
+/* Pixelify Sans (OFL), shipped with the extension so the card and the pause look the same on every site. */
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/pixelify-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/pixelify-sans-latin-600-normal.woff2") format("woff2");
+}
