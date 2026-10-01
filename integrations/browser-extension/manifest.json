@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Fallow",
-  "version": "0.4.0",
-  "description": "A field book for the thinking you hand to AI. Files every chat ask by cognitive domain and pushes back before you delegate what keeps you sharp; pauses you on the sites you list.",
+  "version": "0.5.0",
+  "description": "Your brain pet checks each AI ask before it leaves ChatGPT, Claude or Gemini, files it in your garden, and pauses you for a breath on the sites you list.",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

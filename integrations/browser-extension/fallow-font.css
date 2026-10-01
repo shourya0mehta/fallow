@@ -1,15 +1,22 @@
-/* Pixelify Sans (OFL), shipped with the extension so the card and the pause look the same on every site. */
+/* Jersey 10 and Nunito (both OFL), shipped with the extension so the card and the pause look like the site on every host page. */
 @font-face {
-  font-family: "Pixelify Sans";
+  font-family: "Fallow Jersey";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("chrome-extension://__MSG_@@extension_id__/fonts/pixelify-sans-latin-400-normal.woff2") format("woff2");
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/jersey-10-latin-400-normal.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Pixelify Sans";
+  font-family: "Fallow Nunito";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   font-display: swap;
-  src: url("chrome-extension://__MSG_@@extension_id__/fonts/pixelify-sans-latin-600-normal.woff2") format("woff2");
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/nunito-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fallow Nunito";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("chrome-extension://__MSG_@@extension_id__/fonts/nunito-latin-800-normal.woff2") format("woff2");
 }
