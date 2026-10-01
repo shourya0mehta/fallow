@@ -1,34 +1,29 @@
 import type { Metadata } from "next";
-import "@fontsource/pixelify-sans/400.css";
-import "@fontsource/pixelify-sans/600.css";
+import "@fontsource/jersey-10/400.css";
+import "@fontsource/nunito/400.css";
+import "@fontsource/nunito/700.css";
+import "@fontsource/nunito/800.css";
 import "./globals.css";
 import "./fallow-extension.css";
 import { FallowProvider } from "@/client/FallowProvider";
-import { Nav } from "@/components/Nav";
+import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Fallow",
-  description: "A ledger for the thinking you hand to AI.",
+  description: "A garden for the thinking you hand to AI. Every skill is a plant; the ones you stop using dry out.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <div className="shell">
-          <header className="masthead">
-            <div className="wordmark">
-              Fallow<small>a field book for your own thinking</small>
-            </div>
-            <Nav />
-          </header>
-          <FallowProvider>{children}</FallowProvider>
-          <footer className="footer">
-            Fallow tracks behavior: what you asked an AI to do, and what you did yourself. It does not measure your brain,
-            diagnose anything, or predict disease. Retrievability and capacity are model outputs with borrowed parameters.
-            Everything stays in one local file.
-          </footer>
-        </div>
+        <FallowProvider>
+          <div className="shell">
+            <Header />
+            {children}
+            <footer className="foot">Fallow tracks what you ask AI to do and what you do yourself. It does not measure your brain or diagnose anything. Everything stays on your device.</footer>
+          </div>
+        </FallowProvider>
       </body>
     </html>
   );

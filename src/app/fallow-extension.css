@@ -1,36 +1,36 @@
-/* Fallow: parchment on wood, pixel borders. Prefixed and high z-index so it survives any host page.
-   The pixel face is declared in fallow-font.css (extension only); pages without it fall back to a monospace. */
+/* Fallow, meadow day: white cards with chunky ink outlines. Prefixed and high
+   z-index so it survives any host page. Fonts ship in fallow-font.css; the site
+   itself provides Jersey 10 and Nunito for the in-page demo. */
 
 .fallow-card,
 .fallow-toast,
 .fallow-badge,
 .fallow-overlay {
-  --fpaper: #f2e5c9;
-  --fpaper2: #e7d7b3;
-  --fpaper3: #dcc99e;
-  --fink: #3a2a22;
-  --fink2: #6a5446;
-  --fink3: #8f7866;
-  --frule: #b9a278;
-  --fmoss: #5f7d3e;
-  --famber: #e2a43d;
-  --famber2: #b97a1c;
-  --frust: #b5563a;
-  --fsky: #5f8fa8;
-  --fwood: #3e2b1f;
-  --fwood2: #4b3526;
-  --fseam: #2a1b12;
-  --fshadow: rgba(42, 27, 18, 0.35);
-  --fpixel: "Pixelify Sans", "Courier New", monospace;
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --fink: #2c2336;
+  --fink2: #5d536a;
+  --fink3: #8a8096;
+  --fpaper: #ffffff;
+  --fpaper2: #f4fbf6;
+  --fpaper3: #e8f4ec;
+  --fsun: #ffb547;
+  --fsun2: #e8920f;
+  --fleaf: #3d8f37;
+  --fsky: #3f9ee8;
+  --fcoral: #ec6a52;
+  --fdisplay: "Fallow Jersey", "Jersey 10", "Courier New", monospace;
+  --fbody: "Fallow Nunito", "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  font-family: var(--fbody);
   color: var(--fink);
   box-sizing: border-box;
   line-height: 1.45;
+  letter-spacing: normal;
+  text-align: left;
 }
 
 .fallow-card *,
 .fallow-overlay * {
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 .fallow-card {
@@ -41,44 +41,54 @@
   max-width: calc(100vw - 40px);
   background: var(--fpaper);
   border: 3px solid var(--fink);
-  box-shadow: 5px 5px 0 var(--fshadow);
+  border-radius: 16px;
+  box-shadow: 0 6px 0 var(--fink);
   padding: 16px 18px 14px;
   z-index: 2147483646;
   font-size: 15px;
+  animation: fallow-pop 0.22s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+@keyframes fallow-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
 }
 
 .fallow-card .fallow-kicker,
 .fallow-overlay .fallow-kicker {
-  font-family: var(--fpixel);
+  font-weight: 800;
   font-size: 12px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fink3);
-  margin: 0 0 4px;
+  margin: 0 0 2px;
 }
 
 .fallow-card .fallow-mode {
-  font-family: var(--fpixel);
-  font-size: 24px;
-  font-weight: 600;
+  font-family: var(--fdisplay);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1;
   margin: 0 0 6px;
 }
 
 .fallow-mode-self {
-  color: var(--fmoss);
+  color: var(--fleaf);
 }
 .fallow-mode-scaffold {
   color: var(--fsky);
 }
 .fallow-mode-copilot {
-  color: var(--famber2);
+  color: var(--fsun2);
 }
 .fallow-mode-delegate {
   color: var(--fink2);
 }
 
 .fallow-card .fallow-domains {
-  font-family: var(--fpixel);
+  font-weight: 800;
   font-size: 13px;
   color: var(--fink2);
   margin: 0 0 8px;
@@ -87,11 +97,13 @@
 .fallow-card .fallow-reason {
   margin: 0 0 6px;
   font-size: 14.5px;
+  font-weight: 600;
 }
 
 .fallow-card .fallow-scaffold {
-  border-left: 4px solid var(--famber);
-  padding-left: 10px;
+  border-radius: 12px;
+  background: var(--fpaper3);
+  padding: 9px 11px;
   margin: 10px 0 12px;
   color: var(--fink2);
   font-size: 14px;
@@ -105,30 +117,36 @@
 
 .fallow-card button,
 .fallow-overlay button {
-  font-family: var(--fpixel);
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 8px 12px;
-  border: 2px solid var(--fink);
-  background: var(--famber);
+  font-family: var(--fdisplay);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  line-height: 1;
+  padding: 7px 13px 8px;
+  border: 3px solid var(--fink);
+  border-radius: 12px;
+  background: var(--fsun);
   color: var(--fink);
   cursor: pointer;
-  border-radius: 0;
-  box-shadow: 3px 3px 0 var(--fink);
-  line-height: 1.2;
+  box-shadow: 0 4px 0 var(--fink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.fallow-card button:hover,
+.fallow-overlay button:hover {
+  transform: translateY(-1px);
 }
 
 .fallow-card button:active,
 .fallow-overlay button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--fink);
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--fink);
 }
 
 .fallow-card button.fallow-secondary,
 .fallow-overlay button.fallow-secondary {
   background: var(--fpaper);
-  color: var(--fink);
 }
 
 .fallow-card button:disabled,
@@ -141,17 +159,17 @@
 .fallow-card .fallow-mute {
   display: block;
   margin-top: 12px;
-  font-family: var(--fpixel);
-  font-size: 12px;
+  font-family: var(--fbody);
+  font-weight: 700;
+  font-size: 12.5px;
   color: var(--fink3);
   text-decoration: underline;
   cursor: pointer;
   background: none;
   border: 0;
   padding: 0;
-  text-transform: none;
-  letter-spacing: 0;
   box-shadow: none;
+  letter-spacing: 0;
 }
 
 .fallow-toast {
@@ -160,9 +178,10 @@
   bottom: 20px;
   background: var(--fpaper);
   border: 2px solid var(--fink);
-  box-shadow: 3px 3px 0 var(--fshadow);
-  padding: 8px 12px;
-  font-family: var(--fpixel);
+  border-radius: 999px;
+  box-shadow: 0 3px 0 var(--fink);
+  padding: 8px 14px;
+  font-weight: 800;
   font-size: 13px;
   color: var(--fink2);
   z-index: 2147483646;
@@ -179,41 +198,41 @@
   right: 20px;
   bottom: 20px;
   background: var(--fpaper);
-  border: 2px solid var(--fink);
-  box-shadow: 3px 3px 0 var(--fshadow);
+  border: 3px solid var(--fink);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--fink);
   padding: 10px 14px;
   z-index: 2147483646;
   font-size: 14px;
+  font-weight: 800;
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
 .fallow-badge .fallow-time {
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 16px;
+  font-family: var(--fdisplay);
+  font-size: 26px;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .fallow-badge button {
-  font-family: var(--fpixel);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 6px 9px;
+  font-family: var(--fdisplay);
+  font-size: 18px;
+  padding: 5px 10px 6px;
   border: 2px solid var(--fink);
+  border-radius: 10px;
   background: var(--fpaper);
   color: var(--fink);
   cursor: pointer;
-  border-radius: 0;
-  box-shadow: 2px 2px 0 var(--fink);
+  box-shadow: 0 3px 0 var(--fink);
 }
 
 .fallow-overlay {
   position: fixed;
   inset: 0;
-  background-color: var(--fwood);
-  background-image: repeating-linear-gradient(180deg, transparent 0 92px, var(--fseam) 92px 96px), linear-gradient(180deg, var(--fwood2), var(--fwood));
+  background: linear-gradient(180deg, #bfe3f5 0, #d3edf0 40%, #d6efe0 70%, #cfe9d6 100%);
   z-index: 2147483647;
   display: flex;
   align-items: center;
@@ -223,33 +242,38 @@
 }
 
 .fallow-overlay .fallow-inner {
-  max-width: 560px;
+  max-width: 540px;
   background: var(--fpaper);
   border: 3px solid var(--fink);
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
-  padding: 32px 36px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 0 var(--fink);
+  padding: 30px 34px 28px;
+  text-align: center;
+  animation: fallow-pop 0.3s cubic-bezier(0.2, 1.3, 0.4, 1);
 }
 
 .fallow-overlay h1 {
-  font-family: var(--fpixel);
-  font-size: 36px;
-  font-weight: 600;
-  margin: 0 0 10px;
+  font-family: var(--fdisplay);
+  font-size: 48px;
+  font-weight: 400;
+  margin: 0 0 6px;
   color: var(--fink);
   letter-spacing: 0.01em;
+  line-height: 1;
 }
 
 .fallow-overlay .fallow-count {
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 64px;
-  color: var(--famber2);
-  margin: 8px 0;
+  font-family: var(--fdisplay);
+  font-size: 84px;
+  color: var(--fsun2);
+  margin: 6px 0;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 
 .fallow-overlay p {
-  font-size: 17px;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--fink2);
   margin: 6px 0;
 }
