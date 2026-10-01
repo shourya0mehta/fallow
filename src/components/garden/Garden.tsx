@@ -121,6 +121,18 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
   const plants = DOMAINS.map((d) => ({ id: d.id, status: statusOf(d.id) }));
   const healthPct = Math.round(reading.health * 100);
 
+  // keep the sun and moon out from under the corner chips
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const e = engine.current;
+    const canvas = canvasRef.current;
+    if (!wrap || !e || !canvas) return;
+    const c = canvas.getBoundingClientRect();
+    const h = wrap.querySelector(".g-health")?.getBoundingClientRect();
+    const t = wrap.querySelector(".g-time")?.getBoundingClientRect();
+    e.setSkyInsets(h ? h.right - c.left + 4 : 0, t ? c.right - t.left + 4 : 0);
+  }, [engine, layoutTick, healthPct, stage, tod]);
+
   function cycleSky() {
     const i = TOD_CYCLE.indexOf(tod);
     const next = TOD_CYCLE[(i + 1) % TOD_CYCLE.length];

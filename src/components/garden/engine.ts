@@ -79,6 +79,7 @@ export class GardenEngine {
   private tod: TimeOfDay;
   private todOverride: TimeOfDay | null = null;
   private data: GardenData = { plants: [], stage: "steady", asleep: false, quests: [] };
+  private skyInsets = { left: 0, right: 0 };
   private plants: PlantSlot[] = [];
   private particles: Particle[] = [];
   private clouds: Array<{ x: number; y: number; spr: Grid; speed: number }> = [];
@@ -153,6 +154,8 @@ export class GardenEngine {
     this.bgKey = "";
     if (d.asleep && !["pet", "wake", "think"].includes(this.pet.mood)) this.setMood("sleep", Infinity);
     if (!d.asleep && this.pet.mood === "sleep") this.setMood("idle", 0);
+    // paint now: a tab opened in the background gets no animation frames until it is shown
+    this.draw();
   }
 
   setTimeOfDay(tod: TimeOfDay | null) {
@@ -160,6 +163,13 @@ export class GardenEngine {
     this.tod = tod ?? timeOfDay(new Date());
     this.bgKey = "";
     this.seedSky();
+    this.draw();
+  }
+
+  /** CSS px to keep clear at the top left and right, so the sun and moon never hide under the corner chips. */
+  setSkyInsets(left: number, right: number) {
+    this.skyInsets = { left: Math.max(0, left), right: Math.max(0, right) };
+    this.draw();
   }
 
   get timeOfDayNow(): TimeOfDay {
@@ -774,11 +784,16 @@ export class GardenEngine {
     if (this.bg) ctx.drawImage(this.bg, 0, 0);
 
     const night = this.tod === "night";
+    // the open stretch of sky between the corner chips
+    const skyL = Math.ceil(this.skyInsets.left / L.scale) + 2;
+    const skyR = Math.max(skyL, L.W - Math.ceil(this.skyInsets.right / L.scale) - 2);
     // sky decor behind everything else
     if (this.tod === "day" || this.tod === "dawn") {
       const h = new Date().getHours() + new Date().getMinutes() / 60;
       const f = this.todOverride ? 0.7 : clamp((h - 6) / 13, 0, 1);
-      paint(ctx, SPR.SUN, Math.round(8 + f * (L.W - 26)), Math.round(4 + Math.abs(f - 0.5) * 10));
+      // an arc across the open sky, low at the ends
+      const x1 = Math.max(skyL, skyR - 10);
+      paint(ctx, SPR.SUN, Math.round(skyL + f * (x1 - skyL)), Math.round(3 + Math.abs(f - 0.5) * 24));
     }
     if (!night) for (const c of this.clouds) paint(ctx, c.spr, Math.round(c.x), c.y);
 
@@ -863,7 +878,7 @@ export class GardenEngine {
         if (tw > 0.85) paint(ctx, SPR.STAR_TWINKLE[1], s.x - 1, s.y - 1);
         else if (tw > -0.4) paint(ctx, SPR.STAR_TWINKLE[0], s.x, s.y);
       }
-      paint(ctx, SPR.MOON, L.W - 30, 6);
+      paint(ctx, SPR.MOON, clamp(Math.round(L.W * 0.6), skyL, Math.max(skyL, skyR - 8)), 5);
     }
     if (night || this.tod === "dusk") {
       for (const f of this.flies) {
