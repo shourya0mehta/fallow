@@ -3,72 +3,78 @@
   <head>
     <meta charset="utf-8" />
     <title>Fallow options</title>
+    <link rel="stylesheet" href="fallow-font.css" />
     <style>
       body {
-        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-        background: #f5f0e6;
-        color: #221f1b;
+        font-family: "Fallow Nunito", "Nunito", ui-rounded, system-ui, sans-serif;
+        background: linear-gradient(180deg, #bfe3f5, #d6efe0);
+        color: #2c2336;
         margin: 0;
-        padding: 20px;
-        width: 360px;
+        padding: 18px;
+        width: 380px;
       }
       h1 {
-        font-size: 20px;
+        font-family: "Fallow Jersey", "Jersey 10", monospace;
+        font-weight: 400;
+        font-size: 36px;
         margin: 0 0 4px;
+        line-height: 1;
       }
       p {
         margin: 6px 0 12px;
-        color: #5f584e;
+        color: #5d536a;
         font-size: 14px;
       }
       label {
         display: block;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 11px;
-        letter-spacing: 0.08em;
+        font-weight: 800;
+        font-size: 12px;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
-        color: #5f584e;
+        color: #8a8096;
         margin: 12px 0 4px;
       }
       input {
         width: 100%;
         font: inherit;
         padding: 8px 10px;
-        border: 1px solid #c7bda8;
-        background: #ede6d8;
+        border: 2px solid #2c2336;
+        border-radius: 10px;
+        background: #fff;
         box-sizing: border-box;
       }
       button {
         margin-top: 12px;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 12px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        padding: 9px 12px;
-        border: 1px solid #221f1b;
-        background: #221f1b;
-        color: #f5f0e6;
+        font-family: "Fallow Jersey", "Jersey 10", monospace;
+        font-size: 20px;
+        padding: 6px 12px 7px;
+        border: 3px solid #2c2336;
+        border-radius: 12px;
+        background: #ffb547;
+        color: #2c2336;
+        box-shadow: 0 3px 0 #2c2336;
         cursor: pointer;
       }
       .status {
+        font-weight: 800;
         font-size: 13px;
-        color: #4f6b3a;
+        color: #3d8f37;
         margin-left: 8px;
       }
     </style>
   </head>
   <body>
     <h1>Fallow</h1>
-    <p>The extension talks to the Fallow app running on your machine. Sites, pause length and the daily budget are set in the app's Settings page.</p>
+    <p>Works on its own, or with the Fallow app running on your machine. Sites, pause length and your daily budget live in the app's Settings.</p>
     <label for="base">App address</label>
     <input id="base" type="url" placeholder="http://localhost:3000" />
     <label><input id="standalone" type="checkbox" style="width: auto; margin-right: 6px" />Standalone: never look for the app, keep the ledger in the extension</label>
     <button id="save">Save</button><span class="status" id="status"></span>
     <p id="mode" style="margin-top: 14px"></p>
-    <button id="export" style="background: transparent; color: #221f1b">Export the extension's ledger (JSON)</button>
-    <p>Drop that file on the Import page of the Fallow site to see your field. Nothing is uploaded; the site keeps it in your browser.</p>
-    <button id="clear" style="background: transparent; color: #221f1b">Clear snoozes and mutes</button>
-    <button id="erase" style="background: transparent; color: #a3462a; border-color: #a3462a; margin-left: 8px">Erase the extension's ledger</button>
+    <button id="export" style="background: #fff">Export the extension's ledger (JSON)</button>
+    <p>Drop that file on the Journal page of the Fallow site to see your garden. Nothing is uploaded.</p>
+    <button id="clear" style="background: #fff">Clear snoozes and mutes</button>
+    <button id="erase" style="background: #ffe1da; color: #9c2f1d; margin-left: 8px">Erase the extension's ledger</button>
     <script src="options.js"></script>
   </body>
 </html>

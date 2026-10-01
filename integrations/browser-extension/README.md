@@ -4,7 +4,7 @@ Manifest V3. Load unpacked from `chrome://extensions` (Developer mode on), point
 
 - `chat.js` runs on chatgpt.com, claude.ai, gemini.google.com and the app's `/demo/chat` page. It intercepts the send action, asks `/api/assess`, shows the verdict card, and logs what you chose.
 - `pause.js` runs everywhere and shows the pause only on hostnames in your Settings list. It never runs on the app itself, except `/demo/feed`.
-- `background.js` is the only piece that calls the app, so page CORS rules never apply. Settings are cached for a minute. When no app answers (or "Standalone" is ticked in the options), it uses `core.js`, the pure core bundled by `npm run build:extension`, and keeps the ledger in `chrome.storage.local`. The options page shows the mode and exports that ledger as JSON for the site's Import page.
+- `background.js` is the only piece that calls the app, so page CORS rules never apply. Settings are cached for a minute. When no app answers (or "Standalone" is ticked in the options), it uses `core.js`, the pure core bundled by `npm run build:extension`, and keeps the ledger in `chrome.storage.local`. The options page shows the mode and exports that ledger as JSON for the site's Journal (import).
 - Snoozes (30 minutes after "Continue") and mutes (an hour after "Quiet on this site") live in `chrome.storage.local`; clear them from the options page.
 
 Test it end to end with `npm run test:extension` from the repo root while the app is running.

@@ -5,15 +5,16 @@
 export default function DemoFeedPage() {
   const items = Array.from({ length: 12 }, (_, i) => i + 1);
   return (
-    <main>
-      <p className="dateline">Demo · an endless feed</p>
-      <h1>Something to scroll.</h1>
-      <p className="lede">If this hostname is on your entertainment list, the extension shows its pause before you get here. Otherwise this is just a page of placeholders.</p>
+    <div className="page">
+      <div className="page-head">
+        <h1>Demo feed</h1>
+        <p>If this site is on your list in Settings, the extension pauses you for a breath before you get here. Otherwise it&apos;s just placeholders.</p>
+      </div>
       {items.map((i) => (
-        <div key={i} style={{ border: "1px solid var(--rule)", background: "var(--paper-2)", height: 160, marginBottom: 14, display: "grid", placeItems: "center", color: "var(--ink-3)" }}>
+        <div key={i} className="card feed-item">
           clip {i}
         </div>
       ))}
-    </main>
+    </div>
   );
 }
