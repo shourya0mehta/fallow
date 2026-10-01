@@ -39,8 +39,10 @@ export default function FieldPage() {
         </p>
       ) : (
         <p className="lede">
-          {snap.totals.events.toLocaleString()} asks over {snap.totals.days} days. {pct(snap.totals.delegatedShare)} handed over whole, the rest shared or done yourself. Capacity now{" "}
-          {snap.capacity.value.toFixed(2)} (KSS {snap.capacity.kss.toFixed(1)}, {kssLabel(snap.capacity.kss)}).
+          {snap.totals.events.toLocaleString()} asks over {snap.totals.days} days. {pct(snap.totals.delegatedShare)} handed over whole, the rest shared or done yourself.{" "}
+          {snap.capacity.asleep
+            ? "Your sleep window says you are asleep right now, so capacity reads 0 until you wake."
+            : `Capacity now ${snap.capacity.value.toFixed(2)} (KSS ${snap.capacity.kss.toFixed(1)}, ${kssLabel(snap.capacity.kss)}).`}
         </p>
       )}
 
