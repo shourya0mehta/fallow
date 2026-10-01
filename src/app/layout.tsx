@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@fontsource/pixelify-sans/400.css";
+import "@fontsource/pixelify-sans/600.css";
 import "./globals.css";
 import "./fallow-extension.css";
 import { FallowProvider } from "@/client/FallowProvider";

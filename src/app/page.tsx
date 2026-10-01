@@ -6,8 +6,10 @@ import { AttentionStrip } from "@/components/AttentionStrip";
 import { DayCurve } from "@/components/DayCurve";
 import { DemoBanner } from "@/components/DemoBanner";
 import { FieldPlot } from "@/components/FieldPlot";
+import { Brain } from "@/components/Pixel";
 import { longDate, pct } from "@/components/format";
 import { kssLabel } from "@/core/alertness";
+import { creatureStage } from "@/core/creature";
 import { DOMAIN_BY_ID } from "@/core/taxonomy";
 import { isSameLocalDay } from "@/core/time";
 
@@ -21,30 +23,43 @@ export default function FieldPage() {
   const keep = new Set(ledger.settings.keepList);
   const empty = ledger.events.length === 0;
   const nowHour = now.getHours() + now.getMinutes() / 60;
+  const creature = creatureStage({ states: snap.states, keepList: ledger.settings.keepList, drift: snap.drift, capacity: snap.capacity.value, asleep: snap.capacity.asleep });
+  const healthClass = creature.stage === "fallow" ? "health-fallow" : creature.stage === "fading" ? "health-fading" : "";
 
   return (
     <main>
       {demo && <DemoBanner />}
       <p className="dateline">Field book · {longDate(now)}</p>
       <h1>Which parts of your thinking are lying fallow.</h1>
-      {empty ? (
-        <p className="lede">
-          The ledger is empty. <Link href="/import" style={{ textDecoration: "underline" }}>Import a ChatGPT or Claude export</Link> to see months of history at once
-          {mode === "server" && (
-            <>
-              , run <code>npm run seed</code> for a demo ledger
-            </>
-          )}
-          , or start at the <Link href="/gate" style={{ textDecoration: "underline" }}>gate</Link>.
-        </p>
-      ) : (
-        <p className="lede">
-          {snap.totals.events.toLocaleString()} asks over {snap.totals.days} days. {pct(snap.totals.delegatedShare)} handed over whole, the rest shared or done yourself.{" "}
-          {snap.capacity.asleep
-            ? "Your sleep window says you are asleep right now, so capacity reads 0 until you wake."
-            : `Capacity now ${snap.capacity.value.toFixed(2)} (KSS ${snap.capacity.kss.toFixed(1)}, ${kssLabel(snap.capacity.kss)}).`}
-        </p>
-      )}
+      <div className="hearth">
+        <div className="hearth-creature" title={creature.reasons.join(" ")}>
+          <Brain stage={empty ? "steady" : creature.stage} />
+          <div className="stage-name">{empty ? "waiting" : creature.stage}</div>
+          <div className={`health ${healthClass}`} aria-label={`Health ${Math.round(creature.health * 100)} of 100`}>
+            <i style={{ width: `${Math.round((empty ? 0.6 : creature.health) * 100)}%` }} />
+          </div>
+          {!empty && <div className="small">{creature.reasons[0]}</div>}
+        </div>
+        {empty ? (
+          <p className="lede">
+            The ledger is empty, so the creature is waiting. <Link href="/import" style={{ textDecoration: "underline" }}>Import a ChatGPT or Claude export</Link> to see months of history at once
+            {mode === "server" && (
+              <>
+                , run <code>npm run seed</code> for a demo ledger
+              </>
+            )}
+            , or start at the <Link href="/gate" style={{ textDecoration: "underline" }}>gate</Link>.
+          </p>
+        ) : (
+          <p className="lede">
+            {snap.totals.events.toLocaleString()} asks over {snap.totals.days} days. {pct(snap.totals.delegatedShare)} handed over whole, the rest shared or done yourself.{" "}
+            {snap.capacity.asleep
+              ? "Your sleep window says you are asleep right now, so capacity reads 0 until you wake."
+              : `Capacity now ${snap.capacity.value.toFixed(2)} (KSS ${snap.capacity.kss.toFixed(1)}, ${kssLabel(snap.capacity.kss)}).`}{" "}
+            {creature.knocked ? creature.reasons.at(-1) : creature.reasons[1]}
+          </p>
+        )}
+      </div>
 
       <div className="strip">
         <div>

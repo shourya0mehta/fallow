@@ -1,19 +1,27 @@
-/* Fallow: paper, ink, hairlines. Prefixed and high z-index so it survives any host page. */
+/* Fallow: parchment on wood, pixel borders. Prefixed and high z-index so it survives any host page.
+   The pixel face is declared in fallow-font.css (extension only); pages without it fall back to a monospace. */
 
 .fallow-card,
 .fallow-toast,
 .fallow-badge,
 .fallow-overlay {
-  --fpaper: #f5f0e6;
-  --fpaper2: #ede6d8;
-  --fink: #221f1b;
-  --fink2: #5f584e;
-  --fink3: #8b8377;
-  --frule: #c7bda8;
-  --fmoss: #4f6b3a;
-  --fochre: #b3801f;
-  --frust: #a3462a;
-  --faccent: #2f4a6e;
+  --fpaper: #f2e5c9;
+  --fpaper2: #e7d7b3;
+  --fpaper3: #dcc99e;
+  --fink: #3a2a22;
+  --fink2: #6a5446;
+  --fink3: #8f7866;
+  --frule: #b9a278;
+  --fmoss: #5f7d3e;
+  --famber: #e2a43d;
+  --famber2: #b97a1c;
+  --frust: #b5563a;
+  --fsky: #5f8fa8;
+  --fwood: #3e2b1f;
+  --fwood2: #4b3526;
+  --fseam: #2a1b12;
+  --fshadow: rgba(42, 27, 18, 0.35);
+  --fpixel: "Pixelify Sans", "Courier New", monospace;
   font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   color: var(--fink);
   box-sizing: border-box;
@@ -32,8 +40,8 @@
   width: 380px;
   max-width: calc(100vw - 40px);
   background: var(--fpaper);
-  border: 1px solid var(--fink);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  border: 3px solid var(--fink);
+  box-shadow: 5px 5px 0 var(--fshadow);
   padding: 16px 18px 14px;
   z-index: 2147483646;
   font-size: 15px;
@@ -41,8 +49,8 @@
 
 .fallow-card .fallow-kicker,
 .fallow-overlay .fallow-kicker {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-family: var(--fpixel);
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fink3);
@@ -50,7 +58,8 @@
 }
 
 .fallow-card .fallow-mode {
-  font-size: 22px;
+  font-family: var(--fpixel);
+  font-size: 24px;
   font-weight: 600;
   margin: 0 0 6px;
 }
@@ -59,18 +68,18 @@
   color: var(--fmoss);
 }
 .fallow-mode-scaffold {
-  color: var(--faccent);
+  color: var(--fsky);
 }
 .fallow-mode-copilot {
-  color: var(--fochre);
+  color: var(--famber2);
 }
 .fallow-mode-delegate {
   color: var(--fink2);
 }
 
 .fallow-card .fallow-domains {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
+  font-family: var(--fpixel);
+  font-size: 13px;
   color: var(--fink2);
   margin: 0 0 8px;
 }
@@ -81,7 +90,7 @@
 }
 
 .fallow-card .fallow-scaffold {
-  border-left: 3px solid var(--frule);
+  border-left: 4px solid var(--famber);
   padding-left: 10px;
   margin: 10px 0 12px;
   color: var(--fink2);
@@ -96,21 +105,29 @@
 
 .fallow-card button,
 .fallow-overlay button {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.06em;
+  font-family: var(--fpixel);
+  font-size: 13px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 9px 12px;
-  border: 1px solid var(--fink);
-  background: var(--fink);
-  color: var(--fpaper);
+  padding: 8px 12px;
+  border: 2px solid var(--fink);
+  background: var(--famber);
+  color: var(--fink);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 var(--fink);
+  line-height: 1.2;
+}
+
+.fallow-card button:active,
+.fallow-overlay button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--fink);
 }
 
 .fallow-card button.fallow-secondary,
 .fallow-overlay button.fallow-secondary {
-  background: transparent;
+  background: var(--fpaper);
   color: var(--fink);
 }
 
@@ -118,13 +135,14 @@
 .fallow-overlay button:disabled {
   opacity: 0.45;
   cursor: default;
+  transform: none;
 }
 
 .fallow-card .fallow-mute {
   display: block;
-  margin-top: 10px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  margin-top: 12px;
+  font-family: var(--fpixel);
+  font-size: 12px;
   color: var(--fink3);
   text-decoration: underline;
   cursor: pointer;
@@ -133,6 +151,7 @@
   padding: 0;
   text-transform: none;
   letter-spacing: 0;
+  box-shadow: none;
 }
 
 .fallow-toast {
@@ -140,10 +159,11 @@
   left: 20px;
   bottom: 20px;
   background: var(--fpaper);
-  border: 1px solid var(--frule);
+  border: 2px solid var(--fink);
+  box-shadow: 3px 3px 0 var(--fshadow);
   padding: 8px 12px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 12px;
+  font-family: var(--fpixel);
+  font-size: 13px;
   color: var(--fink2);
   z-index: 2147483646;
   opacity: 0;
@@ -159,7 +179,8 @@
   right: 20px;
   bottom: 20px;
   background: var(--fpaper);
-  border: 1px solid var(--fink);
+  border: 2px solid var(--fink);
+  box-shadow: 3px 3px 0 var(--fshadow);
   padding: 10px 14px;
   z-index: 2147483646;
   font-size: 14px;
@@ -170,26 +191,29 @@
 
 .fallow-badge .fallow-time {
   font-family: ui-monospace, Menlo, monospace;
+  font-size: 16px;
   font-variant-numeric: tabular-nums;
 }
 
 .fallow-badge button {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-family: var(--fpixel);
+  font-size: 12px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 6px 9px;
-  border: 1px solid var(--fink);
-  background: transparent;
+  border: 2px solid var(--fink);
+  background: var(--fpaper);
   color: var(--fink);
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 var(--fink);
 }
 
 .fallow-overlay {
   position: fixed;
   inset: 0;
-  background: var(--fpaper);
+  background-color: var(--fwood);
+  background-image: repeating-linear-gradient(180deg, transparent 0 92px, var(--fseam) 92px 96px), linear-gradient(180deg, var(--fwood2), var(--fwood));
   z-index: 2147483647;
   display: flex;
   align-items: center;
@@ -199,24 +223,29 @@
 }
 
 .fallow-overlay .fallow-inner {
-  max-width: 520px;
+  max-width: 560px;
+  background: var(--fpaper);
+  border: 3px solid var(--fink);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
+  padding: 32px 36px 30px;
 }
 
 .fallow-overlay h1 {
-  font-family: inherit;
-  font-size: 40px;
-  font-weight: 500;
+  font-family: var(--fpixel);
+  font-size: 36px;
+  font-weight: 600;
   margin: 0 0 10px;
   color: var(--fink);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
 }
 
 .fallow-overlay .fallow-count {
   font-family: ui-monospace, Menlo, monospace;
   font-size: 64px;
-  color: var(--fink2);
-  margin: 12px 0;
+  color: var(--famber2);
+  margin: 8px 0;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .fallow-overlay p {
