@@ -6,7 +6,7 @@ Fallow keeps a ledger of what you ask AI models to do, files each ask under a co
 
 ![The field board](docs/field.png)
 
-Fields left unworked go fallow. So do skills.
+Fields left unworked go fallow. So do skills. The brain on the board is a reading of the ledger: it thrives, holds steady, fades or goes fallow with your own numbers.
 
 ## Why
 
@@ -87,9 +87,17 @@ plus a fatigue term F, a leaky integrator over minutes of demanding work (satura
 
 Intensity (gentle, standard, firm) sets the thresholds, because the forcing functions that work best are the ones people rate lowest. `src/core/policy.ts`.
 
+## The look
+
+Parchment on a wooden table: hard pixel borders, a pixel display face ([Pixelify Sans](https://fonts.google.com/specimen/Pixelify+Sans), OFL, bundled) for headings, labels and numbers, a serif for anything you read at length. A lamp-lit night variant exists as CSS tokens (`[data-theme="night"]`) and is not switched on yet.
+
+![The creature in its four stages](docs/brain-stages.gif)
+
+**The creature.** Four stages (thriving, steady, fading, fallow), four drawings each, all code: `scripts/pixel/brain.py` writes the 32x32 grids to `src/pixel/brain.ts`, and `src/components/Pixel.tsx` draws them on a canvas at an integer scale. The eyes carry the expression; there is no mouth and there are no feet. Its stage comes from `src/core/creature.ts`: 70% the mean retrievability of the keep list, 20% the share of the last thirty days' asks you did or shared, 10% today's capacity; thriving from 0.80, steady from 0.60, fading from 0.40; a rising delegated share on a keep-list domain drops it one stage for the week. The garden-plot tiles on each domain card come from `scripts/pixel/tiles.py` the same way. `npm run pixel` regenerates both (needs Python 3 and Pillow for the PNG previews).
+
 ## Browser extension
 
-`integrations/browser-extension` is a Manifest V3 extension (Chrome, Edge, Brave, Arc). Load it unpacked from `chrome://extensions` with Developer mode on. It does two things.
+`integrations/browser-extension` is a Manifest V3 extension (Chrome, Edge, Brave, Arc). Load it unpacked from `chrome://extensions` with Developer mode on. It ships the same parchment look and the pixel face (`fallow-font.css`, served from the extension itself), so the card and the pause match the site on every host page. It does two things.
 
 **Chat intercept.** On chatgpt.com, claude.ai and gemini.google.com it catches the send action, asks the local app for a verdict, and shows a card before the prompt leaves: do it yourself, scaffold or co-pilot, with the reasons and the scaffold. Three buttons: *I'll try first* (cancels the send and starts a 15-minute timer badge; when it ends you log "did it" or ask for a hint), *Send with scaffold* (appends the scaffold instruction to your prompt so the model follows it, logged as shared work), *Send anyway* (logged as delegated). Delegate verdicts show a two-second toast and pass straight through. A "quiet on this site for an hour" link exists because the forcing functions that work are the ones people like least. If the app is not running, everything passes through untouched.
 
@@ -147,11 +155,12 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 ## Tests
 
 ```bash
-npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary (66 tests)
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature (71 tests)
 npm run typecheck
 npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
 npm run build:static    # the hosted site, into out/
 npm run build:extension # rebuild core.js inside the extension after changing src/core
+npm run pixel           # redraw the creature and the plot tiles from scripts/pixel (Python 3 + Pillow)
 ```
 
 ## Publishing
@@ -170,7 +179,8 @@ npm run build:extension # rebuild core.js inside the extension after changing sr
 - The hosted build: one codebase, a client-side ledger in IndexedDB, demo preload, a demo chat that shows the card without the extension, public About and Evidence pages, and a GitHub Pages workflow.
 - The attention layer from ActivityWatch: switches per hour, longest block, listed-site minutes, focus blocks logged as practice.
 - The Claude Code hook, a Cursor hook, and the assess API they use.
-- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 66 unit tests.
+- The look: parchment on wood, pixel borders and type, the brain creature whose stage is computed from the ledger, garden-plot tiles per domain, the extension card and pause restyled to match, app and extension icons drawn from the creature.
+- Field, Gate, Practice, Ledger, Day, Import and Settings pages, demo pages for the extension, local JSON persistence, demo mode, 71 unit tests.
 
 ## What is not built
 
@@ -180,6 +190,8 @@ npm run build:extension # rebuild core.js inside the extension after changing sr
 - Site selectors that survive redesigns. The extension's composer and send-button selectors for ChatGPT, Claude and Gemini are current as of writing and will need a bump when those apps change their DOM; the demo page always works.
 - Accounts or sync. The hosted site and the extension each keep their own ledger; moving one into the other is an export and an import, not a live link. A hosted backend with sign-in is the third tier, if the standalone version earns it.
 - A Chrome Web Store listing. The extension loads unpacked today.
+- The night variant. The lamp-lit tokens are in `globals.css`; nothing switches them on by time of day yet.
+- Points, a room, decorations. The creature reads the ledger; it does not yet earn anything from it. That layer only makes sense once the stage itself feels right.
 - Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence. The Cursor hook has not been run in a real Cursor session.
 
 ## What it does not claim

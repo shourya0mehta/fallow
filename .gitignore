@@ -7,3 +7,4 @@ data/*.json
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+scripts/pixel/out/
