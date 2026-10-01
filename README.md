@@ -14,13 +14,14 @@ The evidence behind the design, in one paragraph. Handing an AI the answer hurts
 
 ## Live site
 
+**https://fallow-omega.vercel.app** (mirror: https://shourya0mehta.github.io/fallow/)
+
 The hosted version is the whole app with no server. The ledger lives in the visitor's own browser (IndexedDB), a demo ledger loads on the first visit, the Gate and Practice run the core in the page, and importing your own ChatGPT or Claude export never uploads anything. The demo chat page shows the extension's verdict card without the extension installed.
 
-Build it with `npm run build:static` (static files in `out/`), or let GitHub Pages do it on every push:
+Build it with `npm run build:static` (static files in `out/`). Both hosts rebuild on every push to `main`:
 
-1. Push the repo to GitHub (`scripts/publish.sh` creates it and pushes).
-2. In the repo on GitHub: Settings, Pages, Source: **GitHub Actions**.
-3. The workflow in `.github/workflows/pages.yml` runs the tests and the typecheck, builds the static site, and deploys it to `https://<your-user>.github.io/fallow/`. For a custom domain, set the repository variable `PAGES_BASE_PATH` to `/` and add a `CNAME` file in `public/`.
+- **Vercel**: import the repo, framework preset **Other**, build command `npm run build:static`, output directory `out`, environment variable `NEXT_PUBLIC_REPO_URL` set to the repo URL. Leave `NEXT_PUBLIC_BASE_PATH` unset so the site is served from the root.
+- **GitHub Pages**: Settings, Pages, Source: **GitHub Actions**. The workflow in `.github/workflows/pages.yml` runs the tests and the typecheck, builds the static site under the `/fallow` base path, and deploys it to `https://<your-user>.github.io/fallow/`. For a custom domain, set the repository variable `PAGES_BASE_PATH` to `/` and add a `CNAME` file in `public/`.
 
 Same codebase, two builds: `next build` gives the local app with its API, file-backed ledger, hooks and extension; `STATIC_EXPORT=1` gives the hosted site. The pages detect which one they are running in.
 
