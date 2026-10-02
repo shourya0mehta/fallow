@@ -77,14 +77,14 @@ export class SyncEngine {
         }
         const remote = await this.remote.pull();
         const local = await this.local.load();
-        const res = mergeGardens({ local, localIsDemo: meta.demo, localSettingsAt: meta.settingsAt ?? 0, remote });
+        const res = mergeGardens({ local, localIsDemo: meta.demo, demoOwn: meta.demoOwn, localSettingsAt: meta.settingsAt ?? 0, remote });
         // keep anything logged while we were talking to the cloud; it stays queued for the next push
         const latest = await this.local.load();
         const known = new Set(local.events.map((e) => e.id));
         const merged = new Set(res.ledger.events.map((e) => e.id));
         const fresh = latest.events.filter((e) => !known.has(e.id) && !merged.has(e.id));
         if (fresh.length) res.ledger.events = [...res.ledger.events, ...fresh].sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
-        await this.local.replaceAll(res.ledger, { demo: false, settingsAt: res.settingsAt });
+        await this.local.replaceAll(res.ledger, { demo: false, demoDay: undefined, demoOwn: undefined, settingsAt: res.settingsAt });
         await this.remote.push(res.upload, res.uploadSettings ? { settings: res.ledger.settings, at: res.settingsAt } : null, res.ledger.settings.syncText === true);
         // what was queued before the merge is in the merged garden now
         for (const id of queuedEvents) this.events.delete(id);

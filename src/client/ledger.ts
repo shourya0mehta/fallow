@@ -1,7 +1,9 @@
 import { assess, type Assessment } from "@/core/assess";
+import { localizeDemo } from "@/core/demo";
 import { addEventsTo, addSignalsTo, applySettingsPatch, buildPromptEvent, deleteEventFrom, emptyLedger, normalizeLedger, parseSignal, type Ledger, type PromptEventInput } from "@/core/ledger";
 import { buildSnapshot, type Snapshot } from "@/core/summary";
 import { monthOf } from "@/core/sync";
+import { localDateKey } from "@/core/time";
 import type { LedgerEvent, Settings, Signal } from "@/core/types";
 
 /**
@@ -26,7 +28,7 @@ export interface LedgerClient {
   updateSettings(patch: Record<string, unknown>): Promise<Settings>;
   addSignals(signals: unknown[]): Promise<{ added: number; total: number }>;
   clear(): Promise<void>;
-  /** True while the ledger is the bundled demo and nothing of the visitor's own has been added. */
+  /** True while the garden here is the demo (any asks the visitor logs on it are kept apart, see Meta.demoOwn). */
   isDemo(): Promise<boolean>;
 }
 
@@ -90,6 +92,10 @@ const META_KEY = "meta";
 
 export interface Meta {
   demo: boolean;
+  /** The local day the demo was last dated for (see localizeDemo). */
+  demoDay?: string;
+  /** Ids of asks the visitor logged while looking at the demo: theirs to keep when they start their own garden or sign in. */
+  demoOwn?: string[];
   /** Epoch ms of the last settings change here, for "newest wins" when syncing. */
   settingsAt?: number;
   /** Deletions the cloud has not heard about yet. */
@@ -216,23 +222,46 @@ export class BrowserLedger implements LedgerClient {
   async resetToDemo(): Promise<void> {
     this.ledger = null;
     this.meta = { demo: false };
-    let demo: Ledger | null = null;
-    if (this.loadDemo) {
-      try {
-        demo = normalizeLedger(await this.loadDemo());
-      } catch {
-        demo = null;
-      }
-    }
-    this.ledger = demo ?? emptyLedger();
-    this.meta = { demo: demo !== null, settingsAt: 0, pendingDeletes: [] };
+    const demo = await this.bundledDemo();
+    this.ledger = demo ? localizeDemo(demo) : emptyLedger();
+    this.meta = demo ? { demo: true, demoDay: localDateKey(new Date()), demoOwn: [], settingsAt: 0, pendingDeletes: [] } : { demo: false, settingsAt: 0, pendingDeletes: [] };
     await this.persist();
   }
 
-  /** Swap the demo for an empty garden of your own. Does not emit: there is nothing to tell the cloud yet. */
+  /** Swap the demo for an empty garden of your own, keeping any asks logged on the demo. Does not emit: there is nothing to tell the cloud yet. */
   async startFresh(): Promise<void> {
-    this.ledger = emptyLedger();
+    const l = await this.ensure();
+    const own = this.meta.demo ? new Set(this.meta.demoOwn ?? []) : new Set<string>();
+    const fresh = emptyLedger();
+    fresh.events = l.events.filter((e) => own.has(e.id));
+    this.ledger = fresh;
     this.meta = { demo: false, settingsAt: 0, pendingDeletes: [] };
+    await this.persist();
+  }
+
+  private async bundledDemo(): Promise<Ledger | null> {
+    if (!this.loadDemo) return null;
+    try {
+      return normalizeLedger(await this.loadDemo());
+    } catch {
+      return null;
+    }
+  }
+
+  /** The demo is dated for the day it is looked at, so it never goes stale; asks the visitor logged on it stay as they were. */
+  private async redateDemo(): Promise<void> {
+    const today = localDateKey(new Date());
+    if (!this.ledger || !this.meta.demo || this.meta.demoDay === today) return;
+    const bundled = await this.bundledDemo();
+    if (!bundled) return;
+    const own = new Set(this.meta.demoOwn ?? []);
+    const mine = this.ledger.events.filter((e) => own.has(e.id));
+    const fresh = localizeDemo(bundled);
+    // settings the visitor changed on the demo stay; a demo stored before dating existed is replaced whole
+    if (this.meta.demoDay) fresh.settings = this.ledger.settings;
+    fresh.events = [...fresh.events, ...mine].sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+    this.ledger = fresh;
+    this.meta = { ...this.meta, demoDay: today, demoOwn: mine.map((e) => e.id) };
     await this.persist();
   }
 
@@ -243,17 +272,15 @@ export class BrowserLedger implements LedgerClient {
     if (stored) {
       this.ledger = normalizeLedger(stored);
       this.meta = { demo: false, ...(meta ?? {}) };
+      if (this.meta.demo) await this.redateDemo();
       return this.ledger;
     }
-    if (this.loadDemo) {
-      try {
-        this.ledger = normalizeLedger(await this.loadDemo());
-        this.meta = { demo: true };
-        await this.persist();
-        return this.ledger;
-      } catch {
-        /* no demo available */
-      }
+    const demo = await this.bundledDemo();
+    if (demo) {
+      this.ledger = localizeDemo(demo);
+      this.meta = { demo: true, demoDay: localDateKey(new Date()), demoOwn: [] };
+      await this.persist();
+      return this.ledger;
     }
     this.ledger = emptyLedger();
     this.meta = { demo: false };
@@ -280,14 +307,15 @@ export class BrowserLedger implements LedgerClient {
     const l = await this.ensure();
     const before = new Set(l.events.map((e) => e.id));
     const res = addEventsTo(l, events);
-    if (res.added > 0) this.meta.demo = false;
-    await this.persist();
     const fresh: LedgerEvent[] = [];
     for (const e of events) {
       if (before.has(e.id)) continue;
       before.add(e.id);
       fresh.push(e);
     }
+    // on the demo, the visitor's own asks are kept apart from the sample ones
+    if (this.meta.demo && fresh.length) this.meta.demoOwn = [...(this.meta.demoOwn ?? []), ...fresh.map((e) => e.id)];
+    await this.persist();
     if (fresh.length) this.emit({ kind: "events", events: fresh });
     return res;
   }
@@ -301,6 +329,7 @@ export class BrowserLedger implements LedgerClient {
     const l = await this.ensure();
     const gone = l.events.find((e) => e.id === id);
     const ok = deleteEventFrom(l, id);
+    if (ok && this.meta.demoOwn) this.meta.demoOwn = this.meta.demoOwn.filter((x) => x !== id);
     if (ok) await this.persist();
     if (ok && gone) this.emit({ kind: "delete", id, month: monthOf(gone.ts), item: "event" });
     return ok;
