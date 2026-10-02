@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { localizeDemo } from "./demo";
 import { addEventsTo, addSignalsTo, applySettingsPatch, deleteEventFrom, emptyLedger, normalizeLedger, type Ledger } from "./ledger";
 import type { LedgerEvent, Settings, Signal } from "./types";
 
@@ -32,7 +33,7 @@ export async function loadLedger(): Promise<Ledger> {
   if (DEMO) {
     if (!demoLedger) {
       try {
-        demoLedger = normalizeLedger(JSON.parse(await fs.readFile(demoPath(), "utf8")));
+        demoLedger = localizeDemo(normalizeLedger(JSON.parse(await fs.readFile(demoPath(), "utf8"))));
       } catch {
         demoLedger = emptyLedger();
       }

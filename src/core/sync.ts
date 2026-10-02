@@ -9,8 +9,9 @@ import type { LedgerEvent, Settings, Signal } from "./types";
  * events and signals keyed by id and tombstones for anything deleted.
  *
  * Merging is a union by id. A tombstone beats a copy. Settings go to whichever
- * side changed last. The bundled demo never reaches the cloud. The text of an
- * ask stays on the device that saw it unless the person turns on syncText.
+ * side changed last. The demo's sample asks never reach the cloud (asks the
+ * visitor logged on the demo do). The text of an ask stays on the device that
+ * saw it unless the person turns on syncText.
  */
 
 export interface MonthBucket {
@@ -67,8 +68,10 @@ function signalKey(s: Signal): string {
 
 export interface MergeInput {
   local: Ledger;
-  /** The local garden is the bundled demo: discard it rather than upload it. */
+  /** The local garden is the demo: discard its sample asks rather than upload them. */
   localIsDemo: boolean;
+  /** On a demo garden, ids of the asks the visitor logged themselves: those are theirs and go up. */
+  demoOwn?: string[];
   /** Epoch ms of the last local settings change, 0 when never changed. */
   localSettingsAt: number;
   remote: RemoteGarden;
@@ -87,7 +90,7 @@ export interface MergeResult {
   removed: number;
 }
 
-export function mergeGardens({ local, localIsDemo, localSettingsAt, remote, now = Date.now() }: MergeInput): MergeResult {
+export function mergeGardens({ local, localIsDemo, demoOwn = [], localSettingsAt, remote, now = Date.now() }: MergeInput): MergeResult {
   const months = Object.values(remote.months ?? {});
   const deleted = new Set<string>();
   for (const m of months) for (const id of Object.keys(m.deleted ?? {})) deleted.add(id);
@@ -104,7 +107,8 @@ export function mergeGardens({ local, localIsDemo, localSettingsAt, remote, now 
     }
   }
 
-  const mine = localIsDemo ? { events: [] as LedgerEvent[], signals: [] as Signal[] } : local;
+  const own = new Set(demoOwn);
+  const mine = localIsDemo ? { events: local.events.filter((e) => own.has(e.id)), signals: [] as Signal[] } : local;
 
   // events: union by id, tombstones win, local text is kept
   const events = new Map<string, LedgerEvent>();
