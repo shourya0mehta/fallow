@@ -17,7 +17,7 @@ const chatgpt = [
           id: "m1",
           author: { role: "user" },
           create_time: 1_758_000_100,
-          content: { content_type: "text", parts: ["Write me a cover letter for a GIS internship"] },
+          content: { content_type: "text", parts: ["Write me a cover letter for a marketing internship"] },
         },
         parent: "root",
         children: ["m2"],

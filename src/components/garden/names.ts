@@ -1,5 +1,5 @@
 import { hasNoHistory } from "@/core/creature";
-import type { DomainId, DomainState } from "@/core/types";
+import type { DomainId, DomainState, Source } from "@/core/types";
 import type { PlantStatus } from "@/pixel/plants";
 
 /** What the garden calls each plant, for quests and tags. */
@@ -15,6 +15,20 @@ export const PLANT_NAME: Record<DomainId, { one: string; the: string }> = {
   implementation: { one: "cactus", the: "the cactus" },
   verbal: { one: "snapdragon", the: "the snapdragon" },
   attention: { one: "pine", the: "the pine" },
+};
+
+/** Where an entry came from, as the journal says it. */
+export const SOURCE_LABEL: Record<Source, string> = {
+  "import-chatgpt": "ChatGPT",
+  "import-claude": "Claude",
+  "hook-claude-code": "Claude Code",
+  "hook-cursor": "Cursor",
+  "extension-chat": "Browser extension",
+  activitywatch: "ActivityWatch",
+  practice: "Practice session",
+  gate: "Ask bar",
+  manual: "Added by hand",
+  seed: "Sample",
 };
 
 /** A sensible first session length per domain, in minutes. */

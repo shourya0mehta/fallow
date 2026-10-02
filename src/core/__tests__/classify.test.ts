@@ -4,7 +4,7 @@ import { actorFor } from "../events";
 
 describe("classifyPrompt", () => {
   it("files a drafting request under composition as a passive answer-ask", () => {
-    const c = classifyPrompt("Write me a cover letter for a data science internship at a climate startup");
+    const c = classifyPrompt("Write me a cover letter for a marketing internship at a small startup");
     expect(c.domains[0].id).toBe("composition");
     expect(c.askType).toBe("answer");
     expect(c.icap).toBe("passive");
@@ -28,24 +28,24 @@ describe("classifyPrompt", () => {
   });
 
   it("recognises a review of the person's own draft", () => {
-    const c = classifyPrompt("Here's my draft of the email to my professor, can you check my tone?");
+    const c = classifyPrompt("Here's my draft of the email to my manager, can you check my tone?");
     expect(c.askType).toBe("review");
     expect(c.icap).toBe("constructive");
     expect(c.domains[0].id).toBe("composition");
   });
 
   it("files summarisation under synthesis", () => {
-    const c = classifyPrompt("Summarize the key points of this paper on snow water equivalent and SNOTEL stations");
+    const c = classifyPrompt("Summarize the key points of this paper on sleep and memory");
     expect(c.domains[0].id).toBe("synthesis");
   });
 
   it("files planning and ideation", () => {
     expect(classifyPrompt("Make me a study plan for the next three weeks with milestones").domains[0].id).toBe("planning");
-    expect(classifyPrompt("Brainstorm ten names for an acoustic biodiversity app").domains[0].id).toBe("ideation");
+    expect(classifyPrompt("Brainstorm ten names for a bakery").domains[0].id).toBe("ideation");
   });
 
   it("files navigation and verbal expression", () => {
-    expect(classifyPrompt("How do I get to the airport from campus without the highway?").domains[0].id).toBe("navigation");
+    expect(classifyPrompt("How do I get to the airport without taking the highway?").domains[0].id).toBe("navigation");
     expect(classifyPrompt("What should I say to my landlord about the broken heater?").domains[0].id).toBe("verbal");
   });
 

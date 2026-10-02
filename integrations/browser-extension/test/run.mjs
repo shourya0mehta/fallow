@@ -53,7 +53,7 @@ async function main() {
       await page.evaluate(() => localStorage.setItem("fallow.sky", "day"));
     }
     await page.goto(`${BASE}/demo/chat`, { waitUntil: "networkidle" });
-    const ask = "Write me a cover letter for a data science internship at a climate startup";
+    const ask = "Write me a cover letter for a marketing internship at a small startup.";
     await page.fill("textarea[data-fallow-composer]", ask);
     await page.keyboard.press("Enter");
     const card = page.locator(".fallow-card");
@@ -75,7 +75,7 @@ async function main() {
     assert(last.source === "extension-chat" && last.actor === "ai", "logged as delegated from the extension");
 
     console.log("send with scaffold");
-    await page.fill("textarea[data-fallow-composer]", "Write me an email to my advisor asking for a two-week extension");
+    await page.fill("textarea[data-fallow-composer]", "Write me an email to my manager asking for a two-week extension.");
     await page.click("button[data-fallow-send]");
     await card.waitFor({ timeout: 8000 });
     await card.locator("button[data-fallow-action='scaffold']").click();
@@ -118,7 +118,7 @@ async function main() {
     for (const worker of context.serviceWorkers()) await worker.evaluate(() => chrome.storage.local.set({ baseUrl: "http://127.0.0.1:9", standalone: true, settingsCache: null, ledger: null }));
     const solo = await context.newPage();
     await solo.goto(`${BASE}/demo/chat`, { waitUntil: "networkidle" });
-    await solo.fill("textarea[data-fallow-composer]", "Write me a cover letter for a data science internship at a climate startup");
+    await solo.fill("textarea[data-fallow-composer]", "Write me a cover letter for a marketing internship at a small startup.");
     await solo.keyboard.press("Enter");
     const soloCard = solo.locator(".fallow-card");
     await soloCard.waitFor({ timeout: 8000 });

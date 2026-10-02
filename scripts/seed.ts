@@ -1,16 +1,22 @@
 /**
- * Seed a demo ledger: about 90 days of a student developer's asks.
- * Deterministic (seeded PRNG) so screenshots are reproducible.
+ * Seed a ledger with ninety days of sample asks: everyday requests from the
+ * bank in src/data/demo-asks.ts, a few practice sessions and a week of screen
+ * summaries. Deterministic (seeded PRNG) so screenshots are reproducible.
  *
  *   npm run seed          # writes data/fallow.json (refuses if it already has entries)
  *   npm run seed -- --force
- *   npm run seed:demo     # writes data/demo.json, the read-only ledger behind FALLOW_DEMO=1
+ *   npm run seed:demo     # writes src/data/demo.json, the garden behind "Peek at a demo"
+ *
+ * Times are written as UTC wall-clock times with the last day as "today".
+ * localizeDemo() re-dates them for whoever is looking, so the demo never ages.
  */
 import { promises as fs } from "node:fs";
-import { eventFromPrompt } from "../src/core/events";
+import { localizeDemo } from "../src/core/demo";
+import { buildPromptEvent } from "../src/core/ledger";
 import { dataPath, demoPath, emptyLedger, loadLedger, saveLedger } from "../src/core/store";
-import { localDateKey } from "../src/core/time";
-import type { LedgerEvent, Signal } from "../src/core/types";
+import type { DomainId, LedgerEvent, Source, Signal } from "../src/core/types";
+import { DEMO_ASKS, DEMO_PRACTICE, type AskDomain } from "../src/data/demo-asks";
+import { DOMAIN_BY_ID } from "../src/core/taxonomy";
 
 function rng(seed: number) {
   let s = seed >>> 0;
@@ -22,131 +28,163 @@ function rng(seed: number) {
   };
 }
 
-const POOLS: Array<{ weight: number; source: LedgerEvent["source"]; prompts: string[] }> = [
-  {
-    weight: 9,
-    source: "hook-claude-code",
-    prompts: [
-      "Write a function that parses the SNOTEL CSV and returns daily SWE as a pandas DataFrame",
-      "Implement the Drizzle schema for playlists with a content-addressed object table",
-      "Write the React component for the deadline card with a countdown",
-      "Add a unit test for the LCS diff on empty inputs",
-      "Refactor this into a provider-agnostic adapter interface\n```ts\nexport class SpotifyRemote {}\n```",
-      "Write a bash script to batch convert the flac files to 16kHz mono wav",
-      "Write the SQL to get weekly active users by cohort",
-      "Generate the boilerplate for a Next.js API route that validates the body",
-      "Write a regex that matches ISO dates but not times",
-    ],
-  },
-  {
-    weight: 7,
-    source: "hook-claude-code",
-    prompts: [
-      "Why doesn't this work? TypeError: Cannot read properties of undefined (reading 'map')\n```js\nconst rows = data.items.map(r => r.id)\n```",
-      "Fix this stack trace, the migration fails on the second run",
-      "Why is the beat tracker drifting after 30 seconds? Here's the onset detection code",
-      "Debug: the iCal feed validates locally but Google Calendar refuses it",
-      "Root cause this flaky test, it passes alone and fails in the suite",
-      "Why does the particle filter collapse to one particle after a few steps?",
-    ],
-  },
-  {
-    weight: 5,
-    source: "import-chatgpt",
-    prompts: [
-      "Write me an email to my professor asking for a two week extension on the GIS project",
-      "Write a cover letter for a data science internship at a climate startup",
-      "Draft a LinkedIn post about presenting at AGU",
-      "Rewrite this paragraph so it sounds less stiff",
-      "Write the abstract for our urbanization and green fragmentation paper",
-      "Compose a short bio for the hackathon team page",
-    ],
-  },
-  {
-    weight: 4,
-    source: "import-chatgpt",
-    prompts: [
-      "Summarize the key points of this paper on snow water equivalent and climate indices",
-      "TL;DR this thread about the Pinterest API deprecation",
-      "Give me the main takeaways from this article on cognitive reserve",
-      "Summarize this lecture transcript into study notes",
-    ],
-  },
-  {
-    weight: 3,
-    source: "import-chatgpt",
-    prompts: [
-      "Make me a study plan for the next three weeks before the exam with milestones",
-      "Break down the acoustic monitoring pilot into a two-month roadmap",
-      "Prioritize these five tasks for this week and give me a schedule",
-      "Plan an itinerary for a weekend in Chicago near the campus",
-    ],
-  },
-  {
-    weight: 2,
-    source: "import-chatgpt",
-    prompts: [
-      "Calculate the sample size I need for 80% power with an effect size of 0.3",
-      "What's 18% of 2,340 and then convert that to per-month?",
-      "Solve for x: 3x^2 - 5x + 1 = 0",
-      "What's the standard deviation of these numbers: 12, 15, 9, 22, 18",
-    ],
-  },
-  {
-    weight: 1,
-    source: "import-chatgpt",
-    prompts: [
-      "Give me a hint on this integral, don't give me the answer: integral of x e^x dx",
-      "Don't solve it, just point me in the right direction for this recurrence relation",
-      "Hint only: why might the residuals be heteroscedastic here?",
-    ],
-  },
-  {
-    weight: 2,
-    source: "import-chatgpt",
-    prompts: [
-      "Brainstorm ten names for an acoustic biodiversity monitoring app",
-      "Give me ideas for a blog post about phantom green growth",
-      "Come up with angles for a pitch about club recruitment deadlines",
-      "Suggest titles for my AGU poster on SWE and teleconnections",
-    ],
-  },
-  {
-    weight: 2,
-    source: "import-chatgpt",
-    prompts: [
-      "What's the syntax for a Python list comprehension with a condition?",
-      "Remind me, what does the -p flag do in mkdir?",
-      "What is the capital of Burkina Faso?",
-      "What's the name of the effect where saving a file frees up memory?",
-      "Which command shows disk usage per folder on mac?",
-    ],
-  },
-  {
-    weight: 1,
-    source: "import-claude",
-    prompts: [
-      "What should I say to my landlord about the broken heater without sounding rude?",
-      "How do I tell my teammate the PR needs to be split up?",
-      "Reply to this message from the club president politely declining",
-    ],
-  },
-  {
-    weight: 1,
-    source: "import-claude",
-    prompts: ["How do I get to the airport from campus without the highway?", "Which way is the lake from the engineering quad?"],
-  },
-  {
-    weight: 2,
-    source: "import-claude",
-    prompts: [
-      "Here's my draft of the email to my advisor, can you check my tone?",
-      "Review my argument in this essay intro, is it clear?",
-      "Explain why the LSTM overfits after epoch 10",
-      "I wrote this function, is the recursion base case right?",
-    ],
-  },
+const DAYS = 90;
+
+/** How often each plant comes up in everyday asks (relative). */
+const WEIGHT: Record<AskDomain, number> = {
+  implementation: 16,
+  composition: 16,
+  analysis: 12,
+  synthesis: 11,
+  recall: 10,
+  planning: 8,
+  quantitative: 8,
+  ideation: 7,
+  verbal: 6,
+  navigation: 5,
+};
+
+/**
+ * Share of asks that keep the person in the loop, for the plants they practice
+ * all along. The rest get only the planned asks below, so the demo shows every
+ * condition at once: fresh, fading, stale and fallow.
+ */
+const SHARED_RATE: Partial<Record<AskDomain, number>> = { analysis: 0.4, composition: 0.25, implementation: 0.25, ideation: 0.2 };
+
+/** One-off shared asks, as days before the last day: they set how far the less-practiced plants have dried. */
+const PLANNED_SHARED: Array<[number, AskDomain]> = [
+  [84, "quantitative"],
+  [66, "quantitative"],
+  [78, "synthesis"],
+  [86, "recall"],
+  [87, "planning"],
 ];
+
+/** Practice sessions from the garden: days before the last day, plant, minutes. */
+const SESSIONS: Array<[number, DomainId, number]> = [
+  [58, "quantitative", 25],
+  [40, "composition", 30],
+  [14, "composition", 25],
+  [2, "composition", 20],
+  [26, "analysis", 30],
+  [8, "analysis", 25],
+  [21, "implementation", 45],
+  [6, "implementation", 30],
+  [1, "implementation", 25],
+  [4, "ideation", 15],
+  [12, "attention", 45],
+  [3, "attention", 60],
+];
+
+/** Asks checked in the ask bar and then done without the AI: days before the last day, plant. */
+const DID_IT_MYSELF: Array<[number, AskDomain]> = [
+  [16, "analysis"],
+  [11, "implementation"],
+  [9, "composition"],
+];
+
+/** Where an ask came from: imported history first, the extension and the ask bar for the last month. */
+function sourceFor(domain: AskDomain, day: number, rand: () => number): Source {
+  if (domain === "implementation") return "hook-claude-code";
+  if (day > 30) return rand() < 0.65 ? "import-chatgpt" : "import-claude";
+  return rand() < 0.75 ? "extension-chat" : "gate";
+}
+
+/** Each plant's bank, dealt out like a shuffled deck so the same ask never comes up twice in a row. */
+function dealer(rand: () => number) {
+  const decks = new Map<string, string[]>();
+  return (key: string, cards: string[]): string => {
+    let deck = decks.get(key);
+    if (!deck || deck.length === 0) {
+      deck = [...cards];
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+      decks.set(key, deck);
+    }
+    return deck.pop()!;
+  };
+}
+
+function utcAt(anchor: Date, day: number, hour: number, minute: number, second = 0): string {
+  return new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), anchor.getUTCDate() - day, hour, minute, second)).toISOString();
+}
+
+export function seedLedger(anchor: Date = new Date()) {
+  const rand = rng(20261002);
+  const deal = dealer(rand);
+  const events: LedgerEvent[] = [];
+  const domains = Object.keys(WEIGHT) as AskDomain[];
+  const totalWeight = domains.reduce((a, d) => a + WEIGHT[d], 0);
+  const push = (e: LedgerEvent | null) => e && events.push(e);
+
+  // everyday asks: two to six on weekdays, up to two on weekends
+  for (let day = DAYS; day >= 0; day--) {
+    const dow = new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth(), anchor.getUTCDate() - day)).getUTCDay();
+    const asks = dow === 0 || dow === 6 ? Math.floor(rand() * 3) : 2 + Math.floor(rand() * 5);
+    for (let i = 0; i < asks; i++) {
+      let pick = rand() * totalWeight;
+      const domain = domains.find((d) => (pick -= WEIGHT[d]) < 0) ?? domains[0];
+      const bank = DEMO_ASKS[domain];
+      const shared = bank.shared.length > 0 && rand() < (SHARED_RATE[domain] ?? 0);
+      const text = shared ? deal(`${domain}:shared`, bank.shared) : deal(`${domain}:ai`, bank.ai);
+      const hour = 8 + Math.floor(rand() * 15);
+      push(buildPromptEvent({ text, source: sourceFor(domain, day, rand), ts: utcAt(anchor, day, hour, Math.floor(rand() * 60), Math.floor(rand() * 60)) }));
+    }
+  }
+
+  for (const [day, domain] of PLANNED_SHARED) {
+    push(buildPromptEvent({ text: deal(`${domain}:shared`, DEMO_ASKS[domain].shared), source: day > 30 ? "import-chatgpt" : "extension-chat", ts: utcAt(anchor, day, 9 + Math.floor(rand() * 12), Math.floor(rand() * 60)) }));
+  }
+
+  for (const [day, domain, minutes] of SESSIONS) {
+    const note = deal(`${domain}:practice`, DEMO_PRACTICE[domain]);
+    push(buildPromptEvent({ text: `Practice: ${DOMAIN_BY_ID[domain].label}, ${note}`, source: "practice", actor: "self", icap: "constructive", minutes, demanding: minutes >= 25, domains: [{ id: domain, weight: 1 }], ts: utcAt(anchor, day, 7 + Math.floor(rand() * 15), Math.floor(rand() * 60)) }));
+  }
+
+  for (const [day, domain] of DID_IT_MYSELF) {
+    push(buildPromptEvent({ text: deal(`${domain}:ai`, DEMO_ASKS[domain].ai), source: "gate", actor: "self", icap: "constructive", ts: utcAt(anchor, day, 9 + Math.floor(rand() * 10), Math.floor(rand() * 60)) }));
+  }
+
+  // a week of screen summaries and a few pauses, so the screens strip is not empty
+  const signals: Signal[] = [];
+  for (let day = 6; day >= 0; day--) {
+    const ts = utcAt(anchor, day, 0, 0);
+    const key = ts.slice(0, 10);
+    const fun = Math.round(25 + rand() * 60);
+    signals.push({
+      id: `attention|${key}`,
+      ts,
+      kind: "attention-day",
+      day: key,
+      activeMin: Math.round(300 + rand() * 200),
+      switchesPerHour: Math.round((6 + rand() * 14) * 10) / 10,
+      longestBlockMin: Math.round(20 + rand() * 60),
+      entertainmentMin: fun,
+      top: [
+        { name: "Google Chrome: docs.google.com", minutes: Math.round(90 + rand() * 90) },
+        { name: "Code", minutes: Math.round(40 + rand() * 60) },
+        { name: "Google Chrome: youtube.com", minutes: fun - 10 },
+        { name: "Slack", minutes: Math.round(20 + rand() * 30) },
+        { name: "Google Chrome: reddit.com", minutes: 10 },
+      ],
+    });
+    const opens = 1 + Math.floor(rand() * 4);
+    for (let i = 0; i < opens; i++) {
+      const t = utcAt(anchor, day, 12 + Math.floor(rand() * 10), Math.floor(rand() * 60));
+      const closed = rand() < 0.36;
+      const site = rand() < 0.6 ? "youtube.com" : rand() < 0.5 ? "reddit.com" : "instagram.com";
+      signals.push({ id: `pause|${t}|${site}`, ts: t, kind: "pause", site, outcome: closed ? "closed" : "continued", waitedSeconds: closed ? 4 + Math.floor(rand() * 6) : 10 });
+    }
+  }
+
+  const ledger = emptyLedger();
+  ledger.events = events.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  ledger.signals = signals.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+  ledger.settings.keepList = ["composition", "analysis", "quantitative"];
+  return ledger;
+}
 
 async function main() {
   const force = process.argv.includes("--force");
@@ -157,102 +195,16 @@ async function main() {
     console.error(`Refusing to overwrite ${existing.events.length} entries in ${dataPath()}. Use --force.`);
     process.exit(1);
   }
-  const rand = rng(20260929);
-  const now = new Date();
-  const events: LedgerEvent[] = [];
-  const totalWeight = POOLS.reduce((a, p) => a + p.weight, 0);
-
-  for (let day = 90; day >= 0; day--) {
-    const dow = new Date(now.getTime() - day * 86_400_000).getDay();
-    const asksToday = dow === 0 || dow === 6 ? Math.floor(rand() * 3) : 2 + Math.floor(rand() * 6);
-    for (let i = 0; i < asksToday; i++) {
-      let pick = rand() * totalWeight;
-      const pool = POOLS.find((p) => (pick -= p.weight) < 0) ?? POOLS[0];
-      const prompt = pool.prompts[Math.floor(rand() * pool.prompts.length)];
-      const hour = 9 + Math.floor(rand() * 13);
-      const minute = Math.floor(rand() * 60);
-      const ts = new Date(now.getTime() - day * 86_400_000);
-      ts.setHours(hour, minute, Math.floor(rand() * 60), 0);
-      if (ts > now) continue;
-      const e = eventFromPrompt(prompt, { source: pool.source, ts: ts.toISOString(), key: `seed|${day}|${i}|${prompt}` });
-      events.push(e);
-    }
-  }
-
-  // A few self-done sessions, so the field is not uniformly fallow.
-  const selfSessions: Array<[number, string, number]> = [
-    [2, "Debugged the flaky iCal test myself, two hypotheses, found the timezone bug", 45],
-    [9, "Wrote the AGU poster abstract by hand, then asked for a critique", 40],
-    [16, "Worked through the particle filter update step on paper", 60],
-    [30, "Drafted the club recruitment email myself", 25],
-    [41, "Debugged the onset detector by bisecting the pipeline", 50],
-    [55, "Wrote the first version of the fragmentation methods section", 35],
-    [3, "Ninety-minute focus block on the thesis draft, notifications off", 90],
-  ];
-  for (const [day, text, minutes] of selfSessions) {
-    const ts = new Date(now.getTime() - day * 86_400_000);
-    ts.setHours(14, 10, 0, 0);
-    const e = eventFromPrompt(text, { source: "seed", ts: ts.toISOString(), key: `seed-self|${day}|${text}` });
-    e.actor = "self";
-    e.icap = "constructive";
-    e.askType = "other";
-    e.minutes = minutes;
-    e.demanding = minutes >= 40;
-    if (text.includes("focus block")) e.domains = [{ id: "attention", weight: 0.5 }, { id: "composition", weight: 0.5 }];
-    events.push(e);
-  }
-
-  // One argued-out exchange, logged as interactive shared work.
-  {
-    const ts = new Date(now.getTime() - 20 * 86_400_000);
-    ts.setHours(16, 40, 0, 0);
-    const e = eventFromPrompt("Let's argue this out. Push back on my claim that the fragmentation index is biased by patch size.", { source: "import-claude", ts: ts.toISOString(), key: "seed-argue" });
-    events.push(e);
-  }
-
-  // Signals: a week of attention summaries and a few pauses, so the screens strip is not empty.
-  const signals: Signal[] = [];
-  for (let day = 6; day >= 0; day--) {
-    const d = new Date(now.getTime() - day * 86_400_000);
-    const key = localDateKey(d);
-    const ent = Math.round(25 + rand() * 60);
-    signals.push({
-      id: `attention|${key}`,
-      ts: new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0).toISOString(),
-      kind: "attention-day",
-      day: key,
-      activeMin: Math.round(300 + rand() * 200),
-      switchesPerHour: Math.round((6 + rand() * 14) * 10) / 10,
-      longestBlockMin: Math.round(20 + rand() * 60),
-      entertainmentMin: ent,
-      top: [
-        { name: "Code", minutes: Math.round(120 + rand() * 90) },
-        { name: "Google Chrome: docs.google.com", minutes: Math.round(40 + rand() * 40) },
-        { name: "Google Chrome: youtube.com", minutes: ent - 10 },
-        { name: "Slack", minutes: Math.round(20 + rand() * 30) },
-        { name: "Google Chrome: reddit.com", minutes: 10 },
-      ],
-    });
-    const opens = 1 + Math.floor(rand() * 4);
-    for (let i = 0; i < opens; i++) {
-      const t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12 + Math.floor(rand() * 10), Math.floor(rand() * 60), 0);
-      if (t > now) continue;
-      const closed = rand() < 0.36;
-      const site = rand() < 0.6 ? "youtube.com" : rand() < 0.5 ? "reddit.com" : "instagram.com";
-      signals.push({ id: `pause|${t.toISOString()}|${site}`, ts: t.toISOString(), kind: "pause", site, outcome: closed ? "closed" : "continued", waitedSeconds: closed ? 4 + Math.floor(rand() * 6) : 10 });
-    }
-  }
-
-  const ledger = emptyLedger();
-  ledger.events = events.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
-  ledger.signals = signals.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
-  ledger.settings.keepList = ["composition", "analysis", "quantitative"];
-  await saveLedger(ledger);
+  const seeded = seedLedger();
+  // the demo file stays in UTC wall-clock time and is re-dated in the browser; a local ledger is dated now
+  await saveLedger(demo ? seeded : localizeDemo(seeded, new Date()));
   const stat = await fs.stat(dataPath());
-  console.log(`Seeded ${events.length} entries into ${dataPath()} (${Math.round(stat.size / 1024)} kB).`);
+  console.log(`Seeded ${seeded.events.length} entries into ${dataPath()} (${Math.round(stat.size / 1024)} kB).`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && /(^|[\\/])seed\.ts$/.test(process.argv[1])) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

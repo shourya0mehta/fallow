@@ -13,7 +13,7 @@ import { PlantIcon } from "../garden/PlantIcon";
  * Parsed and classified in this browser; the file itself is never uploaded.
  */
 export function ImportCard() {
-  const { client, demo, mode, refresh } = useFallow();
+  const { client, demo, mode, refresh, startFresh } = useFallow();
   const [open, setOpen] = useState(false);
   const [keepExcerpt, setKeepExcerpt] = useState(true);
   const [preview, setPreview] = useState<(ImportResult & { kind: string; signals?: Signal[] }) | null>(null);
@@ -50,7 +50,7 @@ export function ImportCard() {
     if (!preview || !client) return;
     setBusy(true);
     try {
-      if (demo) await client.clear();
+      if (demo) await startFresh();
       const body = await client.addEvents(preview.events);
       if (preview.signals?.length) await client.addSignals(preview.signals);
       await refresh();
