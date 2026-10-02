@@ -14,7 +14,12 @@ export default function HowPage() {
     <div className="page how">
       <div className="page-head">
         <h1>How it works</h1>
-        <p>Studies keep finding the same thing: when you hand AI the finished answer, the skill behind it quietly fades. Fallow turns that into a garden you can see.</p>
+        <p>Studies keep finding the same thing: when you hand AI the finished answer, the skill behind it quietly fades. Fallow turns that into a garden you can see, tended by Shumbo, your brain pet.</p>
+        <p>
+          <Link className="link-btn" href="/?intro=1">
+            Watch Shumbo&apos;s intro again
+          </Link>
+        </p>
       </div>
 
       <section className="card">
@@ -58,7 +63,7 @@ export default function HowPage() {
 
       <div className="grid-2">
         <section className="card">
-          <h2>Your brain pet</h2>
+          <h2>Shumbo, your brain pet</h2>
           <div className="pet-row">
             {(["thriving", "steady", "fading", "fallow"] as const).map((s) => (
               <figure key={s}>
@@ -68,8 +73,8 @@ export default function HowPage() {
             ))}
           </div>
           <p>
-            Its health is <b>70%</b> how fresh your keep-list plants are, <b>20%</b> how much of your last month&apos;s asks you did yourself, and <b>10%</b> your energy right now. If you start handing a
-            keep-list skill off more each week, it drops a stage before the numbers catch up.
+            Shumbo&apos;s health is <b>70%</b> how fresh your keep-list plants are, <b>20%</b> how much of your last month&apos;s asks you did yourself, and <b>10%</b> your energy right now. If you start handing a
+            keep-list skill off more each week, he drops a stage before the numbers catch up. A brand-new garden starts him at steady, with sprouts.
           </p>
           <p className="pet-moves">
             <span>
@@ -112,10 +117,13 @@ export default function HowPage() {
               <b>Your history.</b> Export it from ChatGPT or Claude and drop it on the <Link href="/journal#import">Journal</Link>. It&apos;s read in your browser.
             </p>
             <p>
-              <b>As you go.</b> The browser extension shows the pet&apos;s verdict before a prompt leaves ChatGPT, Claude or Gemini, and a Claude Code hook does the same in the terminal.
+              <b>As you go.</b> The browser extension shows Shumbo&apos;s verdict before a prompt leaves ChatGPT, Claude or Gemini, and a Claude Code hook does the same in the terminal.
             </p>
             <p>
-              <b>Private by design.</b> No accounts, no server that sees your prompts. The garden lives in this browser (or one file, if you run the app locally).
+              <b>Private by design.</b> The garden lives in this browser (or one file, if you run the app locally). Nothing leaves it unless you sign in.
+            </p>
+            <p>
+              <b>Sign in to sync.</b> Sign in with Google and your garden follows you to every device, stored in Fallow&apos;s free Firebase database where only your account can read it. Plant tags, times and settings sync; the words you typed stay on the device where you typed them, unless you turn on text sync in Settings.
             </p>
             <p>
               Try the extension&apos;s card without installing it: <Link href="/demo/chat">demo chat</Link>.
@@ -143,7 +151,7 @@ export default function HowPage() {
       </section>
 
       <p className="built-with">
-        Built with TypeScript, Next.js, React and pixel art drawn as code.{" "}
+        Built with TypeScript, Next.js, React, Firebase and pixel art drawn as code.{" "}
         {REPO && (
           <a href={REPO} target="_blank" rel="noreferrer">
             Source on GitHub

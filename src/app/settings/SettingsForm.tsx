@@ -15,7 +15,8 @@ const INTENSITY: Array<{ id: Intensity; label: string; note: string }> = [
 ];
 
 export function SettingsForm({ initial, eventCount, mode }: { initial: Settings; eventCount: number; mode: "server" | "browser" }) {
-  const { client, refresh, ledger } = useFallow();
+  const { client, refresh, ledger, account, signIn, signOut, eraseAll, resyncText } = useFallow();
+  const [syncText, setSyncText] = useState(initial.syncText === true);
   const [keep, setKeep] = useState<DomainId[]>(initial.keepList);
   const [intensity, setIntensity] = useState<Intensity>(initial.intensity);
   const [chronotype, setChronotype] = useState<Chronotype>(initial.chronotype);
@@ -84,18 +85,32 @@ export function SettingsForm({ initial, eventCount, mode }: { initial: Settings;
   async function erase() {
     if (!client || confirm !== "erase") return;
     setBusy(true);
-    await client.clear();
-    await refresh();
+    try {
+      await eraseAll();
+      setMsg(account.user ? "Erased here and in your account." : "Erased.");
+    } catch {
+      setMsg("Couldn't reach your account to erase it. Nothing was deleted. Try again online.");
+    }
     setBusy(false);
-    setMsg("Erased.");
     setConfirm("");
+    setTimeout(() => setMsg(null), 3500);
+  }
+
+  async function toggleSyncText(on: boolean) {
+    if (!client) return;
+    setSyncText(on);
+    await client.updateSettings({ syncText: on });
+    await resyncText();
+    await refresh();
+    setMsg(on ? "Ask text now syncs too." : "Ask text removed from your account.");
+    setTimeout(() => setMsg(null), 3000);
   }
 
   return (
     <div className="page">
       <section className="card">
         <h2>Keep list</h2>
-        <p className="card-sub">The plants you most want to keep growing. They count most toward your brain pet&apos;s health.</p>
+        <p className="card-sub">The plants you most want to keep growing. They count most toward Shumbo&apos;s health.</p>
         <div className="keep-grid">
           {DOMAINS.filter((d) => d.id !== "attention").map((d) => {
             const on = keep.includes(d.id);
@@ -129,7 +144,7 @@ export function SettingsForm({ initial, eventCount, mode }: { initial: Settings;
       <div className="grid-2">
         <section className="card">
           <h2>Sleep</h2>
-          <p className="card-sub">Sets your energy curve, and when your pet naps.</p>
+          <p className="card-sub">Sets your energy curve, and when Shumbo naps.</p>
           <div className="time-row">
             <label>
               <span className="field-label">Usually asleep</span>
@@ -188,10 +203,47 @@ export function SettingsForm({ initial, eventCount, mode }: { initial: Settings;
         )}
       </div>
 
+      {account.available && (
+        <section className="card">
+          <h2>Account and sync</h2>
+          {account.user ? (
+            <>
+              <p className="card-sub">
+                Signed in as <b>{account.user.name ?? account.user.email}</b>
+                {account.user.email && account.user.name ? ` (${account.user.email})` : ""}. Your garden syncs to every device you sign in on.
+              </p>
+              <label className="toggle-row">
+                <input type="checkbox" checked={syncText} onChange={(e) => void toggleSyncText(e.target.checked)} />
+                <span>
+                  <b>Also sync the text of my asks</b>
+                  <span className="fine">Off by default: only plant tags, times and settings leave this device. On: the first 140 characters of each ask sync too, so the Journal reads the same everywhere.</span>
+                </span>
+              </label>
+              <div className="row">
+                <button className="btn ghost" onClick={() => void signOut()}>
+                  Sign out
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="card-sub">Sign in with Google to keep your garden on every device. Free, and what you type stays on the device where you typed it.</p>
+              {account.error && <p className="account-error">{account.error}</p>}
+              <div className="row">
+                <button className="btn" onClick={() => void signIn()} disabled={account.status === "signing-in"}>
+                  {account.status === "signing-in" ? "Signing in…" : "Sign in with Google"}
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      )}
+
       <section className="card">
         <h2>Your data</h2>
         <p className="card-sub">
-          {eventCount.toLocaleString()} entries {mode === "server" ? "in data/fallow.json on this machine." : "in this browser only. Clearing site data removes them."}
+          {eventCount.toLocaleString()} {eventCount === 1 ? "entry" : "entries"}{" "}
+          {mode === "server" ? "in data/fallow.json on this machine." : account.user ? "in this browser and in your account." : "in this browser only. Clearing site data removes them."}
         </p>
         <div className="row">
           <button className="btn ghost" onClick={exportLedger}>
@@ -199,7 +251,7 @@ export function SettingsForm({ initial, eventCount, mode }: { initial: Settings;
           </button>
           <input type="text" placeholder="type erase" value={confirm} onChange={(e) => setConfirm(e.target.value)} style={{ width: 150 }} aria-label="Type erase to confirm" />
           <button className="btn danger" onClick={erase} disabled={busy || confirm !== "erase"}>
-            Erase everything
+            {account.user ? "Erase everything, here and in my account" : "Erase everything"}
           </button>
         </div>
       </section>

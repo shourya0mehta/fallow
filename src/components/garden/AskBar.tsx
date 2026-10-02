@@ -19,7 +19,7 @@ const LINES: Record<Mode, string> = {
 
 const EXAMPLES = ["Write me a cover letter for a GIS internship", "Why doesn't this regex match?", "Summarize this paper on sleep and memory", "Plan my week around three exams"];
 
-/** "About to ask an AI?" The pet reads it, files it and says how to ask. */
+/** "About to ask an AI?" Shumbo reads it, files it and says how to ask. */
 export function AskBar({ autoFocus }: { autoFocus?: boolean }) {
   const { client, ready, refresh, snapshot } = useFallow();
   const { engine, say, startSession } = useGarden();

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CreatureReading } from "@/core/creature";
+import { hasNoHistory, type CreatureReading } from "@/core/creature";
 import { DOMAINS, DOMAIN_BY_ID } from "@/core/taxonomy";
 import type { DomainId, DomainState } from "@/core/types";
 import type { TimeOfDay } from "@/pixel/scene";
 import { GardenEngine, plantStatusSummary, type PetMood } from "./engine";
 import { useGarden } from "./GardenContext";
-import { PLANT_NAME, STATUS_WORD } from "./names";
+import { displayStatus, PLANT_NAME, STATUS_WORD } from "./names";
 
 const TOD_CYCLE: Array<TimeOfDay | null> = [null, "dawn", "day", "dusk", "night"];
 const TOD_LABEL: Record<string, string> = { auto: "Live sky", dawn: "Dawn", day: "Day", dusk: "Dusk", night: "Night" };
@@ -19,7 +19,7 @@ const PET_LINES: Partial<Record<PetMood, string[]>> = {
   rub: ["Hehe, that tickles"],
 };
 
-export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { states: DomainState[]; stage: CreatureReading["stage"]; asleep: boolean; quests: DomainId[]; reading: CreatureReading; demoEmpty?: boolean }) {
+export function Garden({ states, stage, asleep, quests, reading, demoEmpty, quiet = false }: { states: DomainState[]; stage: CreatureReading["stage"]; asleep: boolean; quests: DomainId[]; reading: CreatureReading; demoEmpty?: boolean; quiet?: boolean }) {
   const { engine, bubble, say, select, selected } = useGarden();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -64,6 +64,11 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
     };
   }, [engine]);
 
+  // while the intro is up, the data can swap underneath it quietly
+  useEffect(() => {
+    engine.current?.setQuiet(quiet);
+  }, [engine, quiet]);
+
   // callbacks change with state, so re-register them
   useEffect(() => {
     engine.current?.setCallbacks({
@@ -92,20 +97,20 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
   useEffect(() => {
     const byId = new Map(states.map((s) => [s.id, s]));
     engine.current?.setData({
-      plants: DOMAINS.map((d) => ({ id: d.id, status: byId.get(d.id)?.status ?? "fallow" })),
+      plants: DOMAINS.map((d) => ({ id: d.id, status: displayStatus(byId.get(d.id)) })),
       stage,
       asleep,
       quests,
     });
   }, [engine, states, stage, asleep, quests]);
 
-  // a greeting, once per visit
+  // a greeting, once per visit, after the intro if one is playing
   useEffect(() => {
-    if (spoke.current) return;
+    if (quiet || spoke.current) return;
     spoke.current = Date.now();
-    const thirsty = states.filter((s) => s.id !== "attention" && (s.status === "stale" || s.status === "fallow")).length;
+    const thirsty = states.filter((s) => s.id !== "attention" && !hasNoHistory(s) && (s.status === "stale" || s.status === "fallow")).length;
     const t = setTimeout(() => {
-      if (demoEmpty) say("Hi! Plant something: ask the box below, or import your history.", 6000);
+      if (demoEmpty) say("Hi, I'm Shumbo! Tap a sprout to plant it, or check an ask below.", 6500);
       else if (asleep) say("zzz… (it's past your bedtime)", 4000);
       else if (thirsty >= 3) say(`${thirsty} plants are thirsty. Water one?`, 6000);
       else if (thirsty > 0) say("Almost everything is growing. One plant needs you.", 6000);
@@ -113,11 +118,11 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
     }, 900);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [quiet]);
 
   const L = engine.current?.layout;
   void layoutTick;
-  const statusOf = (id: DomainId) => states.find((s) => s.id === id)?.status ?? "fallow";
+  const statusOf = (id: DomainId) => displayStatus(states.find((s) => s.id === id));
   const plants = DOMAINS.map((d) => ({ id: d.id, status: statusOf(d.id) }));
   const healthPct = Math.round(reading.health * 100);
 
@@ -149,7 +154,7 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
 
   return (
     <div className="garden" ref={wrapRef}>
-      <canvas ref={canvasRef} className="garden-canvas pixel" role="img" aria-label={`Your garden: ${plantStatusSummary(plants)}. Your brain pet is ${stage}${asleep ? " and asleep" : ""}.`} />
+      <canvas ref={canvasRef} className="garden-canvas pixel" role="img" aria-label={`Your garden: ${plantStatusSummary(plants)}. Shumbo, your brain pet, is ${stage}${asleep ? " and asleep" : ""}.`} />
 
       <button className={`g-health stage-${stage}`} onClick={() => setShowHealth((v) => !v)} aria-expanded={showHealth} aria-label={`Brain health ${healthPct} of 100, ${stage}. Show what feeds it`}>
         <span className="heart" aria-hidden="true">
@@ -227,7 +232,7 @@ export function Garden({ states, stage, asleep, quests, reading, demoEmpty }: { 
               />
             );
           })}
-          <button className="g-key g-key-pet" style={{ left: "calc(var(--pet-x, 50%) - 44px)", top: "calc(var(--pet-y, 70%) - 8px)", width: 88, height: 76 }} aria-label="Pet your brain" onClick={() => engine.current?.poke("tap")} onDoubleClick={() => engine.current?.poke("double")} onKeyDown={(e) => {
+          <button className="g-key g-key-pet" style={{ left: "calc(var(--pet-x, 50%) - 44px)", top: "calc(var(--pet-y, 70%) - 8px)", width: 88, height: 76 }} aria-label="Pet Shumbo" onClick={() => engine.current?.poke("tap")} onDoubleClick={() => engine.current?.poke("double")} onKeyDown={(e) => {
             if (e.key === " ") {
               e.preventDefault();
               engine.current?.poke("pet");

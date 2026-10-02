@@ -95,7 +95,7 @@ export default function DemoChatPage() {
     <div className="page">
       <div className="page-head">
         <h1>Demo chat</h1>
-        <p>Type an ask and press Enter. The pet&apos;s card appears before the message leaves, the same way the browser extension shows it on ChatGPT, Claude and Gemini.</p>
+        <p>Type an ask and press Enter. Shumbo&apos;s card appears before the message leaves, the same way the browser extension shows it on ChatGPT, Claude and Gemini.</p>
       </div>
       <section className="card demo-chat">
       <div className="demo-log" aria-live="polite" data-fallow-demo-log>

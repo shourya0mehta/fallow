@@ -2,7 +2,7 @@
 
 A garden for the thinking you hand to AI.
 
-Every skill is a plant: writing is lavender, memory is forget-me-nots, ideas are a dandelion. Doing the work yourself waters a plant; handing it to an AI doesn't, and left alone it wilts on the same curve memory follows. A brain pet lives in the garden and reads your numbers: it thrives, holds steady, fades or goes fallow with them. Before you send an ask, the pet says whether this one is worth trying yourself.
+Every skill is a plant: writing is lavender, memory is forget-me-nots, ideas are a dandelion. Doing the work yourself waters a plant; handing it to an AI doesn't, and left alone it wilts on the same curve memory follows. Shumbo, a brain pet, lives in the garden and reads your numbers: he thrives, holds steady, fades or goes fallow with them. Before you send an ask, he says whether this one is worth trying yourself.
 
 ![The garden in motion](docs/garden.gif)
 
@@ -16,7 +16,9 @@ The evidence behind the design, in one paragraph. Handing an AI the answer hurts
 
 **https://fallow-omega.vercel.app** (mirror: https://shourya0mehta.github.io/fallow/)
 
-The hosted version is the whole app with no server. The ledger lives in the visitor's own browser (IndexedDB), a demo garden loads on the first visit, the ask bar and practice sessions run the core in the page, and importing your own ChatGPT or Claude export never uploads anything. The demo chat page shows the extension's verdict card without the extension installed.
+The hosted version is the whole app with no server of its own. A first visit opens with *Meet Shumbo*, an eight-step walkthrough: who he is, what fallow means, the eleven plants in a ring around him, a plant to water yourself, and then the plants fly down into a fresh garden of seedlings (or a 90-day demo one, if you'd rather look around first). The ledger lives in the visitor's own browser (IndexedDB), the ask bar and practice sessions run the core in the page, and importing a ChatGPT or Claude export never uploads the file. Signing in with Google is optional and keeps the garden on every device ([Sign in and sync](#sign-in-and-sync)). The demo chat page shows the extension's verdict card without the extension installed.
+
+![Meet Shumbo: four of the intro's eight steps](docs/intro.png)
 
 Build it with `npm run build:static` (static files in `out/`). Both hosts rebuild on every push to `main`:
 
@@ -35,18 +37,32 @@ npm run dev       # http://localhost:3000
 
 Then either import your own history (Journal: drop the `conversations.json` from a ChatGPT or Claude data export; parsing happens in the browser), load the browser extension so ChatGPT, Claude and Gemini asks are filed as you type them, or wire the Claude Code hook so every prompt in the terminal is filed too.
 
-Everything lives in one file, `data/fallow.json`. No accounts, no cloud. `npm run demo` runs a read-only demo ledger (`FALLOW_DEMO=1`) that can be deployed anywhere Next.js runs.
+The local app keeps everything in one file, `data/fallow.json`. No accounts, no cloud; sign-in sync is a hosted-site feature. `npm run demo` runs a read-only demo ledger (`FALLOW_DEMO=1`) that can be deployed anywhere Next.js runs.
 
 ## The four places
 
 | Place | What it does |
 | --- | --- |
-| Garden | The whole daily loop on one screen. Eleven plants, one per skill, sway when fresh, wilt and drop leaves when fading, stand dry when stale, and leave cracked soil when fallow. Click a plant for its card: freshness, last time you did it yourself, twelve weeks of you vs AI, and a "water it" session. The pet hops, spins, gets petted, gets dizzy, sleeps through your sleep window and follows your cursor. Under it, the ask bar: paste what you were about to ask an AI and the pet answers in its speech bubble (do it yourself, scaffold, co-pilot or delegate). Below: Today (energy, own work, screens, focus) and Quests (the thirstiest plants, each a button that starts a session). |
+| Garden | The whole daily loop on one screen. Eleven plants, one per skill, sway when fresh, wilt and drop leaves when fading, stand dry when stale, and leave cracked soil when fallow. A brand-new garden starts as eleven seedlings. Click a plant for its card: freshness, last time you did it yourself, twelve weeks of you vs AI, and a "water it" session. Shumbo hops, spins, gets petted, gets dizzy, sleeps through your sleep window and follows your cursor. Under him, the ask bar: paste what you were about to ask an AI and he answers in his speech bubble (do it yourself, scaffold, co-pilot or delegate). Below: Today (energy, own work, screens, focus) and Quests (the thirstiest plants, each a button that starts a session). |
 | Journal | Every ask, filed under its plant, filterable by plant and by who did it. Import a ChatGPT or Claude export here (drag and drop; parsed in the browser). |
-| Settings | The keep list as plant tiles, push-back intensity, sleep and chronotype, the sites the extension pauses you on, export and erase. Saves as you go. |
-| How it works | The loop in four pictures, the pet's formula, where the data comes from, what Fallow does not claim, and the research behind each mechanism. |
+| Settings | The keep list as plant tiles, push-back intensity, sleep and chronotype, the sites the extension pauses you on, Google sign-in and text sync, export and erase. Saves as you go. |
+| How it works | The loop in four pictures, Shumbo's formula, where the data comes from, what Fallow does not claim, the research behind each mechanism, and a replay of the intro. |
 
-Old links (`/gate`, `/practice`, `/ledger`, `/import`, `/day`, `/about`, `/evidence`) redirect to their new homes.
+Old links (`/gate`, `/practice`, `/ledger`, `/import`, `/day`, `/about`, `/evidence`) redirect to their new homes. `/?intro=1` replays the intro.
+
+## Sign in and sync
+
+Optional, free and local-first. The garden works signed out; signing in with Google keeps it on every device.
+
+- **Stack.** Firebase Authentication (Google provider) and Cloud Firestore, both on the free Spark plan. No server code: the browser talks to Firestore directly, and the security rules in `firestore.rules` let each account read and write only its own `users/{uid}` tree. The Firebase SDK loads on demand, so a visitor who never signs in downloads none of it.
+- **Data model.** One document per person for settings and one per month of asks: `users/{uid}/months/{YYYY-MM}` holds `events`, `signals` and `deleted` maps keyed by stable event ids. An ask is about 180 bytes, so even a busy month is a few dozen kilobytes.
+- **Merge.** IndexedDB stays the source of truth on each device. On sign-in, page load, tab focus and reconnect, the client pulls the account, merges by id (both sides' asks, deletions win, newer settings win) and pushes what the account is missing. New asks go up within a second. Asks logged while offline wait and go up later. The demo garden is never uploaded: signing in on a demo swaps it for your garden.
+- **Privacy.** Only plant tags, times, who did the work, and settings leave the device. The words you typed stay where you typed them unless you turn on *Also sync the text of my asks* in Settings; turning it off rewrites the account without them. Erase clears both copies.
+- **Cost.** Zero. A full sync reads one document per month of history and each batch of new asks is one write. The free tier (1 GiB stored, 50,000 reads and 20,000 writes a day, 50,000 monthly active users for sign-in) covers on the order of a thousand people syncing every day, and if a daily quota ever runs out, sync pauses until it resets while the garden keeps working on the device.
+
+The pure merge is `src/core/sync.ts` (unit tested); the engine, the Firestore store and Google sign-in are `src/client/sync.ts`, `remote.ts` and `account.ts`. `npm run test:sync` runs two devices against the Firebase emulators: uploads, the demo swap, deletes in both directions, settings, text sync on and off, the rules keeping a second account out, and erase.
+
+**A fork with its own Firebase project:** create a project on the Spark plan, turn on the Google sign-in provider, add your site's domain under Authentication settings, create a Firestore database, publish the rules with `npm run deploy:rules`, and paste the web app config into `src/client/firebase-config.ts`. That config is public by design; the rules are what protect the data. Build with `NEXT_PUBLIC_FALLOW_SYNC=0` to leave sign-in out.
 
 ## The models
 
@@ -90,11 +106,11 @@ Intensity (gentle, standard, firm) sets the thresholds, because the forcing func
 
 "Meadow day": white cards with chunky ink outlines on a sky-to-meadow background that follows the real time of day (dawn, day, dusk, night). [Jersey 10](https://fonts.google.com/specimen/Jersey+10) for display and numbers, [Nunito](https://fonts.google.com/specimen/Nunito) for reading, both OFL and bundled. Live data gets a pulsing dot. Buttons press down. Reduced-motion settings are respected everywhere.
 
-![The pet in its four stages](docs/pet-stages.png)
+![Shumbo in his four stages](docs/pet-stages.png)
 
-**Pixel art as code.** Nothing in the garden is an image file. `src/pixel/` draws everything into small grids at runtime: `plants.ts` (eleven species, each in four conditions), `creature.ts` (the pet as a rig that squashes, stretches, blinks, looks around and changes mood), `scene.ts` (sky by time of day, hills, fence, beds, a layout that splits into two beds on phones), `sprites.ts` (sun, moon, clouds, hearts, sparkles, water drops, the watering can, quest markers). `src/components/garden/engine.ts` runs it at 30 fps on one canvas: swaying, particles, fireflies at dusk, the pet's state machine and pointer gestures (`gestures.ts`: tap, double click, hold, rub, rapid clicks). `npm run pixel` writes PNG previews; `node scripts/pixel/record.mjs` records the GIF above from the running site.
+**Pixel art as code.** Nothing in the garden is an image file. `src/pixel/` draws everything into small grids at runtime: `plants.ts` (eleven species, each in four conditions), `creature.ts` (Shumbo as a rig that squashes, stretches, blinks, looks around and changes mood), `scene.ts` (sky by time of day, hills, fence, beds, a layout that splits into two beds on phones), `sprites.ts` (sun, moon, clouds, hearts, sparkles, water drops, the watering can, quest markers). `src/components/garden/engine.ts` runs it at 30 fps on one canvas: swaying, particles, fireflies at dusk, Shumbo's state machine and pointer gestures (`gestures.ts`: tap, double click, hold, rub, rapid clicks). `npm run pixel` writes PNG previews; `node scripts/pixel/record.mjs` records the GIF above from the running site. The intro (`src/components/intro/`) reuses the same rig at a larger scale, and its last step flies each plant into its bed with the Web Animations API, handing over to the garden canvas the moment each one lands.
 
-**The pet's stage** comes from `src/core/creature.ts`: 70% the mean freshness of the keep list, 20% the share of the last thirty days' asks you did or shared, 10% energy now. Thriving from 0.80, steady from 0.60, fading from 0.40; a rising delegated share on a keep-list skill drops it one stage for the week. The heart chip on the garden opens that breakdown.
+**Shumbo's stage** comes from `src/core/creature.ts`: 70% the mean freshness of the keep list, 20% the share of the last thirty days' asks you did or shared, 10% energy now. Thriving from 0.80, steady from 0.60, fading from 0.40; a rising delegated share on a keep-list skill drops it one stage for the week. A garden with nothing logged yet starts steady, not cracked. The heart chip on the garden opens that breakdown.
 
 ## Browser extension
 
@@ -156,8 +172,10 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 ## Tests
 
 ```bash
-npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature, garden (84 tests)
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature, garden, sync merge (94 tests)
 npm run typecheck
+npm run emulators       # Firebase Auth and Firestore emulators (needs Java), in one terminal
+npm run test:sync       # then this: two devices, one account, against the emulators (21 checks)
 npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
 npm run build:static    # the hosted site, into out/
 npm run build:extension # rebuild core.js inside the extension after changing src/core
@@ -180,8 +198,10 @@ npm run pixel           # PNG previews of the plants, scenes and pet from src/pi
 - The hosted build: one codebase, a client-side ledger in IndexedDB, demo preload, a demo chat that shows the card without the extension, a How it works page with the research, and a GitHub Pages workflow.
 - The attention layer from ActivityWatch: switches per hour, longest block, listed-site minutes, focus blocks logged as practice.
 - The Claude Code hook, a Cursor hook, and the assess API they use.
-- The garden: eleven plant species in four conditions, a brain pet with a mood rig and gestures, a sky that follows the time of day, quests that point at plants, practice sessions that water them, the ask bar that answers in the pet's speech bubble, and one Today panel for energy, own work, screens and focus. All drawn as code.
-- Four places (Garden, Journal, Settings, How it works) with redirects from the old pages, demo pages for the extension, local JSON persistence, demo mode, 84 unit tests.
+- The garden: eleven plant species in four conditions plus a seedling, Shumbo the brain pet with a mood rig and gestures, a sky that follows the time of day, quests that point at plants, practice sessions that water them, the ask bar that answers in his speech bubble, and one Today panel for energy, own work, screens and focus. All drawn as code.
+- Four places (Garden, Journal, Settings, How it works) with redirects from the old pages, demo pages for the extension, local JSON persistence, demo mode, 94 unit tests.
+- Meet Shumbo: a first-visit walkthrough that defines fallow, gathers the eleven plants around him, lets you water one, and flies everything down into the real garden.
+- Google sign-in and sync on Firebase's free tier: local-first merge with deletions that stick, a document per month, owner-only rules, ask text kept on the device by default, and an emulator test.
 
 ## What is not built
 
@@ -189,14 +209,14 @@ npm run pixel           # PNG previews of the plants, scenes and pet from src/pi
 - Fitted parameters. Stability priors, the fatigue penalty, the pause length and the policy thresholds are borrowed or guessed and are documented as such.
 - An LLM classifier. The interface is there; the lexicon will mislabel prompts, so hand-label a couple of hundred of your own before trusting a profile.
 - Site selectors that survive redesigns. The extension's composer and send-button selectors for ChatGPT, Claude and Gemini are current as of writing and will need a bump when those apps change their DOM; the demo page always works.
-- Accounts or sync. The hosted site and the extension each keep their own ledger; moving one into the other is an export and an import, not a live link. A hosted backend with sign-in is the third tier, if the standalone version earns it.
+- Sync for the extension and the local app. Sign-in covers the hosted site; the extension's standalone ledger and the local app's file still move into it by export and import.
 - A Chrome Web Store listing. The extension loads unpacked today.
-- Points, a room, decorations. The pet reads the ledger; it does not yet earn anything from it. That layer only makes sense once the stages feel right with real data.
+- Points, a room, decorations. Shumbo reads the ledger; he does not yet earn anything from it. That layer only makes sense once the stages feel right with real data.
 - Firefox packaging, a menubar app, calibration tasks (jsPsych is the open base), SQLite persistence. The Cursor hook has not been run in a real Cursor session.
 
 ## What it does not claim
 
-Fallow does not measure your brain, diagnose anything, predict disease, or train regions. The brain notes are group-average imaging results phrased as engagement. Words like risk, detect, screen and Alzheimer's do not appear in the product, on purpose. Prompts are sensitive data; the ledger stays on your machine or in your browser, excerpts are optional, and the erase button is real.
+Fallow does not measure your brain, diagnose anything, predict disease, or train regions. The brain notes are group-average imaging results phrased as engagement. Words like risk, detect, screen and Alzheimer's do not appear in the product, on purpose. Prompts are sensitive data: the ledger stays on your machine or in your browser unless you sign in, and even then the words you typed stay put unless you turn on text sync. Excerpts are optional, and the erase button is real, here and in the account.
 
 ## License
 

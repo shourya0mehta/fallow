@@ -122,6 +122,8 @@ export interface Settings {
   entertainmentBudgetMin: number;
   /** Length of the pause before "continue" unlocks, in seconds. */
   pauseSeconds: number;
+  /** When signed in, also sync the 140-character excerpt of each ask. Off by default: text stays on the device. */
+  syncText?: boolean;
 }
 
 /**

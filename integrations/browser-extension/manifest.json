@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Fallow",
-  "version": "0.5.0",
-  "description": "Your brain pet checks each AI ask before it leaves ChatGPT, Claude or Gemini, files it in your garden, and pauses you for a breath on the sites you list.",
+  "version": "0.6.0",
+  "description": "Shumbo, your brain pet, checks AI asks before they leave ChatGPT, Claude or Gemini, and pauses you on the sites you list.",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

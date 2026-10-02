@@ -8,3 +8,8 @@ data/*.json
 next-env.d.ts
 .DS_Store
 scripts/pixel/out/
+
+# Firebase emulator logs
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

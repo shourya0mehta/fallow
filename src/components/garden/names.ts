@@ -1,4 +1,6 @@
-import type { DomainId } from "@/core/types";
+import { hasNoHistory } from "@/core/creature";
+import type { DomainId, DomainState } from "@/core/types";
+import type { PlantStatus } from "@/pixel/plants";
 
 /** What the garden calls each plant, for quests and tags. */
 export const PLANT_NAME: Record<DomainId, { one: string; the: string }> = {
@@ -31,8 +33,15 @@ export const SESSION_MIN: Record<DomainId, number> = {
 };
 
 export const STATUS_WORD: Record<string, string> = {
+  seed: "seedling",
   fresh: "blooming",
   fading: "wilting",
   stale: "dry",
   fallow: "bare",
 };
+
+/** What a plant looks like: a sprout until anything at all has been logged for its domain. */
+export function displayStatus(s: DomainState | undefined): PlantStatus {
+  if (!s) return "seed";
+  return hasNoHistory(s) ? "seed" : s.status;
+}

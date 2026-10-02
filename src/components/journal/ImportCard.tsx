@@ -10,7 +10,7 @@ import { PlantIcon } from "../garden/PlantIcon";
 
 /**
  * Drop a ChatGPT or Claude export (or a Fallow ledger from the extension).
- * Parsed and classified in this browser; nothing is uploaded.
+ * Parsed and classified in this browser; the file itself is never uploaded.
  */
 export function ImportCard() {
   const { client, demo, mode, refresh } = useFallow();
@@ -77,7 +77,7 @@ export function ImportCard() {
           <b>ChatGPT:</b> Settings → Data controls → Export. <b>Claude:</b> Settings → Privacy → Export data.
         </li>
         <li>Unzip the download and drop <code>conversations.json</code> below.</li>
-        <li>{mode === "browser" ? "It's read right here in your browser. Nothing is uploaded anywhere." : "Only tags, dates and short excerpts reach the local ledger."}</li>
+        <li>{mode === "browser" ? "It's read right here in your browser. The file itself never leaves it." : "Only tags, dates and short excerpts reach the local ledger."}</li>
       </ol>
       <div
         className={`dropzone ${over ? "over" : ""}`}

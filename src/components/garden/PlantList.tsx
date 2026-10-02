@@ -4,7 +4,7 @@ import { DOMAIN_BY_ID } from "@/core/taxonomy";
 import type { DomainId, DomainState } from "@/core/types";
 import { daysAgoLabel } from "../format";
 import { useGarden } from "./GardenContext";
-import { PLANT_NAME, STATUS_WORD } from "./names";
+import { displayStatus, PLANT_NAME, STATUS_WORD } from "./names";
 import { PlantIcon } from "./PlantIcon";
 
 /** The garden as a plain list, for numbers people and screen readers. */
@@ -39,7 +39,7 @@ export function PlantList({ states, keep, now }: { states: DomainState[]; keep: 
                     document.querySelector(".garden")?.scrollIntoView({ behavior: "smooth", block: "center" });
                   }}
                 >
-                  <PlantIcon id={s.id} status={s.status} scale={1} ghost />
+                  <PlantIcon id={s.id} status={displayStatus(s)} scale={1} ghost />
                   <span>
                     <b>{DOMAIN_BY_ID[s.id].label}</b>
                     <small>
@@ -50,16 +50,16 @@ export function PlantList({ states, keep, now }: { states: DomainState[]; keep: 
                 </button>
               </td>
               <td>
-                <span className={`status-pill status-${s.status}`}>
-                  <span className={`live-dot status-${s.status}`} />
-                  {STATUS_WORD[s.status]}
+                <span className={`status-pill status-${displayStatus(s)}`}>
+                  <span className={`live-dot status-${displayStatus(s)}`} />
+                  {STATUS_WORD[displayStatus(s)]}
                 </span>
               </td>
               <td>
                 {s.id === "attention" ? (
                   <span className="fine">from focus blocks</span>
                 ) : (
-                  <div className={`track mini track-${s.status}`}>
+                  <div className={`track mini track-${displayStatus(s)}`}>
                     <i style={{ width: `${Math.round(s.retrievability * 100)}%` }} />
                   </div>
                 )}

@@ -10,6 +10,7 @@ const base = process.argv[2] || "http://localhost:4321";
 const out = process.argv[3] || "docs/garden.gif";
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || "/opt/pw-browsers/chromium", args: ["--no-sandbox"] });
 const page = await browser.newPage({ viewport: { width: 1180, height: 900 } });
+await page.addInitScript(() => localStorage.setItem("fallow.introSeen", "1"));
 await page.clock.setFixedTime(new Date("2026-10-01T13:20:00"));
 await page.goto(base + "/", { waitUntil: "networkidle" });
 await page.evaluate(() => localStorage.removeItem("fallow.sky"));

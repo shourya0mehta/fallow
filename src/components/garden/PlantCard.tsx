@@ -6,7 +6,7 @@ import { DOMAIN_BY_ID } from "@/core/taxonomy";
 import type { DomainState } from "@/core/types";
 import { daysAgoLabel } from "../format";
 import { useGarden } from "./GardenContext";
-import { PLANT_NAME, SESSION_MIN, STATUS_WORD } from "./names";
+import { displayStatus, PLANT_NAME, SESSION_MIN, STATUS_WORD } from "./names";
 import { PlantIcon } from "./PlantIcon";
 import { Weeks } from "./Weeks";
 
@@ -18,6 +18,7 @@ export function PlantCard({ state, weekly, keep, drift, now }: { state: DomainSt
   const r = state.retrievability;
   const isAttention = state.id === "attention";
   const minutes = SESSION_MIN[state.id];
+  const shown = displayStatus(state);
 
   useEffect(() => {
     ref.current?.focus();
@@ -33,7 +34,7 @@ export function PlantCard({ state, weekly, keep, drift, now }: { state: DomainSt
       </button>
       <div className="plant-card-head">
         <div className="plant-card-icon">
-          <PlantIcon id={state.id} status={state.status} scale={2} ghost />
+          <PlantIcon id={state.id} status={shown} scale={2} ghost />
         </div>
         <div>
           <p className="eyebrow">
@@ -41,9 +42,9 @@ export function PlantCard({ state, weekly, keep, drift, now }: { state: DomainSt
             {keep && <span className="keep-chip">keep list</span>}
           </p>
           <h3>{spec.label}</h3>
-          <span className={`status-pill status-${state.status}`}>
-            <span className={`live-dot status-${state.status}`} />
-            {STATUS_WORD[state.status]}
+          <span className={`status-pill status-${shown}`}>
+            <span className={`live-dot status-${shown}`} />
+            {STATUS_WORD[shown]}
           </span>
         </div>
       </div>
@@ -60,10 +61,11 @@ export function PlantCard({ state, weekly, keep, drift, now }: { state: DomainSt
           </b>
         </div>
       </div>
-      {!isAttention && (
+      {shown === "seed" && <p className="small">Nothing logged here yet. Do a little of it yourself and the sprout takes root.</p>}
+      {!isAttention && shown !== "seed" && (
         <div className="meter-line" title={`Retrievability ${r.toFixed(2)}: the model's guess at how well this skill would come back right now`}>
           <span className="k">Freshness</span>
-          <div className={`track track-${state.status}`}>
+          <div className={`track track-${shown}`}>
             <i style={{ width: `${Math.round(r * 100)}%` }} />
           </div>
           <span className="num">{r.toFixed(2)}</span>
@@ -75,7 +77,7 @@ export function PlantCard({ state, weekly, keep, drift, now }: { state: DomainSt
       <p className="plant-card-tip">{spec.practice}</p>
       <div className="row">
         <button className="btn" onClick={() => startSession(state.id, minutes)}>
-          Water it · {minutes} min
+          {shown === "seed" ? "Plant it" : "Water it"} · {minutes} min
         </button>
         <button className="btn ghost" onClick={() => select(null)}>
           Later

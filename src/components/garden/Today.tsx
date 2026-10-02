@@ -39,7 +39,7 @@ function Meter({
       <div className="meter-k">
         <span>{label}</span>
         {feeds && (
-          <span className="feeds" title="Feeds your brain pet's health">
+          <span className="feeds" title="Feeds Shumbo's health">
             ♥
           </span>
         )}
@@ -96,7 +96,7 @@ export function Today({ snap, reading, sleep, now }: { snap: Snapshot; reading: 
     <div className="card today" id="today">
       <h2>Today</h2>
       <p className="card-sub">
-        <span className="feeds">♥</span> feeds your brain pet
+        <span className="feeds">♥</span> feeds Shumbo
       </p>
       <div className="meters">
         {cap.asleep ? (

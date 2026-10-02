@@ -1,6 +1,7 @@
 import { assess, type Assessment } from "@/core/assess";
 import { addEventsTo, addSignalsTo, applySettingsPatch, buildPromptEvent, deleteEventFrom, emptyLedger, normalizeLedger, parseSignal, type Ledger, type PromptEventInput } from "@/core/ledger";
 import { buildSnapshot, type Snapshot } from "@/core/summary";
+import { monthOf } from "@/core/sync";
 import type { LedgerEvent, Settings, Signal } from "@/core/types";
 
 /**
@@ -9,7 +10,8 @@ import type { LedgerEvent, Settings, Signal } from "@/core/types";
  * ServerLedger talks to the local API, so the hooks, the extension and the UI
  * share one file on disk. BrowserLedger keeps the whole ledger in the visitor's
  * own IndexedDB and runs the core in the page, so the hosted site works with no
- * server at all and nothing leaves the browser.
+ * server at all. Nothing leaves the browser unless the person signs in to sync
+ * (see ./sync.ts).
  */
 export type LedgerMode = "server" | "browser";
 
@@ -86,9 +88,21 @@ const STORE = "kv";
 const KEY = "ledger";
 const META_KEY = "meta";
 
-interface Meta {
+export interface Meta {
   demo: boolean;
+  /** Epoch ms of the last settings change here, for "newest wins" when syncing. */
+  settingsAt?: number;
+  /** Deletions the cloud has not heard about yet. */
+  pendingDeletes?: Array<{ id: string; month: string; item: "event" | "signal" }>;
 }
+
+/** What changed, for the sync engine. Bulk replacements (sign-in merges, demo resets) do not emit. */
+export type LedgerChange =
+  | { kind: "events"; events: LedgerEvent[] }
+  | { kind: "signals"; signals: Signal[] }
+  | { kind: "settings"; settings: Settings; at: number }
+  | { kind: "delete"; id: string; month: string; item: "event" | "signal" }
+  | { kind: "clear" };
 
 function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -159,8 +173,68 @@ export class BrowserLedger implements LedgerClient {
   readonly mode = "browser" as const;
   private ledger: Ledger | null = null;
   private meta: Meta = { demo: false };
+  private listeners = new Set<(c: LedgerChange) => void>();
 
   constructor(private loadDemo?: () => Promise<Partial<Ledger>>) {}
+
+  /** Hear about every change made through this client. Returns an unsubscribe. */
+  subscribe(fn: (c: LedgerChange) => void): () => void {
+    this.listeners.add(fn);
+    return () => this.listeners.delete(fn);
+  }
+
+  private emit(c: LedgerChange) {
+    for (const fn of this.listeners) {
+      try {
+        fn(c);
+      } catch {
+        /* a listener's trouble is not the ledger's */
+      }
+    }
+  }
+
+  async getMeta(): Promise<Meta> {
+    await this.ensure();
+    return structuredClone(this.meta);
+  }
+
+  async setPendingDeletes(list: Meta["pendingDeletes"]): Promise<void> {
+    await this.ensure();
+    this.meta.pendingDeletes = list ?? [];
+    await this.persist();
+  }
+
+  /** Swap in a whole garden (after a sign-in merge). Does not emit. */
+  async replaceAll(ledger: Ledger, meta: Partial<Meta>): Promise<void> {
+    await this.ensure();
+    this.ledger = normalizeLedger(ledger);
+    this.meta = { ...this.meta, ...meta };
+    await this.persist();
+  }
+
+  /** Put the demo back (after signing out). Does not emit. */
+  async resetToDemo(): Promise<void> {
+    this.ledger = null;
+    this.meta = { demo: false };
+    let demo: Ledger | null = null;
+    if (this.loadDemo) {
+      try {
+        demo = normalizeLedger(await this.loadDemo());
+      } catch {
+        demo = null;
+      }
+    }
+    this.ledger = demo ?? emptyLedger();
+    this.meta = { demo: demo !== null, settingsAt: 0, pendingDeletes: [] };
+    await this.persist();
+  }
+
+  /** Swap the demo for an empty garden of your own. Does not emit: there is nothing to tell the cloud yet. */
+  async startFresh(): Promise<void> {
+    this.ledger = emptyLedger();
+    this.meta = { demo: false, settingsAt: 0, pendingDeletes: [] };
+    await this.persist();
+  }
 
   private async ensure(): Promise<Ledger> {
     if (this.ledger) return this.ledger;
@@ -168,7 +242,7 @@ export class BrowserLedger implements LedgerClient {
     const meta = await readStored<Meta>(META_KEY);
     if (stored) {
       this.ledger = normalizeLedger(stored);
-      this.meta = meta ?? { demo: false };
+      this.meta = { demo: false, ...(meta ?? {}) };
       return this.ledger;
     }
     if (this.loadDemo) {
@@ -204,9 +278,17 @@ export class BrowserLedger implements LedgerClient {
   }
   async addEvents(events: LedgerEvent[]) {
     const l = await this.ensure();
+    const before = new Set(l.events.map((e) => e.id));
     const res = addEventsTo(l, events);
     if (res.added > 0) this.meta.demo = false;
     await this.persist();
+    const fresh: LedgerEvent[] = [];
+    for (const e of events) {
+      if (before.has(e.id)) continue;
+      before.add(e.id);
+      fresh.push(e);
+    }
+    if (fresh.length) this.emit({ kind: "events", events: fresh });
     return res;
   }
   async logPrompt(input: PromptEventInput) {
@@ -217,14 +299,19 @@ export class BrowserLedger implements LedgerClient {
   }
   async deleteEvent(id: string) {
     const l = await this.ensure();
+    const gone = l.events.find((e) => e.id === id);
     const ok = deleteEventFrom(l, id);
     if (ok) await this.persist();
+    if (ok && gone) this.emit({ kind: "delete", id, month: monthOf(gone.ts), item: "event" });
     return ok;
   }
   async updateSettings(patch: Record<string, unknown>) {
     const l = await this.ensure();
     const settings = applySettingsPatch(l, patch);
+    const at = Date.now();
+    this.meta.settingsAt = at;
     await this.persist();
+    this.emit({ kind: "settings", settings: structuredClone(settings), at });
     return settings;
   }
   async addSignals(signals: unknown[]) {
@@ -233,12 +320,14 @@ export class BrowserLedger implements LedgerClient {
     const parsed = signals.map((s) => parseSignal(s, now)).filter((s): s is Signal => s !== null);
     const res = addSignalsTo(l, parsed);
     await this.persist();
+    if (res.added > 0) this.emit({ kind: "signals", signals: parsed });
     return res;
   }
   async clear() {
     this.ledger = emptyLedger();
-    this.meta = { demo: false };
+    this.meta = { demo: false, settingsAt: 0, pendingDeletes: [] };
     await this.persist();
+    this.emit({ kind: "clear" });
   }
   async isDemo() {
     await this.ensure();
