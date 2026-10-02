@@ -124,7 +124,7 @@ export default function DemoChatPage() {
         <button className="btn" data-fallow-send onClick={submit}>
           Send
         </button>
-        <span className="small">Enter sends. Try: &ldquo;Write me an email to my advisor asking for an extension&rdquo;.</span>
+        <span className="small">Enter sends. Try: &ldquo;Write an email asking my manager for Friday off.&rdquo;</span>
       </div>
       </section>
 
