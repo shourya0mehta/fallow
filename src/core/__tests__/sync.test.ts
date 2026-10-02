@@ -48,6 +48,14 @@ describe("mergeGardens", () => {
     expect(r.ledger.settings.keepList).toEqual(emptyLedger().settings.keepList);
   });
 
+  it("keeps the demo's sample asks home but sends up the ones the visitor logged on it", () => {
+    const demo = ledger([ev("d1", "2026-08-01T10:00:00Z"), ev("mine", "2026-09-30T10:00:00Z")]);
+    const r = mergeGardens({ local: demo, localIsDemo: true, demoOwn: ["mine"], localSettingsAt: 0, remote: EMPTY_REMOTE });
+    expect(r.ledger.events.map((e) => e.id)).toEqual(["mine"]);
+    expect(r.upload["2026-09"].events.map((e) => e.id)).toEqual(["mine"]);
+    expect(bucketCount(r.upload)).toBe(1);
+  });
+
   it("swaps the demo for the account's garden on sign-in", () => {
     const demo = ledger([ev("d1", "2026-08-01T10:00:00Z")]);
     const remote: RemoteGarden = { settings: { ...emptyLedger().settings, intensity: "firm" }, settingsAt: 50, months: { "2026-09": { events: { r1: ev("r1", "2026-09-03T10:00:00Z", { excerpt: undefined }) } } } };

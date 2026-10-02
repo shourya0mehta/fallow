@@ -20,7 +20,7 @@ describe("recommend", () => {
   it("says do it yourself for a fallow keep-list domain with capacity to spare", () => {
     const events = [1, 3, 5, 8, 12, 20].map((d) => delegated("composition", d));
     const rec = recommend({
-      classification: classifyPrompt("Write me an email to my advisor asking for an extension"),
+      classification: classifyPrompt("Write me an email to my manager asking for an extension"),
       states: deriveDomainStates(events, NOW),
       settings,
       capacity: 0.8,
@@ -33,7 +33,7 @@ describe("recommend", () => {
   it("delegates the same request when capacity is low and a deadline is set", () => {
     const events = [1, 3, 5, 8, 12, 20].map((d) => delegated("composition", d));
     const rec = recommend({
-      classification: classifyPrompt("Write me an email to my advisor asking for an extension"),
+      classification: classifyPrompt("Write me an email to my manager asking for an extension"),
       states: deriveDomainStates(events, NOW),
       settings,
       capacity: 0.2,
