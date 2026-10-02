@@ -4,10 +4,11 @@
  *   npx firebase emulators:start --only auth,firestore --project demo-fallow
  *   npm run test:sync
  *
- * Two "devices" (two browser ledgers) share one account: device A uploads, a
- * fresh device B swaps its demo for the account's garden, deletes sync both
- * ways, the security rules keep a second account out, text sync can be turned
- * on and off, and erasing clears the cloud copy.
+ * Browser ledgers as "devices" sharing one account: device A uploads, a fresh
+ * device B swaps its demo for the account's garden, deletes sync both ways,
+ * text sync can be turned on and off, a device C that logged an ask on the
+ * demo brings only that ask along, the security rules keep a second account
+ * out, and erasing clears the cloud copy.
  */
 process.env.NEXT_PUBLIC_FIREBASE_EMULATOR = "1";
 
@@ -106,6 +107,19 @@ async function main() {
   const noText = await remoteA.pull();
   ok("turning it off removes the text from the cloud", Object.values(noText.months).flatMap((m) => Object.values(m.events ?? {})).every((e) => e.excerpt === undefined));
   ok("tombstones survive a rewrite", Object.values(noText.months).some((m) => m.deleted && victim in m.deleted));
+
+  // device C: a visitor tries the ask bar on the demo, then signs in: only their own ask goes up
+  const devC = new BrowserLedger(async () => structuredClone(demo));
+  const mine = await devC.logPrompt({ text: "Plan a week of simple dinners.", source: "gate", ts: "2026-10-01T12:00:00.000Z" });
+  ok("an ask logged on the demo keeps it a demo", await devC.isDemo());
+  const engC = new SyncEngine(devC, new FirestoreRemote(userA.uid));
+  engC.start();
+  await engC.fullSync();
+  const afterC = await remoteA.pull();
+  const cloudIds = new Set(Object.values(afterC.months).flatMap((m) => Object.keys(m.events ?? {})));
+  ok("the visitor's own demo ask goes up, the sample asks stay home", !!mine && cloudIds.has(mine.id) && !cloudIds.has("demo-1"));
+  ok("device C now holds the account's garden plus that ask", !(await devC.isDemo()) && (await devC.load()).events.some((e) => e.id === mine?.id));
+  engC.stop();
 
   // another account cannot read or write A's garden
   await signInAs("user-b", "b@example.com");
