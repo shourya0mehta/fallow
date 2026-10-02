@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useFallow } from "@/client/FallowProvider";
 import { timeOfDay } from "@/pixel/scene";
+import { AccountChip } from "./Account";
 import { PetIcon } from "./garden/PlantIcon";
 
 const LINKS: Array<[string, string]> = [
@@ -50,13 +51,16 @@ export function Header() {
           </Link>
         ))}
       </nav>
-      <div className="live" aria-live="polite">
-        {ready && (
-          <>
-            <span className="live-dot status-fresh" />
-            {mode === "server" ? "Live · local app" : demo ? "Live · demo garden" : "Live · your garden"}
-          </>
-        )}
+      <div className="top-right">
+        <div className="live" aria-live="polite">
+          {ready && (
+            <>
+              <span className="live-dot status-fresh" />
+              {mode === "server" ? "Live · local app" : demo ? "Live · demo garden" : "Live · your garden"}
+            </>
+          )}
+        </div>
+        <AccountChip />
       </div>
     </header>
   );
