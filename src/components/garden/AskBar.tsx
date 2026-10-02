@@ -17,7 +17,7 @@ const LINES: Record<Mode, string> = {
   delegate: "Go for it. I'll file it.",
 };
 
-const EXAMPLES = ["Write me a cover letter for a GIS internship", "Why doesn't this regex match?", "Summarize this paper on sleep and memory", "Plan my week around three exams"];
+const EXAMPLES = ["Write a cover letter for a marketing internship.", "Why does my for loop skip the last item?", "Summarize this article in five bullet points.", "Make a study plan for my exams next week."];
 
 /** "About to ask an AI?" Shumbo reads it, files it and says how to ask. */
 export function AskBar({ autoFocus }: { autoFocus?: boolean }) {
