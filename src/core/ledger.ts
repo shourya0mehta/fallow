@@ -27,6 +27,7 @@ export const DEFAULT_SETTINGS: Settings = {
   entertainmentSites: ["youtube.com", "tiktok.com", "instagram.com", "x.com", "twitter.com", "reddit.com", "facebook.com", "netflix.com", "twitch.tv"],
   entertainmentBudgetMin: 60,
   pauseSeconds: 10,
+  syncText: false,
 };
 
 export function emptyLedger(): Ledger {
@@ -220,6 +221,7 @@ export function applySettingsPatch(ledger: Ledger, body: Record<string, unknown>
   }
   if (typeof body.entertainmentBudgetMin === "number" && body.entertainmentBudgetMin >= 0) patch.entertainmentBudgetMin = Math.round(body.entertainmentBudgetMin);
   if (typeof body.pauseSeconds === "number" && body.pauseSeconds >= 0 && body.pauseSeconds <= 120) patch.pauseSeconds = Math.round(body.pauseSeconds);
+  if (typeof body.syncText === "boolean") patch.syncText = body.syncText;
   ledger.settings = { ...ledger.settings, ...patch };
   return ledger.settings;
 }
