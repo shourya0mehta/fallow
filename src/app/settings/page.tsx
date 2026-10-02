@@ -9,7 +9,7 @@ export default function SettingsPage() {
     <div className="page">
       <div className="page-head">
         <h1>Settings</h1>
-        <p>What to keep growing, how hard your pet pushes back, and when it sleeps.</p>
+        <p>What to keep growing, how hard Shumbo pushes back, and when he sleeps.</p>
       </div>
       {!ready || !ledger ? <Loading what="settings" /> : <SettingsForm initial={ledger.settings} eventCount={ledger.events.length} mode={mode ?? "browser"} />}
     </div>
