@@ -126,7 +126,7 @@ function HomeInner() {
       {demo && (
         <p className="demo-pill">
           <span className="live-dot status-fresh" />
-          A demo garden: ninety days of a student&apos;s asks.{" "}
+          A demo garden: ninety days of sample asks.{" "}
           <button className="link-btn" onClick={() => void startOwn()}>
             Start my own
           </button>
