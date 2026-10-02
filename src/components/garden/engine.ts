@@ -1,4 +1,5 @@
-import type { DomainId, DomainStatus } from "@/core/types";
+import type { DomainId } from "@/core/types";
+import type { PlantStatus } from "@/pixel/plants";
 import { creatureGrid, CREATURE_BASE, type Eyes, type Stage } from "@/pixel/creature";
 import { Grid, paint } from "@/pixel/grid";
 import { PLANT_H, PLANT_W, plantGrid, swayFor } from "@/pixel/plants";
@@ -8,7 +9,7 @@ import { classifyClick, HOLD_MS, RubDetector } from "./gestures";
 
 export interface PlantData {
   id: DomainId;
-  status: DomainStatus;
+  status: PlantStatus;
 }
 
 export interface GardenData {
@@ -31,7 +32,7 @@ export interface GardenCallbacks {
 
 interface PlantSlot {
   id: DomainId;
-  status: DomainStatus;
+  status: PlantStatus;
   x: number;
   y: number;
   phase: number;
@@ -95,6 +96,11 @@ export class GardenEngine {
   private hoverPlant: DomainId | null = null;
   private highlight: DomainId | null = null;
   private selected: DomainId | null = null;
+  /** The intro is up: data can change underneath it without fanfare. */
+  private quiet = false;
+  /** Plants and pet the intro is flying in, kept out of sight until each lands. */
+  private hiddenPlants = new Set<DomainId>();
+  private petHidden = false;
   private watering: { id: DomainId; start: number } | null = null;
   private thinking = false;
   private nextAmbient = 0;
@@ -148,7 +154,7 @@ export class GardenEngine {
     this.plants = d.plants.map((p, i) => {
       const s = this.L.slots[i] ?? this.L.slots[this.L.slots.length - 1];
       const old = prev.get(p.id);
-      if (old && old.status !== p.status && this.running) this.burst(s.x, s.y - 16, 6, SPR.SPARKLE);
+      if (old && old.status !== p.status && this.running && !this.quiet) this.burst(s.x, s.y - 16, 6, SPR.SPARKLE);
       return { id: p.id, status: p.status, x: s.x, y: s.y, phase: old?.phase ?? i * 1.7, wiggleUntil: old?.wiggleUntil ?? 0, wiggleStart: old?.wiggleStart ?? 0 };
     });
     this.bgKey = "";
@@ -163,6 +169,49 @@ export class GardenEngine {
     this.tod = tod ?? timeOfDay(new Date());
     this.bgKey = "";
     this.seedSky();
+    this.draw();
+  }
+
+  /** While the intro is up, a data swap underneath it (demo to a fresh garden) makes no sparkles. */
+  setQuiet(q: boolean) {
+    this.quiet = q;
+  }
+
+  /** The intro flies its own plants and Shumbo in: keep the real ones out of sight, and the pet still, until each lands. */
+  hideForLanding(ids: DomainId[]) {
+    for (const id of ids) this.hiddenPlants.add(id);
+    this.petHidden = true;
+    const P = this.pet;
+    P.targetX = P.x;
+    P.afterWalk = null;
+    if (P.mood === "walk") this.setMood("idle", Infinity);
+    this.draw();
+  }
+
+  /** A plant touches down in its bed, with a little puff of soil. */
+  land(id: DomainId) {
+    if (!this.hiddenPlants.delete(id)) return;
+    const p = this.plants.find((q) => q.id === id);
+    if (p) {
+      this.wiggle(p);
+      if (!this.reduced) for (const side of [-1, 1]) for (let i = 0; i < 2; i++) this.emit(SPR.DUST, p.x - 1 + side * 3, p.y - 2, side * (12 + i * 10), -9 - i * 6, 40, 520);
+    }
+    this.draw();
+  }
+
+  /** Shumbo touches down. */
+  landPet() {
+    if (!this.petHidden) return;
+    this.petHidden = false;
+    this.setMood("hop", 420);
+    this.draw();
+  }
+
+  /** Show everything again (the intro closed mid-flight). */
+  showAll() {
+    if (!this.petHidden && this.hiddenPlants.size === 0) return;
+    this.hiddenPlants.clear();
+    this.petHidden = false;
     this.draw();
   }
 
@@ -290,6 +339,26 @@ export class GardenEngine {
     const p = this.plants.find((q) => q.id === id);
     if (!p) return null;
     return { x: p.x * this.L.scale, y: (p.y - PLANT_H) * this.L.scale };
+  }
+
+  /** The box a plant is drawn in, CSS px relative to the canvas (the intro flies plants into these). */
+  plantBox(id: DomainId): { x: number; y: number; w: number; h: number } | null {
+    const p = this.plants.find((q) => q.id === id);
+    if (!p) return null;
+    const s = this.L.scale;
+    return { x: Math.round(p.x - PLANT_W / 2) * s, y: (p.y - PLANT_H + 1) * s, w: PLANT_W * s, h: PLANT_H * s };
+  }
+
+  /** The pet's 32x32 box as last drawn, CSS px relative to the canvas. */
+  petBox(): { x: number; y: number; w: number; h: number } {
+    const s = this.L.scale;
+    const px = Math.round(this.pet.x);
+    const py = this.L.groundY - CREATURE_BASE;
+    return { x: px * s, y: py * s, w: 32 * s, h: 32 * s };
+  }
+
+  get canvasElement(): HTMLCanvasElement {
+    return this.canvas;
   }
 
   get layout(): Layout {
@@ -601,7 +670,7 @@ export class GardenEngine {
       P.blinkUntil = now + 130;
       P.blinkAt = now + 2200 + ((now * 7) % 2800);
     }
-    if (P.mood === "idle") {
+    if (P.mood === "idle" && !this.petHidden) {
       if (this.pointer.inside) {
         const cx = P.x + 16;
         const cy = this.L.groundY - 10;
@@ -635,7 +704,7 @@ export class GardenEngine {
     if (now >= this.nextAmbient && !this.reduced) {
       this.nextAmbient = now + 900 + ((now * 3) % 1400);
       const pick = this.plants[Math.floor((now / 7) % Math.max(1, this.plants.length))];
-      if (pick) {
+      if (pick && !this.hiddenPlants.has(pick.id)) {
         if (pick.status === "fresh") {
           this.emit(SPR.SPARKLE, pick.x - 2 + ((now / 11) % 6) - 3, pick.y - PLANT_H + 2 + ((now / 13) % 10), 0, 0, 0, 520, { blink: true });
           if (pick.id === "ideation") this.emit(SPR.SEED, pick.x, pick.y - PLANT_H + 6, 9, -5, 0, 3200, { wave: 2 });
@@ -799,13 +868,14 @@ export class GardenEngine {
 
     // quest markers
     for (const p of this.plants) {
-      if (!this.data.quests.includes(p.id)) continue;
+      if (!this.data.quests.includes(p.id) || this.hiddenPlants.has(p.id)) continue;
       const bob = this.reduced ? 0 : Math.round(Math.sin(this.t / 260 + p.phase));
       paint(ctx, SPR.QUEST, Math.round(p.x - 3), p.y - PLANT_H - 11 + bob);
     }
 
     // plants
     for (const p of this.plants) {
+      if (this.hiddenPlants.has(p.id)) continue;
       const g = plantGrid(p.id, p.status);
       const sw = swayFor(p.status);
       const wig = this.t < p.wiggleUntil ? (1 - (this.t - p.wiggleStart) / 700) * 2.4 : 0;
@@ -829,31 +899,35 @@ export class GardenEngine {
       }
     }
 
-    // pet and its shadow
-    const pose = this.petPose();
-    const px = Math.round(this.pet.x) + pose.wobble;
-    const py = L.groundY - CREATURE_BASE + pose.dy;
-    const shadowW = Math.max(8, 18 + pose.dy);
-    ctx.fillStyle = "rgba(30, 40, 20, 0.22)";
-    ctx.fillRect(Math.round(this.pet.x + 16 - shadowW / 2), L.groundY + 1, shadowW, 1);
-    const g = creatureGrid(this.data.stage, { sx: pose.sx, sy: pose.sy, eyes: pose.eyes, lookX: this.pet.lookX, lookY: this.pet.lookY, blush: pose.blush });
-    paint(ctx, g, px, py);
+    // pet and its shadow (unless the intro is still flying Shumbo in)
+    let px = Math.round(this.pet.x);
+    let py = L.groundY - CREATURE_BASE;
+    if (!this.petHidden) {
+      const pose = this.petPose();
+      px += pose.wobble;
+      py += pose.dy;
+      const shadowW = Math.max(8, 18 + pose.dy);
+      ctx.fillStyle = "rgba(30, 40, 20, 0.22)";
+      ctx.fillRect(Math.round(this.pet.x + 16 - shadowW / 2), L.groundY + 1, shadowW, 1);
+      const g = creatureGrid(this.data.stage, { sx: pose.sx, sy: pose.sy, eyes: pose.eyes, lookX: this.pet.lookX, lookY: this.pet.lookY, blush: pose.blush });
+      paint(ctx, g, px, py);
 
-    // dizzy stars orbit
-    if (this.pet.mood === "dizzy") {
-      for (let i = 0; i < 3; i++) {
-        const a = this.t / 220 + (i * Math.PI * 2) / 3;
-        paint(ctx, SPR.DIZZY_STAR, Math.round(px + 14 + Math.cos(a) * 11), Math.round(py + 2 + Math.sin(a) * 3));
+      // dizzy stars orbit
+      if (this.pet.mood === "dizzy") {
+        for (let i = 0; i < 3; i++) {
+          const a = this.t / 220 + (i * Math.PI * 2) / 3;
+          paint(ctx, SPR.DIZZY_STAR, Math.round(px + 14 + Math.cos(a) * 11), Math.round(py + 2 + Math.sin(a) * 3));
+        }
       }
-    }
-    // thinking dots
-    if (this.pet.mood === "think") {
-      const n = Math.floor(this.t / 380) % 4;
-      for (let i = 0; i < n; i++) {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(px + 12 + i * 3, py, 2, 2);
-        ctx.fillStyle = "#2c2336";
-        ctx.fillRect(px + 12 + i * 3, py + 2, 2, 1);
+      // thinking dots
+      if (this.pet.mood === "think") {
+        const n = Math.floor(this.t / 380) % 4;
+        for (let i = 0; i < n; i++) {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(px + 12 + i * 3, py, 2, 2);
+          ctx.fillStyle = "#2c2336";
+          ctx.fillRect(px + 12 + i * 3, py + 2, 2, 1);
+        }
       }
     }
 

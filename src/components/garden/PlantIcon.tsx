@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { DomainId, DomainStatus } from "@/core/types";
+import type { DomainId } from "@/core/types";
 import { paint } from "@/pixel/grid";
-import { PLANT_H, PLANT_W, plantGrid } from "@/pixel/plants";
+import { PLANT_H, PLANT_W, plantGrid, type PlantStatus } from "@/pixel/plants";
 import { creatureGrid, type Stage } from "@/pixel/creature";
 
 /**
@@ -11,8 +11,12 @@ import { creatureGrid, type Stage } from "@/pixel/creature";
  * `ghost`, a dry or bare plant shows a faint outline of what could grow there,
  * standing on a strip of soil, so the icon never reads as empty.
  */
-export function PlantIcon({ id, status = "fresh", scale = 2, ghost = false, className }: { id: DomainId; status?: DomainStatus; scale?: number; ghost?: boolean; className?: string }) {
+export function PlantIcon({ id, status = "fresh", scale = 2, ghost = false, className, canvasRef }: { id: DomainId; status?: PlantStatus; scale?: number; ghost?: boolean; className?: string; canvasRef?: (el: HTMLCanvasElement | null) => void }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const setRef = (el: HTMLCanvasElement | null) => {
+    ref.current = el;
+    canvasRef?.(el);
+  };
   const H = ghost ? PLANT_H + 2 : PLANT_H;
   useEffect(() => {
     const c = ref.current;
@@ -30,7 +34,7 @@ export function PlantIcon({ id, status = "fresh", scale = 2, ghost = false, clas
       ctx.fillRect(1, PLANT_H, PLANT_W - 2, 2);
     }
   }, [id, status, ghost]);
-  return <canvas ref={ref} className={`pixel ${className ?? ""}`} width={PLANT_W} height={H} style={{ width: PLANT_W * scale, height: H * scale }} aria-hidden="true" />;
+  return <canvas ref={setRef} className={`pixel ${className ?? ""}`} width={PLANT_W} height={H} style={{ width: PLANT_W * scale, height: H * scale }} aria-hidden="true" />;
 }
 
 /** The pet's face, still, for the wordmark and small places. */
