@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Loading, useFallow } from "@/client/FallowProvider";
 import { shortDate } from "@/components/format";
+import { SOURCE_LABEL } from "@/components/garden/names";
 import { PlantIcon } from "@/components/garden/PlantIcon";
 import { ImportCard } from "@/components/journal/ImportCard";
 import { DOMAINS, DOMAIN_BY_ID } from "@/core/taxonomy";
@@ -11,8 +12,8 @@ import type { DomainId } from "@/core/types";
 const PAGE = 60;
 const WHO: Record<string, { label: string; cls: string }> = {
   ai: { label: "AI did it", cls: "chip-ai" },
-  shared: { label: "shared", cls: "chip-shared" },
-  self: { label: "you did it", cls: "chip-self" },
+  shared: { label: "Shared", cls: "chip-shared" },
+  self: { label: "You did it", cls: "chip-self" },
 };
 
 export default function JournalPage() {
@@ -87,7 +88,7 @@ export default function JournalPage() {
                       <span key={d.id}>{DOMAIN_BY_ID[d.id].label}</span>
                     ))}
                     {e.minutes ? <span>{e.minutes} min</span> : null}
-                    <span className="src">{e.source}</span>
+                    <span className="src">{SOURCE_LABEL[e.source] ?? e.source}</span>
                   </p>
                 </div>
                 <span className={`tag-chip ${WHO[e.actor]?.cls ?? ""}`}>{WHO[e.actor]?.label ?? e.actor}</span>
