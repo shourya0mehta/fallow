@@ -435,12 +435,36 @@ const DRAW: Record<DomainId, Draw> = {
 
 const cache = new Map<string, Grid>();
 
+/** Garden statuses plus "seed": a domain with no history yet shows a sprout, not a bare stub. */
+export type PlantStatus = DomainStatus | "seed";
+
+/** Two seed leaves and a bud in the species' colour: something is planted, nothing grown yet. */
+function sprout(g: Grid, id: DomainId) {
+  const [light, mid, dark] = LOOK.fresh.leaf;
+  for (let y = BY; y >= BY - 5; y--) g.set(BX, y, dark);
+  for (const side of [-1, 1] as const) {
+    g.set(BX + side, BY - 5, mid);
+    g.set(BX + side * 2, BY - 5, mid);
+    g.set(BX + side * 2, BY - 6, light);
+    g.set(BX + side * 3, BY - 6, mid);
+    g.set(BX + side * 3, BY - 7, light);
+  }
+  g.set(BX, BY - 6, SPECIES[id].flower);
+  g.set(BX, BY - 7, SPECIES[id].flower);
+}
+
 /** The plant for a domain in a given condition, with a dark outline for legibility. */
-export function plantGrid(id: DomainId, status: DomainStatus): Grid {
+export function plantGrid(id: DomainId, status: PlantStatus): Grid {
   const key = `${id}:${status}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const g = new Grid(PLANT_W, PLANT_H);
+  if (status === "seed") {
+    sprout(g, id);
+    g.outline(LOOK.fresh.outline);
+    cache.set(key, g);
+    return g;
+  }
   const L = LOOK[status];
   const r = rng(id.length * 7919 + id.charCodeAt(0) * 104729);
   DRAW[id](g, L, r);
@@ -456,10 +480,12 @@ export function plantGrid(id: DomainId, status: DomainStatus): Grid {
 }
 
 /** How a plant moves: amplitude in px at the top of the plant, and speed. */
-export function swayFor(status: DomainStatus): { amp: number; speed: number } {
+export function swayFor(status: PlantStatus): { amp: number; speed: number } {
   switch (status) {
     case "fresh":
       return { amp: 1.2, speed: 1 };
+    case "seed":
+      return { amp: 0.6, speed: 0.8 };
     case "fading":
       return { amp: 0.8, speed: 0.6 };
     case "stale":
