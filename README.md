@@ -16,7 +16,7 @@ The evidence behind the design, in one paragraph. Handing an AI the answer hurts
 
 **https://fallow-omega.vercel.app** (mirror: https://shourya0mehta.github.io/fallow/)
 
-The hosted version is the whole app with no server of its own. A first visit opens with *Meet Shumbo*, an eight-step walkthrough: who he is, what fallow means, the eleven plants in a ring around him, a plant to water yourself, and then the plants fly down into a fresh garden of seedlings (or a 90-day demo one, if you'd rather look around first). The ledger lives in the visitor's own browser (IndexedDB), the ask bar and practice sessions run the core in the page, and importing a ChatGPT or Claude export never uploads the file. Signing in with Google is optional and keeps the garden on every device ([Sign in and sync](#sign-in-and-sync)). The demo chat page shows the extension's verdict card without the extension installed.
+The hosted version is the whole app with no server of its own. A first visit opens with *Meet Shumbo*, an eight-step walkthrough: who he is, what fallow means, the eleven plants in a ring around him, a plant to water yourself, and then the plants fly down into a fresh garden of seedlings (or a demo one, if you'd rather look around first). The demo is ninety days of everyday sample asks, one bank per plant in `src/data/demo-asks.ts`, re-dated so it always ends today in the visitor's own time zone; anything they log on it is kept apart and comes along when they start their own garden or sign in. The ledger lives in the visitor's own browser (IndexedDB), the ask bar and practice sessions run the core in the page, and importing a ChatGPT or Claude export never uploads the file. Signing in with Google is optional and keeps the garden on every device ([Sign in and sync](#sign-in-and-sync)). The demo chat page shows the extension's verdict card without the extension installed.
 
 ![Meet Shumbo: four of the intro's eight steps](docs/intro.png)
 
@@ -31,7 +31,7 @@ Same codebase, two builds: `next build` gives the local app with its API, file-b
 
 ```bash
 npm install
-npm run seed      # 90 days of a student developer's asks, for a first look
+npm run seed      # 90 days of sample asks, for a first look
 npm run dev       # http://localhost:3000
 ```
 
@@ -56,7 +56,7 @@ Optional, free and local-first. The garden works signed out; signing in with Goo
 
 - **Stack.** Firebase Authentication (Google provider) and Cloud Firestore, both on the free Spark plan. No server code: the browser talks to Firestore directly, and the security rules in `firestore.rules` let each account read and write only its own `users/{uid}` tree. The Firebase SDK loads on demand, so a visitor who never signs in downloads none of it.
 - **Data model.** One document per person for settings and one per month of asks: `users/{uid}/months/{YYYY-MM}` holds `events`, `signals` and `deleted` maps keyed by stable event ids. An ask is about 180 bytes, so even a busy month is a few dozen kilobytes.
-- **Merge.** IndexedDB stays the source of truth on each device. On sign-in, page load, tab focus and reconnect, the client pulls the account, merges by id (both sides' asks, deletions win, newer settings win) and pushes what the account is missing. New asks go up within a second. Asks logged while offline wait and go up later. The demo garden is never uploaded: signing in on a demo swaps it for your garden.
+- **Merge.** IndexedDB stays the source of truth on each device. On sign-in, page load, tab focus and reconnect, the client pulls the account, merges by id (both sides' asks, deletions win, newer settings win) and pushes what the account is missing. New asks go up within a second. Asks logged while offline wait and go up later. The demo's sample asks are never uploaded: signing in on the demo swaps it for your garden and brings along only the asks you logged yourself.
 - **Privacy.** Only plant tags, times, who did the work, and settings leave the device. The words you typed stay where you typed them unless you turn on *Also sync the text of my asks* in Settings; turning it off rewrites the account without them. Erase clears both copies.
 - **Cost.** Zero. A full sync reads one document per month of history and each batch of new asks is one write. The free tier (1 GiB stored, 50,000 reads and 20,000 writes a day, 50,000 monthly active users for sign-in) covers on the order of a thousand people syncing every day, and if a daily quota ever runs out, sync pauses until it resets while the garden keeps working on the device.
 
@@ -172,10 +172,10 @@ It fails open: no server, no output. `FALLOW_NO_EXCERPT=1` logs tags only. `FALL
 ## Tests
 
 ```bash
-npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature, garden, sync merge (94 tests)
+npm test                # vitest: classifier, scheduler, alertness, policy, importers, attention, summary, creature, garden, sync merge, demo (100 tests)
 npm run typecheck
 npm run emulators       # Firebase Auth and Firestore emulators (needs Java), in one terminal
-npm run test:sync       # then this: two devices, one account, against the emulators (21 checks)
+npm run test:sync       # then this: three devices, one account, against the emulators (24 checks)
 npm run test:extension  # headless Chromium against the running app (needs Chrome, or CHROME_PATH)
 npm run build:static    # the hosted site, into out/
 npm run build:extension # rebuild core.js inside the extension after changing src/core
