@@ -80,7 +80,7 @@ export default function JournalPage() {
               <li key={e.id} className="entry">
                 {top && <PlantIcon id={top} status="fresh" scale={1} />}
                 <div className="entry-main">
-                  <p className="entry-text">{e.excerpt ?? <span className="fine">(excerpt not kept)</span>}</p>
+                  <p className="entry-text">{e.excerpt ?? <span className="fine">(text not kept here)</span>}</p>
                   <p className="entry-meta">
                     <span className="num">{shortDate(e.ts)}</span>
                     {e.domains.map((d) => (
