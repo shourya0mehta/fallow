@@ -6,6 +6,7 @@ import "@fontsource/nunito/800.css";
 import "./globals.css";
 import "./fallow-extension.css";
 import { FallowProvider } from "@/client/FallowProvider";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="shell">
             <Header />
             {children}
-            <footer className="foot">Fallow tracks what you ask AI to do and what you do yourself. It does not measure your brain or diagnose anything. Everything stays on your device.</footer>
+            <Footer />
           </div>
         </FallowProvider>
       </body>
