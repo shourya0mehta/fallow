@@ -12,6 +12,8 @@ const pages = ["/", "/journal/", "/settings/", "/how/", "/demo/chat/"];
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || "/opt/pw-browsers/chromium", args: ["--no-sandbox"] });
 const page = await browser.newPage({ viewport: { width, height: 900 } });
+// the first-visit intro covers the page; INTRO=1 keeps it, for shots of the intro itself
+if (!process.env.INTRO) await page.addInitScript(() => localStorage.setItem("fallow.introSeen", "1"));
 // FIXED_TIME=2026-10-01T13:20:00 pins the clock so screenshots are taken in daylight with the pet awake
 if (process.env.FIXED_TIME) await page.clock.setFixedTime(new Date(process.env.FIXED_TIME));
 const errors = [];
